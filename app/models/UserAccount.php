@@ -13,27 +13,27 @@ abstract class UserAccount {
   }
 
   public function getLastName() {
-    return $lastName;
+    return $this->lastName;
   }
 
   public function getFullName() {
-    return $firstName . ' ' . $lastName;
+    return $this->firstName . ' ' . $this->lastName;
   }
 
   public function getUsername() {
-    return $username;
+    return $this->username;
   }
 
   public function getPassword() {
-    return $password;
+    return $this->password;
   }
   
   public function getEmail() {
-    return $email;
+    return $this->email;
   }
 
   public function getUserId() {
-    return $userId;
+    return $this->userId;
   }
 
   public function setFirstName($firstName) {

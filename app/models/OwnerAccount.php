@@ -1,10 +1,9 @@
 <?php
 
 abstract class OwnerAccount extends UserAccount {
-  protected $currentListings;
 
   public function getCurrentListings() {
-    return $this->currentListings;
+    // return current listings
   }
 
   public function getPreviousListings() {

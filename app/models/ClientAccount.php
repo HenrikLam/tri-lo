@@ -1,7 +1,6 @@
 <?php
 
 class ClientAccount extends UserAccount {
-  protected $currentListings;
 
   public function __construct($firstName, $lastName, $username, $password, $email) {
     $this->firstName = $firstName;
