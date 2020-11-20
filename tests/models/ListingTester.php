@@ -2,9 +2,9 @@
 
 namespace tests\models;
 
-use models\Listing;
-use models\Location;
-use models\LandlordAccount;
+use app\models\Listing;
+use app\models\Location;
+use app\models\LandlordAccount;
 
 class ListingTester extends \PHPUnit\Framework\TestCase {
 	private function getUser() {

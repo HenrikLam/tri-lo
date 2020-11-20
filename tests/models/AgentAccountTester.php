@@ -2,10 +2,10 @@
 
 namespace tests\models;
 
-use models\AgentAccount;
-use models\Location;
-use models\Listing;
-use models\Collection;
+use app\models\AgentAccount;
+use app\models\Location;
+use app\models\Listing;
+use app\models\Collection;
 
 class AgentAccountTester extends \PHPUnit\Framework\TestCase {
   private function getUser() {

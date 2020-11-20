@@ -2,10 +2,10 @@
 
 namespace tests\models;
 
-use models\Collection;
-use models\Listing;
-use models\Location;
-use models\LandlordAccount;
+use app\models\Collection;
+use app\models\Listing;
+use app\models\Location;
+use app\models\LandlordAccount;
 
 class CollectionTester extends \PHPUnit\Framework\TestCase {
 	private function getUser() {
