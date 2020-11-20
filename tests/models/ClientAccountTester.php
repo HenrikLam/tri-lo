@@ -2,7 +2,7 @@
 
 namespace tests\models;
 
-use models\LandlordAccount;
+use app\models\LandlordAccount;
 
 class ClientAccountTester extends \PHPUnit\Framework\TestCase {
 

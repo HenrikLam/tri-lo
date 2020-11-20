@@ -2,7 +2,7 @@
 
 namespace tests\models;
 
-use models\Location;
+use app\models\Location;
 
 class LocationTester extends \PHPUnit\Framework\TestCase {
 
@@ -13,7 +13,7 @@ class LocationTester extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(null, $location->getAddressLine2());
 		$this->assertEquals("Troy", $location->getCity());
 		$this->assertEquals("NY", $location->getState());
-		$this->assertEquals(null, $location->getZipCode());
+		$this->assertEquals(null, $location->getZipcode());
 	}
 
 	public function testNullListConstructor() {
@@ -23,7 +23,7 @@ class LocationTester extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(null, $null_location->getAddressLine2());
 		$this->assertEquals(null, $null_location->getCity());
 		$this->assertEquals(null, $null_location->getState());
-		$this->assertEquals(null, $null_location->getZipCode());
+		$this->assertEquals(null, $null_location->getZipcode());
 	}
 
 	public function testFullListConstructor() {
@@ -41,7 +41,7 @@ class LocationTester extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(null, $full_location->getAddressLine2());
 		$this->assertEquals("Troy", $full_location->getCity());
 		$this->assertEquals("NY", $full_location->getState());
-		$this->assertEquals("12180", $full_location->getZipCode());
+		$this->assertEquals("12180", $full_location->getZipcode());
 	}
 
 	public function testHalfListConstructor() {
@@ -56,7 +56,7 @@ class LocationTester extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(null, $half_location->getAddressLine2());
 		$this->assertEquals("Troy", $half_location->getCity());
 		$this->assertEquals("NY", $half_location->getState());
-		$this->assertEquals(null, $half_location->getZipCode());
+		$this->assertEquals(null, $half_location->getZipcode());
 	}
 
 	public function testExtraListConstructor() {
@@ -76,7 +76,7 @@ class LocationTester extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals(null, $extra_location->getAddressLine2());
 		$this->assertEquals("Troy", $extra_location->getCity());
 		$this->assertEquals("NY", $extra_location->getState());
-		$this->assertEquals(null, $extra_location->getZipCode());
+		$this->assertEquals(null, $extra_location->getZipcode());
 	}
 
 	public function testNullToArray() {
@@ -110,7 +110,7 @@ class LocationTester extends \PHPUnit\Framework\TestCase {
 		$location->setAddressLine2("Apt. A2");
 		$location->setCity("Brooklyn");
 		$location->setState("NY");
-		$location->setZipCode("11111");
+		$location->setZipcode("11111");
 
 		$expected = [
 			"line1" => "123 1st St.",
@@ -123,3 +123,5 @@ class LocationTester extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals($expected, $location->toArray());
 	}
 }
+
+?>
