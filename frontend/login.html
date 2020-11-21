@@ -56,7 +56,7 @@
             }
         </style>
     </head>
-    <body onload="setEventListeners()">
+    <body onload="setEventListeners(); setLoginEventListeners();">
         <nav class="navbar navbar-expand fixed-top lg navbar-dark">
             <a class="navbar-brand" href="#">Tri-lo</a>
             <div class="collapse navbar-collapse" id="navbarText">
@@ -69,7 +69,7 @@
             <div class="navbar-nav mr-auto active" id= "login">
                 <a class="nav-link" href="#"><span class="material-icons" style="font-size: 1rem; transform: translate(0,10%);">login</span>Login <span class="sr-only">(current)</span></a>
             </div>
-          </nav>
+        </nav>
         <div class="card mb-3 col-auto centered" style="position: absolute; width: 28%; left:35%; margin-top: 5%; padding-left: 2%; padding-right: 2%; padding-bottom: 1%;">
             <div class="font-weight-bold" style="text-align: center; font-size: 36px; padding: 8%">Log in to Tri-Lo</div>
             <div class= "form-row align-items-center">
@@ -82,8 +82,8 @@
                     <input type="password" class="form-control mb-2" id="password" placeholder="">
                 </div>
             </div>
-            <a href="#" class="btn btn-dark" style="width: 100%">Login</a>
-            <a href="#" class="btn btn-light" style="width: 100%">Sign up</a>
+            <a href="#" class="btn btn-dark" style="width: 100%" id="accLogIn">Login</a>
+            <a href="#" class="btn btn-light" style="width: 100%" id="signup">Sign up</a>
             <a href="#" class="btn btn-link" style="width: 100%">Forgot Password?</a>
         </div>
     </body>
