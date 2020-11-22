@@ -77,26 +77,26 @@
                 <div style="width: 100%;">
                     <input type="text" class="form-control mb-2" id="username" placeholder="">
                 </div>
-                <div style="font-size: 12px; color: gray; width: 100%;">Must be between 4-12 characters long, no special characters allowed (:<>/%#&?')</div>
+                <div style="font-size: 12px; color: gray; width: 100%;" id="usernameReq">Must be between 4-12 characters long, no special characters allowed (:<>/%#&?')</div>
                 <label for="email">Email Address</label>
                 <div style="width: 100%;">
                     <input type="text" class="form-control mb-2" id="email" placeholder="user@email.com">
                 </div>
-                <div style="font-size: 12px; color: gray; width: 100%;">Please enter a valid email address</div>
+                <div style="font-size: 12px; color: gray; width: 100%;" id="emailReq">Please enter a valid email address</div>
                 <label for="password">Create new password</label>
                 <div style="width: 100%;">
                     <input type="password" class="form-control mb-2" id="password" placeholder="">
                 </div>
-                <div style="font-size: 12px; color: gray; width: 100%;">Must be at least 8 characters long</div>
+                <div style="font-size: 12px; color: gray; width: 100%;" id="passwordReq">Must be at least 8 characters, at least 1 number, 1 lowercase, 1 uppercase</div>
                 <label for="cpassword">Confirm password</label>
                 <div style="width: 100%;">
                     <input type="password" class="form-control mb-2" id="cpassword" placeholder="">
                 </div>
-                <div style="font-size: 12px; color: gray; width: 100%;"></div>
+                <div style="font-size: 12px; color: gray; width: 100%;" id="cpasswordReq"> The two passwords must match</div>
                 <!--https://www.geeksforgeeks.org/password-matching-using-javascript/ to be done later-->
                 
             </div>
-            <a href="#" class="btn btn-light" style="width: 100%">Sign up</a>
+            <a href="#" class="btn btn-light" style="width: 100%" id="signup">Sign up</a>
             <a href="#" class="btn btn-link" style="width: 100%" id="login2">Go back to login page</a>
         </div>
     </body>

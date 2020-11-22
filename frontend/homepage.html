@@ -71,7 +71,7 @@
       background-color: black;
     }
     </style>
-    <body onload="setEventListeners()">
+    <body onload="setEventListeners(); setHomepageEventListeners();">
       <nav class="navbar navbar-expand fixed-top lg navbar-dark">
         <a class="navbar-brand" href="#">Tri-lo</a>
         <div class="collapse navbar-collapse" id="navbarText">
@@ -85,15 +85,15 @@
             <a class="nav-link" href="#"><span class="material-icons" style="font-size: 1rem; transform: translate(0,10%);">login</span>Login <span class="sr-only">(current)</span></a>
         </div>
       </nav>
-      
+
       <div class="jumbotron jumbotron-fluid text-center">
         <img src="https://i.imgur.com/S7cTEgw.png" alt ="sis-man on the clock" style="width:100%;">
         <div class="centered">Tri-lo</div>
         <form class="form-inline">
           <div class="input-group">
-            <input type="email" class="form-control" size="50" placeholder="Address, Neighborhood, City, or ZipCode" required>
+            <input type="email" class="form-control" size="50" placeholder="Address, Neighborhood, City, or ZipCode" required id="searchInput">
             <div class="input-group-btn">
-              <button type="button" class="btn btn-dark"><i class="material-icons"> search </i></button>
+              <button type="button" class="btn btn-dark" id="search" style="font-size: 2pt;"><i class="material-icons"> search </i></button>
             </div>
           </div>
         </form>
