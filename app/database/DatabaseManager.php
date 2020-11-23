@@ -173,7 +173,7 @@ class DatabaseManager {
    *
    * @param UserAccount $account
    */
-  public function saveGroup(group: Group) {
+  public function saveGroup($group) {
 
   }
 
