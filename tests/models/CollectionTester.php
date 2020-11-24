@@ -50,9 +50,9 @@ class CollectionTester extends \PHPUnit\Framework\TestCase {
 	public function testAddListing() {
 		$collection = new Collection("My Listings", $this->getUser);
 
-		$collection->testAddListing($this->getListing1());
-		$collection->testAddListing($this->getListing2());
-		$collection->testAddListing($this->getListing3());
+		$collection->addListing($this->getListing1());
+		$collection->addListing($this->getListing2());
+		$collection->addListing($this->getListing3());
 
 		$expected = [
 			$this->getListing1(), $this->getListing2(), $this->getListing3()
@@ -64,15 +64,15 @@ class CollectionTester extends \PHPUnit\Framework\TestCase {
 	public function testRemoveListing() {
 		$collection = new Collection("My Listings", $this->getUser);
 
-		$collection->testAddListing($this->getListing1());
-		$collection->testAddListing($this->getListing2());
-		$collection->testAddListing($this->getListing3());
+		$collection->addListing($this->getListing1());
+		$collection->addListing($this->getListing2());
+		$collection->addListing($this->getListing3());
 		
 		// Remove a listing by reference
-		$collection->testRemoveListing($this->getListing3());
+		$collection->removeListing($this->getListing3());
 
 		// Remove a listing by index
-		$collection->testRemoveListing(0);
+		$collection->removeListing(0);
 
 		$expected = [
 			$this->getListing2()
