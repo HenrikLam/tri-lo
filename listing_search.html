@@ -87,10 +87,10 @@
           <input type="text" placeholder="Search.." name="search">
           <button type="submit" class="submit"><i class="fa fa-search"></i></button> 
         </form>
-        
+            
       <div class="btn-group">
-        <button type="button" class="btn btn-danger" style="background:#000000;border: 1px black">Price</button>
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:#000000;border: 1px black">
+        <button type="button" class="btn btn-danger" style="margin-left: 5px;background:black; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">Price</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:black; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">
           <span class="sr-only">Toggle Dropdown</span>
         </button>
         <div class="dropdown-menu">
@@ -102,8 +102,8 @@
       </div>
 
       <div class="btn-group">
-        <button type="button" class="btn btn-danger"style="background:#000000;border: 1px black">Bed</button>
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:#000000;border: 1px black">
+        <button type="button" class="btn btn-danger"style="margin-left: 5px;background:black; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">Bed</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:black; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">
         <span class="sr-only">Toggle Dropdown</span>
         </button>
         <div class="dropdown-menu">
@@ -115,8 +115,8 @@
       </div>
   
       <div class="btn-group">
-        <button type="button" class="btn btn-danger"style="background:#000000;border: 1px black">Other Amenities</button>
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:#000000;border: 1px black">
+        <button type="button" class="btn btn-danger"style="margin-left: 5px;background:black; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">Other Amenities</button>
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:black; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">
         <span class="sr-only">Toggle Dropdown</span>
         </button>
         <div class="dropdown-menu">
@@ -125,11 +125,16 @@
         </div>
       </div>
 
-      <button type="button">Save search</button>
-      </div>
+      <button type="button" class="btn btn-danger" style="margin-left: 5px;background:black; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">
+      Save search
+      </button>
+      
+      </div> <!---first bar end --->
         
+    <br> <!--- needed a break for some reason lmao--->
+    
     <div id="second bar" style="width:100%">
-      <div id="googleMap" style="width:70%;height: 300px; float:left;">
+      <div id="googleMap" style="width:50%;height: 300px; float:left;">
       </div>
   
     <script>
@@ -145,7 +150,7 @@
     <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&callback=myMap"></script>
 
 
-      <div id="listinglist" style="width: 30%; height: 100%; float:right;">
+      <div id="listinglist" style="width: 50%; height: 100%; float:right">
       Listing List
       </div>
     </div>
