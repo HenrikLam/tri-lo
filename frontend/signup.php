@@ -69,20 +69,7 @@
         $dbOk = true; 
       }
 
-      function console_log($output, $with_script_tags = true) {
-          $js_code = 'console.log(' . json_encode($output, JSON_HEX_TAG) . 
-      ');';
-          if ($with_script_tags) {
-              $js_code = '<script>' . $js_code . '</script>';
-          }
-          echo $js_code;
-      }
-
-      console_log($dbOk);
-
       $havePost = isset($_POST["signup"]);
-
-      console_log($havePost);
       
       $errors = '';
       if ($havePost) {
@@ -91,12 +78,25 @@
           $username = trim($_POST["username"]);  
           $email = trim($_POST["email"]);
           $password = trim($_POST["password"]);
+
+          $query = "select * from users where username = '";
+          $query = $query.$username."'";
+          $result = $db->query($query);
+          $numRecords = $result->num_rows;
+          if ($numRecords > 0) {
+              echo "Username is already taken, please try another one";
+          } else {
+            $insQuery = "insert into users (`firstName`,`lastName`,`username`,`password`,`email`) values('first', 'last', ?,?,?)";
+            $statement = $db->prepare($insQuery);
+            $statement->bind_param("sss",$username,$password,$email);
+            $statement->execute();
+            $statement->close();
+
+            //   redirect user to login page
+            header("Location: login.html"); 
+            exit();
+          }
           
-          $insQuery = "insert into users (`firstName`,`lastName`,`username`,`password`,`email`) values('first', 'last', ?,?,?)";
-          $statement = $db->prepare($insQuery);
-          $statement->bind_param("sss",$username,$password,$email);
-          $statement->execute();
-          $statement->close();
         }
         
       
