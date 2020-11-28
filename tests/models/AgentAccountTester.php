@@ -52,21 +52,21 @@ class AgentAccountTester extends \PHPUnit\Framework\TestCase {
   
   public function testNormalConstructor() {
     $user = new AgentAccount("John", "Smith", "smithj", "321Password!", "smithj@rpi.edu", $this->getCurrentListings());
-    $expected_current_listings = [$this->getListing1(), $this->getListing2(), $this->getListing3()];
+    $expectedCurrentListings = [$this->getListing1(), $this->getListing2(), $this->getListing3()];
 
     $this->assertEquals("John", $user->getFirstName());
     $this->assertEquals("Smith", $user->getLastName());
     $this->assertEquals("smithj", $user->getUsername());
     $this->assertEquals("321Password!", $user->getPassword());
     $this->assertEquals("smithj@rpi.edu", $user->getEmail());
-    $this->assertEquals($expected_current_listings, $user->getCurrentListings());
+    $this->assertEquals($expectedCurrentListings, $user->getCurrentListings());
   }
 
   public function testGetPrevListings() {
     $user = new AgentAccount("John", "Smith", "smithj", "321Password!", "smithj@rpi.edu", []);
-    $expected_prev_listings = [$this->getListing4()];
+    $expectedPrevListings = [$this->getListing4()];
 
-    $this->assertEquals($expected_prev_listings, $user->getPrevListings());
+    $this->assertEquals($expectedPrevListings, $user->getPrevListings());
   }
 
 }

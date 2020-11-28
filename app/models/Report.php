@@ -3,7 +3,7 @@
 class Report {
   private $userId;
   private $listingId;
-  private $reson;
+  private $reason;
 
   public function getUserId() {
     return $this->userId;

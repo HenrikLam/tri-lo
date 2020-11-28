@@ -17,7 +17,7 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
   }
 
   public function testNullListConstructor() {
-		$null_user = new ClientAccount(null);
+		$nullUser = new ClientAccount(null);
 
 		$this->assertEquals(null, $user->getFirstName());
     $this->assertEquals(null, $user->getLastName());
@@ -27,7 +27,7 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
   }
   
   public function testListConstructor() {
-		$user_list = [
+		$userList = [
 			"firstName" => "John",
 			"lastName" => "Smith",
 			"username" => "smithj",
@@ -35,7 +35,7 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
 			"email" => "smithj@rpi.edu"
 		];
 
-		$user = new ClientAccount($user_list);
+		$user = new ClientAccount($userList);
 
 		$this->assertEquals("John", $user->getFirstName());
 		$this->assertEquals("Smith", $user->getLastName());
@@ -45,7 +45,7 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
   }
   
   public function testExtraListConstructor() {
-		$user_list = [
+		$userList = [
 			"firstName" => "John",
 			"lastName" => "Smith",
 			"username" => "smithj",
@@ -55,17 +55,17 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
       "blah" => "blah"
 		];
 
-		$extra_user = new ClientAccount($user_list);
+		$extraUser = new ClientAccount($userList);
 
-		$this->assertEquals("John", $extra_user->getFirstName());
-		$this->assertEquals("Smith", $extra_user->getLastName());
-		$this->assertEquals("smithj", $extra_user->getUsername());
-		$this->assertEquals("321Password!", $extra_user->getPassword());
-		$this->assertEquals("smithj@rpi.edu", $extra_user->getEmail());
+		$this->assertEquals("John", $extraUser->getFirstName());
+		$this->assertEquals("Smith", $extraUser->getLastName());
+		$this->assertEquals("smithj", $extraUser->getUsername());
+		$this->assertEquals("321Password!", $extraUser->getPassword());
+		$this->assertEquals("smithj@rpi.edu", $extraUser->getEmail());
   }
   
   public function testNullToArray() {
-		$null_user = new ClientAccount(null);
+		$nullUser = new ClientAccount(null);
 
 		$expected = [
 			"firstName" => null,
@@ -75,7 +75,7 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
 			"email" => null
 		];
 
-		$this->assertEquals($expected, $null_user->toArray());
+		$this->assertEquals($expected, $nullUser->toArray());
 	}
 
   public function testSetters() {

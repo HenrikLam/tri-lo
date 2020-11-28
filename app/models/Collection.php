@@ -19,7 +19,7 @@ class Collection {
     return $this->ownerId;
   }
 
-  public function getLstings() {
+  public function getListings() {
     return $this->listings;
   }
 
