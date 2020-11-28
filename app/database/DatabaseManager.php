@@ -56,7 +56,24 @@ class DatabaseManager {
    * @return Listing[] of previous/closed listings
    */
   public function getListings(\Location $from, $page_num, $radius, $filters) {
+    //$page_size = 20?
 
+    $query = "SELECT ...(all listing data we need)..., 
+      (
+        3959 * acos (
+          cos ( radians( from.ycoord ) )
+          * cos( radians( lis.ycoord ) )
+          * cos( radians( lis.xcoord ) - radians( from.xcoord ) )
+          + sin ( radians( from.ycoord) )
+          * sin( radians( lis.ycoord ) )
+          )
+      ) AS distance
+    FROM currentListings as lis
+    WHERE distance < radius
+    AND lis.status = 'ACTIVE'";
+    // append getQueryStringByAmenities() result
+    // ORDER BY $ordering
+    // LIMIT $page_num * $page_size, $page_size + 1 (page size + 1 for page indexing)
   }
 
   /**
@@ -65,8 +82,15 @@ class DatabaseManager {
    * @param array $filters Filter specifications for the query
    * @return string
    */
-  private function getQueryStringByAmenities($filters) {
+  private function getQueryStringByAmenities($filters, $listing_id) {
+    $query = "";
+    foreach ($filters as $key => $value) {
+      $query = $query . " AND " . "EXISTS (SELECT * FROM amenities 
+                                           WHERE listingId = $listing_id 
+                                           AND " . $key . " LIKE '%" . $value . "%')"
+    }
 
+    return $query;
   }
 
   /**
