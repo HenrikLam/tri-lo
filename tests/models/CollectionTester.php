@@ -64,7 +64,7 @@ class CollectionTester extends \PHPUnit\Framework\TestCase {
 	public function testConstructor() {
 		$collection = new Collection("My Listings", $this->getUser);
 
-		$expected = []
+		$expected = [];
 		// assert correct values
 		$this->assertEquals($expected, $collection->getListings());
 		$this->assertEquals($this->getUser()), $collection->getOwner());
