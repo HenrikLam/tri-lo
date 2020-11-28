@@ -17,17 +17,17 @@ class LocationTester extends \PHPUnit\Framework\TestCase {
 	}
 
 	public function testNullListConstructor() {
-		$null_location = new Location(null);
+		$nullLocation = new Location(null);
 
-		$this->assertEquals(null, $null_location->getAddressLine1());
-		$this->assertEquals(null, $null_location->getAddressLine2());
-		$this->assertEquals(null, $null_location->getCity());
-		$this->assertEquals(null, $null_location->getState());
-		$this->assertEquals(null, $null_location->getZipcode());
+		$this->assertEquals(null, $nullLocation->getAddressLine1());
+		$this->assertEquals(null, $nullLocation->getAddressLine2());
+		$this->assertEquals(null, $nullLocation->getCity());
+		$this->assertEquals(null, $nullLocation->getState());
+		$this->assertEquals(null, $nullLocation->getZipcode());
 	}
 
 	public function testFullListConstructor() {
-		$addr_list = [
+		$addrList = [
 			"line1" => null,
 			"line2" => null,
 			"city" => "Troy",
@@ -35,32 +35,32 @@ class LocationTester extends \PHPUnit\Framework\TestCase {
 			"zip" => "12180"
 		];
 
-		$full_location = new Location($addr_list);
+		$fullLocation = new Location($addrList);
 
-		$this->assertEquals(null, $full_location->getAddressLine1());
-		$this->assertEquals(null, $full_location->getAddressLine2());
-		$this->assertEquals("Troy", $full_location->getCity());
-		$this->assertEquals("NY", $full_location->getState());
-		$this->assertEquals("12180", $full_location->getZipcode());
+		$this->assertEquals(null, $fullLocation->getAddressLine1());
+		$this->assertEquals(null, $fullLocation->getAddressLine2());
+		$this->assertEquals("Troy", $fullLocation->getCity());
+		$this->assertEquals("NY", $fullLocation->getState());
+		$this->assertEquals("12180", $fullLocation->getZipcode());
 	}
 
 	public function testHalfListConstructor() {
-		$addr_list = [
+		$addrList = [
 			"city" => "Troy",
 			"state" => "NY",
 		];
 
-		$half_location = new Location($addr_list);
+		$halfLocation = new Location($addrList);
 
-		$this->assertEquals(null, $half_location->getAddressLine1());
-		$this->assertEquals(null, $half_location->getAddressLine2());
-		$this->assertEquals("Troy", $half_location->getCity());
-		$this->assertEquals("NY", $half_location->getState());
-		$this->assertEquals(null, $half_location->getZipcode());
+		$this->assertEquals(null, $halfLocation->getAddressLine1());
+		$this->assertEquals(null, $halfLocation->getAddressLine2());
+		$this->assertEquals("Troy", $halfLocation->getCity());
+		$this->assertEquals("NY", $halfLocation->getState());
+		$this->assertEquals(null, $halfLocation->getZipcode());
 	}
 
 	public function testExtraListConstructor() {
-		$addr_list = [
+		$addrList = [
 			"line1" => "123 14th St.",
 			"line2" => null,
 			"city" => "Troy",
@@ -70,17 +70,17 @@ class LocationTester extends \PHPUnit\Framework\TestCase {
 			"blah" => "blah"
 		];
 
-		$extra_location = new Location($addr_list);	
+		$extraLocation = new Location($addrList);	
 
-		$this->assertEquals("123 14th St.", $extra_location->getAddressLine1());
-		$this->assertEquals(null, $extra_location->getAddressLine2());
-		$this->assertEquals("Troy", $extra_location->getCity());
-		$this->assertEquals("NY", $extra_location->getState());
-		$this->assertEquals(null, $extra_location->getZipcode());
+		$this->assertEquals("123 14th St.", $extraLocation->getAddressLine1());
+		$this->assertEquals(null, $extraLocation->getAddressLine2());
+		$this->assertEquals("Troy", $extraLocation->getCity());
+		$this->assertEquals("NY", $extraLocation->getState());
+		$this->assertEquals(null, $extraLocation->getZipcode());
 	}
 
 	public function testNullToArray() {
-		$null_location = new Location(null);
+		$nullLocation = new Location(null);
 
 		$expected = [
 			"line1" => null,
@@ -90,7 +90,7 @@ class LocationTester extends \PHPUnit\Framework\TestCase {
 			"zip" => null
 		];
 
-		$this->assertEquals($expected, $null_location->toArray());
+		$this->assertEquals($expected, $nullLocation->toArray());
 	}
 
 	public function testSetters() {
