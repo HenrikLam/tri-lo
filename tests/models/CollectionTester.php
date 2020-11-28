@@ -65,6 +65,7 @@ class CollectionTester extends \PHPUnit\Framework\TestCase {
 		$collection = new Collection("My Listings", $this->getUser);
 
 		$expected = []
+		// assert correct values
 		$this->assertEquals($expected, $collection->getListings());
 		$this->assertEquals($this->getUser()), $collection->getOwner());
 		$this->assertEquals("My Listings", $collection->getListings());
@@ -85,6 +86,7 @@ class CollectionTester extends \PHPUnit\Framework\TestCase {
 			$this->getListing1(), $this->getListing2(), $this->getListing3()
 		];
 
+		// assert correct values
 		$this->assertEquals($expected, $collection->getListings());
 	}
 
@@ -111,6 +113,7 @@ class CollectionTester extends \PHPUnit\Framework\TestCase {
 			$this->getListing2()
 		];
 
+		// assert correct values
 		$this->assertEquals($expected, $collection->getListings());
 	}
 

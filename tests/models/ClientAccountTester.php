@@ -74,8 +74,8 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
 			"username" => "smithj",
 			"password" => "321Password!",
       "email" => "smithj@rpi.edu",
-      "extra" => "ignore me", //ignore
-      "blah" => "blah" //ignore
+      "extra" => "ignore me", // ignore this entry in the constructor
+      "blah" => "blah" // ignore this entry in the constructor
 		];
 
 		$extraUser = new ClientAccount($userList);
@@ -89,9 +89,9 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
   }
   
   /**
-   * Test the toArray method with a CLientAccount with all null
-   * information. We make sure th output has all null values
-   * and the associative map is in the structure that the constructor
+   * Test the toArray method with a ClientAccount with all null
+   * information. We make sure the output has all null values
+   * and the associative array is in the structure that the constructor
    * uses
    */
   public function testNullToArray() {

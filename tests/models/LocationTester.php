@@ -60,7 +60,7 @@ class LocationTester extends \PHPUnit\Framework\TestCase {
 	/**
 	 * Test the list constructor for a locations that
 	 * dont have every field filled in. Much like the null constructor,
-	 * we expect any emoty fields to be filled in with null values
+	 * we expect any empty fields to be filled in with null values
 	 */
 	public function testHalfListConstructor() {
 		$addrList = [
