@@ -7,6 +7,7 @@ use app\models\Location;
 use app\models\LandlordAccount;
 
 class ListingTester extends \PHPUnit\Framework\TestCase {
+	
 	private function getUser() {
 		$user = new LandlordAccount("Bob", "Duncan", "duncab", "Password12#", "duncab@rpi.edu");
 
@@ -14,7 +15,7 @@ class ListingTester extends \PHPUnit\Framework\TestCase {
 	}
 
 	private function getLocation() {
-		$location = new Location("110 8th St.", null, "Troy", "NY", "12180");
+		$location = new Location("110 8th St.", "Troy", "NY", "12180");
 
 		return $location;
 	}

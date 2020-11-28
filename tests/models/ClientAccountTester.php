@@ -6,9 +6,14 @@ use app\models\LandlordAccount;
 
 class ClientAccountTester extends \PHPUnit\Framework\TestCase {
 
+  /**
+   * Create a new ClientAccount and make sure the constructor
+   * properly stores the information
+   */
   public function testNormalConstructor() {
     $user = new ClientAccount("John", "Smith", "smithj", "321Password!", "smithj@rpi.edu");
 
+    // assert correct values
     $this->assertEquals("John", $user->getFirstName());
     $this->assertEquals("Smith", $user->getLastName());
     $this->assertEquals("smithj", $user->getUsername());
@@ -16,9 +21,15 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
     $this->assertEquals("smithj@rpi.edu", $user->getEmail());
   }
 
+  /**
+   * Test the ClientAccount list constructor with a null list
+   * and make sure that every entry in the list is automatically
+   * filled in with a null value 
+   */
   public function testNullListConstructor() {
 		$nullUser = new ClientAccount(null);
 
+		// assert correct values
 		$this->assertEquals(null, $user->getFirstName());
     $this->assertEquals(null, $user->getLastName());
     $this->assertEquals(null, $user->getUsername());
@@ -26,6 +37,11 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
     $this->assertEquals(null, $user->getEmail());
   }
   
+  /**
+   * Test the ClientAccount list constructor with an
+   * associative array and make sure that every key refers 
+   * to the variable we want to assign
+   */
   public function testListConstructor() {
 		$userList = [
 			"firstName" => "John",
@@ -37,6 +53,7 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
 
 		$user = new ClientAccount($userList);
 
+		// assert correct values
 		$this->assertEquals("John", $user->getFirstName());
 		$this->assertEquals("Smith", $user->getLastName());
 		$this->assertEquals("smithj", $user->getUsername());
@@ -44,6 +61,12 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals("smithj@rpi.edu", $user->getEmail());
   }
   
+  /**
+   * Another test for the list constructor for the ClientAccount
+   * where we make sure the list constructor only looks at keys 
+   * that are referencing the variables we want to assign within
+   * the constructor
+   */
   public function testExtraListConstructor() {
 		$userList = [
 			"firstName" => "John",
@@ -51,12 +74,13 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
 			"username" => "smithj",
 			"password" => "321Password!",
       "email" => "smithj@rpi.edu",
-      "extra" => "ignore me",
-      "blah" => "blah"
+      "extra" => "ignore me", //ignore
+      "blah" => "blah" //ignore
 		];
 
 		$extraUser = new ClientAccount($userList);
 
+		// assert correct values
 		$this->assertEquals("John", $extraUser->getFirstName());
 		$this->assertEquals("Smith", $extraUser->getLastName());
 		$this->assertEquals("smithj", $extraUser->getUsername());
@@ -64,6 +88,12 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
 		$this->assertEquals("smithj@rpi.edu", $extraUser->getEmail());
   }
   
+  /**
+   * Test the toArray method with a CLientAccount with all null
+   * information. We make sure th output has all null values
+   * and the associative map is in the structure that the constructor
+   * uses
+   */
   public function testNullToArray() {
 		$nullUser = new ClientAccount(null);
 
@@ -75,9 +105,14 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
 			"email" => null
 		];
 
+		// assert correct values
 		$this->assertEquals($expected, $nullUser->toArray());
 	}
 
+	/**
+	 * Make sure that the setters of the ClientAccount object change
+	 * each field correctly
+	 */
   public function testSetters() {
 		$user = new ClientAccount("John", "Smith", "smithj", "321Password!", "smithj@rpi.edu");
 
@@ -89,6 +124,7 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
 			"email" => "smithj@rpi.edu"
 		];
 
+		// Make sure the object is constructed
 		$this->assertEquals($expected, $user->toArray());
 
 		$user->setFirstName("Joe");
@@ -105,6 +141,7 @@ class ClientAccountTester extends \PHPUnit\Framework\TestCase {
 			"email" => "schmoj@rpi.edu"
 		];
 
+		// See reflected changes
 		$this->assertEquals($expected, $user->toArray());
 	}
 

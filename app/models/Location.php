@@ -5,9 +5,7 @@ namespace app\models;
 class Location {
 
   /** @var string */
-  private $address_line_1;
-  /** @var string */
-  private $address_line_2;
+  private $address;
   /** @var string */
   private $city;
   /** @var string */
@@ -20,30 +18,24 @@ class Location {
 
     if (func_num_args() != 1) {
       $input = [
-        "line1" => $input[0],
-        "line2" => $input[1],
-        "city" => $input[2],
-        "state" => $input[3],
-        "zip" => $input[4]
+        "address" => $input[0],
+        "city" => $input[1],
+        "state" => $input[2],
+        "zip" => $input[3]
       ];
     }
     else {
       $input = $input[0];
     }
 
-    $this->address_line_1 = $input["line1"] ?? null;
-    $this->address_line_2 = $input["line2"] ?? null;
+    $this->addressLine = $input["address"] ?? null;
     $this->city = $input["city"] ?? null;
     $this->state = $input["state"] ?? null;
     $this->zipcode = $input["zip"] ?? null;
   }
 
-  public function getAddressLine1() {
-    return $this->address_line_1;
-  }
-
-  public function getAddressLine2() {
-    return $this->address_line_2;
+  public function getAddress() {
+    return $this->address;
   }
 
   public function getCity() {
@@ -58,12 +50,8 @@ class Location {
     return $this->zipcode;
   }
 
-  public function setAddressLine1($address_line_1) {
-    $this->address_line_1 = $address_line_1;
-  }
-
-  public function setAddressLine2($address_line_2) {
-    $this->address_line_2 = $address_line_2;
+  public function setAddress($address) {
+    $this->address = $address;
   }
 
   public function setCity($city) {
@@ -80,8 +68,7 @@ class Location {
 
   public function toArray() {
     $data = [
-      "line1" => $this->address_line_1,
-      "line2" => $this->address_line_2,
+      "address" => $this->address,
       "city" => $this->city,
       "state" => $this->state,
       "zip" => $this->zipcode
