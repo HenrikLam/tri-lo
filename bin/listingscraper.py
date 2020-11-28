@@ -179,20 +179,26 @@ def images(al):
 
 	return ret
 
+def write_amenities(collection, amenityWriter):
+	for c in collection:
+		data = c.split(': ')
+		if data[1].find(", ") > 0:
+			for val in data[1].split(", "):
+				amenityWriter.writerow([i, data[0], val])
+		else:
+			amenityWriter.writerow([i, data[0], data[1]])
 
 browser = webdriver.Chrome()
 i = 1
 j = 1
 
-listingCSV = open("listings.csv", 'w', newline='', encoding='utf-8')
-imageCSV = open("images.csv", 'w', newline='', encoding='utf-8')
+amenityCSV = open("amenities.csv", 'w', newline='', encoding='utf-8')
 
-listingWriter = csv.writer(listingCSV)
-imageWriter = csv.writer(imageCSV)
+amenityWriter = csv.writer(amenityCSV)
 
 for url in links.split("\n\n"):
 	sada = browser.get(url)
-	
+
 	source = browser.page_source
 	soup = BeautifulSoup(source, 'html.parser')
 
@@ -202,16 +208,34 @@ for url in links.split("\n\n"):
 		dic = json.loads(info)
 	except json.decoder.JSONDecodeError:
 		continue
-	data = parse(dic)
-	img = images(soup.find_all("img", "photo-tile-image"))
 
+	rental_facts = soup.find_all("li", "ds-home-fact-list-item")
+
+	soup = BeautifulSoup(source[source.find("Interior details"):source.find("Construction details")], 'html.parser')
+	other_facts = soup.find_all('ul')
+
+	collection = []
+	for d in rental_facts:
+		spans = d.find_all('span')
+		if len(spans) != 2 or spans[0].string == None or spans[1].string == None:
+			continue
+		collection.append(spans[0].string.strip() + " " + spans[1].string.strip())
+	for d in other_facts:
+		for c in d.find_all('span'):
+			if c.string == None:
+				continue
+			collection.append(c.string.strip())
+
+	for c in collection:
+		print(c)
+
+	
 	if i == 1:
-		listingWriter.writerow(data.keys())
-		imageWriter.writerow(img[0].keys())
+		amenityWriter.writerow(["Listing ID", "Amenity Name", "Amenity Value"])
 
-	listingWriter.writerow(data.values())
-	for im in img:
-		imageWriter.writerow(im.values())
+	write_amenities(collection, amenityWriter)
+
+	# break
 	i = i + 1
 
 browser.quit()

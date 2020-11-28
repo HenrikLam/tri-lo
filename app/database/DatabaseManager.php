@@ -18,31 +18,31 @@ class DatabaseManager {
     Serena is a database master, how do we log in (private variables here?)
 
     /** @var DatabaseConnection *   ???
-    private $database_connection;
+    private $databaseConnection;
 
   */
 
-  public function __construct($database_connection) {
-    $this->database_connection = $database_connection
+  public function __construct($databaseConnection) {
+    $this->databaseConnection = $databaseConnection
   }
 
   /**
    * Get the groups a user is a part of
    *
-   * @param string $user_id The user id of the owner
+   * @param string $userId The user id of the owner
    * @return Group[]
    */
-  public function getGroupsFromUserId($user_id){
+  public function getGroupsFromUserId($userId){
 
   }
 
   /**
    * Get an owner's previous listings
    *
-   * @param string $user_id The user id of the owner
+   * @param string $userId The user id of the owner
    * @return Listing[]
    */
-  public function getPrevListingsFromUserId($user_id) {
+  public function getPrevListingsFromUserId($userId) {
 
   }
 
@@ -50,13 +50,30 @@ class DatabaseManager {
    * Search for listings from a location
    *
    * @param Location $from The location we are searching
-   * @param int $page_num The offset for the query
+   * @param int $pageNum The offset for the query
    * @param int $radius The distance from the location we are looking
    * @param array $filters Filter specifications for the query
    * @return Listing[] of previous/closed listings
    */
-  public function getListings(\Location $from, $page_num, $radius, $filters) {
+  public function getListings(\Location $from, $pageNum, $radius, $filters) {
+    //$page_size = 20?
 
+    $query = "SELECT ...(all listing data we need)..., 
+      (
+        3959 * acos (
+          cos ( radians( from.ycoord ) )
+          * cos( radians( lis.ycoord ) )
+          * cos( radians( lis.xcoord ) - radians( from.xcoord ) )
+          + sin ( radians( from.ycoord) )
+          * sin( radians( lis.ycoord ) )
+          )
+      ) AS distance
+    FROM currentListings as lis
+    WHERE distance < radius
+    AND lis.status = 'ACTIVE'";
+    // append getQueryStringByAmenities() result
+    // ORDER BY $ordering
+    // LIMIT $pageNum * $pageSize, $pageSize + 1 (page size + 1 for page indexing)
   }
 
   /**
@@ -65,8 +82,15 @@ class DatabaseManager {
    * @param array $filters Filter specifications for the query
    * @return string
    */
-  private function getQueryStringByAmenities($filters) {
+  private function getQueryStringByAmenities($filters, $listingId) {
+    $query = "";
+    foreach ($filters as $key => $value) {
+      $query = $query . " AND " . "EXISTS (SELECT * FROM amenities 
+                                           WHERE listingId = $listingId 
+                                           AND " . $key . " LIKE '%" . $value . "%')"
+    }
 
+    return $query;
   }
 
   /**
@@ -83,10 +107,10 @@ class DatabaseManager {
   /**
    * Get the Collection objects (bookmarks) associated with a user
    *
-   * @param int $user_id The user id of the owner
+   * @param int $userId The user id of the owner
    * @return Collection[]
    */
-  public function getCollectionsFromUserId($user_id) {
+  public function getCollectionsFromUserId($userId) {
 
   }
 
@@ -94,21 +118,21 @@ class DatabaseManager {
    * Get the Collection objects (bookmarks) associated with a user and containing
    * part or all of a string
    *
-   * @param int $user_id The user id of the owner
+   * @param int $userId The user id of the owner
    * @param string $cname The search made by the user
    * @return Collection[]
    */
-  public function getCollectionFromName($user_id, $cname) {
+  public function getCollectionFromName($userId, $cname) {
 
   }
 
   /**
    * Get the Reports made to a Listing
    *
-   * @param int $listing_id
+   * @param int $listingId
    * @return Report[]
    */
-  public function getReportsFromListing($listing_id) {
+  public function getReportsFromListing($listingId) {
 
   }
 
@@ -180,20 +204,20 @@ class DatabaseManager {
   /**
    * Invite a user to a group
    *
-   * @param int $group_id
+   * @param int $groupId
    * @param UserAccount $user The user getting invited
    */
-  public function inviteUserToGroup($group_id, $user) {
+  public function inviteUserToGroup($groupId, $user) {
 
   }
 
   /**
    * Add a user to a group and remove the invitation
    *
-   * @param int $group_id
+   * @param int $groupId
    * @param User $user The user getting added to the group
    */
-  public function addUserToGroup($group_id, $user) {
+  public function addUserToGroup($groupId, $user) {
 
   }
 

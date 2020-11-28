@@ -11,14 +11,14 @@ class Group {
   /** @var string */
   private $invited;
   /** @var string */
-  private $group_owner;
+  private $groupOwner;
   /** @var string */
-  private $group_id;
+  private $groupId;
 
   public function __construct($members, $invited, $owner) {
     $this->members = $members
     $this->invited = $invited;
-    $this->group_owner = $owner;
+    $this->groupOwner = $owner;
   }
 
   public function getMembers() {
@@ -30,15 +30,15 @@ class Group {
   }
 
   public function getGroupOwner() {
-    return $this->group_owner;
+    return $this->groupOwner;
   }
 
   public function getGroupId() {
-    return $this->group_id;
+    return $this->groupId;
   }
 
   public function setGroupId($group_id) {
-    $this->group_id = $group_id;
+    $this->group_id = $groupId;
   }
 
   public function inviteMember(\ClientAccount $user) {
