@@ -13,7 +13,7 @@ function redirectToLogin(){
 
 // to be implemented later
 function signupAccount(){
-
+    window.location.replace("homepage.html");
 }
 
 function isValidUsername(usernameInput){
