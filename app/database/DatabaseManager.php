@@ -37,33 +37,44 @@ class DatabaseManager {
   }
 
   /**
-   * Get an owner's previous listings
+   * Generate a Lisitng object from a row of the database
+   * @param array $row
+   * @return Listing
+   */
+  private function constructListingFromRow($row){
+    // Generate associated objects for the listing
+    $row['location'] = new Location($row);
+    $row['owner'] = $this->getUserInfoFromUserId($row['ownerId']);
+
+    // Create the listing
+    $lis = Listing::listConstructor($row);
+    $lis->setId($row['listingId']);
+    $lis->setAmenities($this->getAmenitiesFromListingId($row['listingId']));
+
+    return $lis;
+  }
+
+  /**
+   * Get an owner's listings with a specific status
    *
-   * @param string $userId The user id of the owner
+   * @param int $userId The user id of the owner
+   * @param string $status The status we are lookign for
    * @return Listing[]
    */
-  public function getPrevListingsFromUserId($userId) {
+  public function getListingsFromUserIdAndStatus($userId, $status) {
     $query = "SELECT * 
     FROM listings 
     WHERE ownerID=? 
-    AND status != 'ACTIVE'";
+    AND status != ?";
 
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("d", $userId);
+    $stmt->bind_param("ds", $userId, $status);
     $result = $stmt->execute();
 
     $return = [];
     foreach ($stmt->get_result() as $row) {
-      // Generate associated objects
-      $row['location'] = new Location($row);
-      $row['owner'] = $this->getUserInfoFromUserId($row['ownerId']);
-
-      // Create the listing
-      $lis = Listing::listConstructor($row);
-      $lis->setId($row['listingId']);
-
-      // Append
-      $return[] = $lis;
+      // Append listing
+      $return[] = $this->constructListingFromRow($row);
     }
 
     return $return;
@@ -72,31 +83,41 @@ class DatabaseManager {
   /**
    * Get an owner's current listings
    *
-   * @param string $userId The user id of the owner
+   * @param int $userId The user id of the owner
    * @return Listing[]
    */
   public function getCurrListingsFromUserId($userId) {
+    return $this->getListingsFromUserIdAndStatus($userId, "ACTIVE");
+  }
+
+  /**
+   * Get an owner's previous listings
+   *
+   * @param int $userId The user id of the owner
+   * @return Listing[]
+   */
+  public function getPrevListingsFromUserId($userId) {
+    return $this->getListingsFromUserIdAndStatus($userId, "PREVIOUS");
+  }
+
+  /**
+   * Get all of the amenity info from a listing
+   * @param int $listingId
+   * @return array
+   */
+  public function getAmenitiesFromListingId($listingId) {
     $query = "SELECT * 
-    FROM listings 
-    WHERE ownerID=? 
-    AND status = 'ACTIVE'";
+    FROM listingAmenities 
+    WHERE listingId=?";
 
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("d", $userId);
+    $stmt->bind_param("d", $listingId);
     $result = $stmt->execute();
 
     $return = [];
     foreach ($stmt->get_result() as $row) {
-      // Generate associated objects
-      $row['location'] = new Location($row);
-      $row['owner'] = $this->getUserInfoFromUserId($row['ownerId']);
-
-      // Create the listing
-      $lis = Listing::listConstructor($row);
-      $lis->setId($row['listingId']);
-
-      // Append
-      $return[] = $lis;
+      // Append amenity pair
+      $return[$row['amenity']] = $row['amenityValue'];
     }
 
     return $return;
@@ -167,7 +188,32 @@ class DatabaseManager {
    * @return Collection[]
    */
   public function getCollectionsFromUserId($userId) {
+    $query = "SELECT * 
+    FROM collections  
+    INNER JOIN collectionListings as cl
+    ON collections.collectionId
+    INNER JOIN listings 
+    ON listings.listingId=cl.listingId
+    WHERE collections.ownerID=?";
 
+    $stmt = $this->databaseConnection->prepare($query);
+    if (!$stmt) {
+      echo $this->databaseConnection->error;
+    }
+    $stmt->bind_param("d", $userId);
+    $result = $stmt->execute();
+
+    $listings = [];
+    $name = "";
+    foreach ($stmt->get_result() as $row) {
+      // Grab the colelction name
+      $name = $row['collectionName'];
+
+      // Append listing
+      $listings[] = $this->constructListingFromRow($row);
+    }
+
+    return new Collection($name, $userId, $listings);
   }
 
   /**

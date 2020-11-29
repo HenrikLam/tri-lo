@@ -1,5 +1,10 @@
 <?php 
 
+namespace app\models; 
+
+use app\models\Location;
+use app\models\Listing;
+
 class Collection {
   private $name;
   private $ownerId;
