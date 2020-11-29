@@ -1,3 +1,6 @@
+var ffn;
+var lln;
+
 function setSignupEventListeners(){
     document.getElementById("login2").addEventListener("click", redirectToLogin);
     document.getElementById("signup").addEventListener("click", signupAccount);
@@ -5,6 +8,11 @@ function setSignupEventListeners(){
     document.getElementById("password").addEventListener("change", checkPassword);
     document.getElementById("cpassword").addEventListener("change", checkPassword);
     document.getElementById("email").addEventListener("change", checkEmail);
+    document.getElementById("fname").addEventListener("change", setFFN);
+    document.getElementById("lname").addEventListener("change", setLLN);
+    document.getElementById("clienta").addEventListener("click", kekC);
+    document.getElementById("llda").addEventListener("click", kekL);
+    document.getElementById("agenta").addEventListener("click", kekA);
 }
 
 function redirectToLogin(){
@@ -16,12 +24,40 @@ function signupAccount(){
     window.location.replace("homepage.html");
 }
 
+function setFFN() {
+    ffn = document.getElementById("fname").value;
+}
+
+function setLLN() {
+    lln = document.getElementById("lname").value;
+}
+
+function kekC() {
+    changeBooton("clienta");
+}
+
+function kekL() {
+    changeBooton("llda");
+}
+function kekA() {
+    changeBooton("agenta");
+}
+
+function changeBooton(value) {
+    switch(String(value)) {
+        case "clienta": document.getElementById("atype").innerHTML = "Client "; break;
+        case "llda" : document.getElementById("atype").innerHTML = "Landlord "; break;
+        case "agenta" : document.getElementById("atype").innerHTML = "Agent "; break;
+    }
+}
+
+
 function isValidUsername(usernameInput){
     var pattern = /^[a-z0-9]+$/i;
     if (usernameInput.length < 4 || usernameInput.length > 12 || usernameInput != usernameInput.match(pattern)){
-        return true;
+        return false;
     }
-    return false;
+    return true;
 }
 function isValidEmail(emailInput){
     var pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
@@ -41,9 +77,9 @@ function isValidPassword(passwordInput){
 function checkUsername(){
     var usernameInput = document.getElementById("username").value;
     if (isValidUsername(usernameInput)){
-        document.getElementById("usernameReq").style.color = "red";
-    } else {
         document.getElementById("usernameReq").style.color = "gray";
+    } else {
+        document.getElementById("usernameReq").style.color = "red";
     }
 }
 function checkEmail(){
