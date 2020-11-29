@@ -14,6 +14,7 @@
     
     <script src="js/homepageScripts.js"></script>
     <script src="js/scripts.js"></script>
+    <script src="js/loginScript.js"></script>
 
     <title>Tri-lo</title>
     <style>
@@ -71,7 +72,7 @@
       background-color: black;
     }
     </style>
-    <body onload="setEventListeners(); setHomepageEventListeners();">
+    <body onload="setEventListeners(); tryLogIn(); setHomepageEventListeners();">
       <nav class="navbar navbar-expand fixed-top lg navbar-dark">
         <a class="navbar-brand" href="#">Tri-lo</a>
         <div class="collapse navbar-collapse" id="navbarText">
@@ -81,8 +82,10 @@
               </li>
             </ul>
         </div>
-        <div class="navbar-nav mr-auto" id= "login">
-            <a class="nav-link" href="#"><span class="material-icons" style="font-size: 1rem; transform: translate(0,10%);">login</span>Login <span class="sr-only">(current)</span></a>
+        <div id="rightNavButton">
+          <div class="navbar-nav mr-auto" id= "login">
+              <a class="nav-link" href="#"><span class="material-icons" style="font-size: 1rem; transform: translate(0,10%);">login</span>Login <span class="sr-only">(current)</span></a>
+          </div>
         </div>
       </nav>
 

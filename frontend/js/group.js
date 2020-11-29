@@ -1,6 +1,6 @@
 function doOnLoad(){
-    changeProfileButton();
     loadGroupMembers();
+    document.getElementById("leaveBtn").addEventListener("click",leaveGroup);
     doIfOwner();
 }
 function loadGroupMembers(){
@@ -50,4 +50,8 @@ function doIfOwner(){
     if (isOwner()){
         document.getElementById("addMemberDiv").innerHTML = "<button type=\"button\" class=\"btn btn-primary\" style=\"margin-bottom: 2%;\"> Add Member</button>";
     }
+}
+
+function leaveGroup(){
+    console.log("You left the group! D:\n");
 }
