@@ -1,5 +1,9 @@
 <?php
 
+namespace app\models;
+
+use app\models\UserAccount;
+
 class ClientAccount extends UserAccount {
 
   public function __construct($firstName, $lastName, $username, $password, $email) {

@@ -23,7 +23,7 @@ class DatabaseManager {
   */
 
   public function __construct($databaseConnection) {
-    $this->databaseConnection = $databaseConnection
+    $this->databaseConnection = $databaseConnection;
   }
 
   /**
@@ -43,7 +43,63 @@ class DatabaseManager {
    * @return Listing[]
    */
   public function getPrevListingsFromUserId($userId) {
+    $query = "SELECT * 
+    FROM listings 
+    WHERE ownerID=? 
+    AND status != 'ACTIVE'";
 
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $userId);
+    $result = $stmt->execute();
+
+    $return = [];
+    foreach ($stmt->get_result() as $row) {
+      // Generate associated objects
+      $row['location'] = new Location($row);
+      $row['owner'] = $this->getUserInfoFromUserId($row['ownerId']);
+
+      // Create the listing
+      $lis = Listing::listConstructor($row);
+      $lis->setId($row['listingId']);
+
+      // Append
+      $return[] = $lis;
+    }
+
+    return $return;
+  }
+
+  /**
+   * Get an owner's current listings
+   *
+   * @param string $userId The user id of the owner
+   * @return Listing[]
+   */
+  public function getCurrListingsFromUserId($userId) {
+    $query = "SELECT * 
+    FROM listings 
+    WHERE ownerID=? 
+    AND status = 'ACTIVE'";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $userId);
+    $result = $stmt->execute();
+
+    $return = [];
+    foreach ($stmt->get_result() as $row) {
+      // Generate associated objects
+      $row['location'] = new Location($row);
+      $row['owner'] = $this->getUserInfoFromUserId($row['ownerId']);
+
+      // Create the listing
+      $lis = Listing::listConstructor($row);
+      $lis->setId($row['listingId']);
+
+      // Append
+      $return[] = $lis;
+    }
+
+    return $return;
   }
 
   /**
@@ -87,7 +143,7 @@ class DatabaseManager {
     foreach ($filters as $key => $value) {
       $query = $query . " AND " . "EXISTS (SELECT * FROM amenities 
                                            WHERE listingId = $listingId 
-                                           AND " . $key . " LIKE '%" . $value . "%')"
+                                           AND " . $key . " LIKE '%" . $value . "%')";
     }
 
     return $query;
@@ -144,6 +200,40 @@ class DatabaseManager {
    */
   public function getUserInfoFromUsername($username) {
 
+  }
+
+  /**
+   * Get the user account associated with a username
+   *
+   * @param string $username
+   * @return User
+   */
+  public function getUserInfoFromUserId($userId) {
+    $query = "SELECT * 
+    FROM users 
+    WHERE userId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $userId);
+    $result = $stmt->execute();
+
+    $row = $stmt->get_result()->fetch_assoc();
+
+    // TO DO: ACCOUNT TYPES
+    // if ($row['accountType'] == 'CLIENT') {
+
+    // }
+    // elseif ($row['accountType'] == 'LANDLORD') {
+
+    // }
+    // else {
+
+    // }
+
+    // Temproary
+    $user = LandlordAccount::listConstructor($row);
+    $user->setUserId($row['userId']);
+    return $user;
   }
 
   /**
@@ -227,7 +317,9 @@ class DatabaseManager {
    * @param string $username The account the verification is associated with
    * @param string $code
    */
-  public function saveVerificationCode($username, $code)
+  public function saveVerificationCode($username, $code) {
+
+  }
 
   /**
    * Check if the latest verification code matches the one given

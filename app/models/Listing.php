@@ -1,5 +1,9 @@
 <?php
 
+namespace app\models;
+
+use app\models\Locatioon;
+
 class Listing {
   private $name;
   private $location;
@@ -8,15 +12,45 @@ class Listing {
   private $owner;
   private $isRenting;
   private $paymentFrequency;
+  private $id;
+  private $latitude;
+  private $longitude;
+  private $bedrooms;
+  private $bathrooms;
 
-  public function __construct($name, $location, $amenities, $price, $owner, $isRenting, $paymentFrequency) {
+  public function __construct($name, $location, $amenities, $price, $owner, $isRenting, $paymentFrequency, $latitude, $longitude, $bedrooms, $bathrooms, $squareFeet, $timeStamp, $status) {
     $this->name = $name;
     $this->location = $location;
-    $this->amenities = $amenities; // associative array
+    $this->amenities = $amenities;
     $this->price = $price;
     $this->owner = $owner;
     $this->isRenting = $isRenting;
     $this->paymentFrequency = $paymentFrequency;
+    $this->latitude = $latitude;
+    $this->longitude = $longitude;
+    $this->bedrooms = $bedrooms;
+    $this->bathrooms = $bathrooms;
+    $this->squareFeet = $squareFeet;
+    $this->timeStamp = $timeStamp;
+    $this->status = $status;
+  }
+
+  public static function listConstructor($data) {
+    return new Listing(
+      $data['listingName'], 
+      $data['location'],
+      null,
+      $data['price'],
+      $data['owner'],
+      $data['isRenting'],
+      $data['paymentFrequency'],
+      $data['latitude'],
+      $data['longitude'],
+      $data['bedrooms'],
+      $data['bathrooms'],
+      $data['squareFeet'],
+      $data['dateTimePosted'],
+      $data['status']);
   }
 
   public function getName() {
@@ -47,6 +81,38 @@ class Listing {
     return $this->paymentFrequency;
   }
 
+  public function getId() {
+    return $this->id;
+  }
+
+  public function getLatitude() {
+    return $this->latitude;
+  }
+
+  public function getLongitude() {
+    return $this->latitude;
+  }
+
+  public function getBedrooms() {
+    return $this->bedrooms;
+  }
+
+  public function getBathrooms() {
+    return $this->bathrooms;
+  }
+
+  public function getSquareFeet() {
+    return $this->squareFeet;
+  }
+
+  public function getStatus() {
+    return $this->status;
+  }
+
+  public function getTimeStamp() {
+    return $this->timeStamp;
+  }
+
   public function setName($name) {
     $this->name = $name;
   }
@@ -73,6 +139,38 @@ class Listing {
 
   public function setPaymentFrequency($paymentFrequency) {
     $this->paymentFrequency = $paymentFrequency;
+  }
+
+  public function setId($id) {
+    $this->id = $id;
+  }
+
+  public function setLatitude($latitude) {
+    $this->latitude = $latitude;
+  }
+
+  public function setLongitude($latitude) {
+    $this->latitude = $latitude;
+  }
+
+  public function setBedrooms($bedrooms) {
+    $this->bedrooms = $bedrooms;
+  }
+
+  public function setBathrooms($bathrooms) {
+    $this->bathrooms = $bathrooms;
+  }
+
+  public function setSquareFeet($squareFeet) {
+    $this->squareFeet = $squareFeet;
+  }
+
+  public function setStatus($status) {
+    $this->status = $status;
+  }
+
+  public function setTimeStamp($timeStamp) {
+    $this->timeStamp = $timeStamp;
   }
 
   public function updateAmenity($amenity, $val) {
