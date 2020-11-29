@@ -1,9 +1,9 @@
 DROP TABLE IF EXISTS collectionListings;
+DROP TABLE IF EXISTS userBookmarks;
 DROP TABLE IF EXISTS groupInvitations;
 DROP TABLE IF EXISTS groupMembers;
 DROP TABLE IF EXISTS listingAmenities;
 DROP TABLE IF EXISTS reports;
-DROP TABLE IF EXISTS listingLocations;
 DROP TABLE IF EXISTS collections;
 DROP TABLE IF EXISTS listings;
 DROP TABLE IF EXISTS groups;
@@ -11,13 +11,13 @@ DROP TABLE IF EXISTS locations;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE users (
- userId int(10) unsigned NOT NULL AUTO_INCREMENT,
- firstName varchar(100) NOT NULL,
- lastName varchar(100) NOT NULL,
- username varchar(100) NOT NULL,
- password varchar(100) NOT NULL,
- email varchar(100) NOT NULL,
- PRIMARY KEY (userId)
+  userId int(10) unsigned NOT NULL AUTO_INCREMENT,
+  firstName varchar(100) NOT NULL,
+  lastName varchar(100) NOT NULL,
+  username varchar(100) NOT NULL,
+  password varchar(100) NOT NULL,
+  email varchar(100) NOT NULL,
+  PRIMARY KEY (userId)
 );
 
 CREATE TABLE groups (
@@ -38,25 +38,32 @@ CREATE TABLE listings (
   price varchar(20) NOT NULL,
   isRenting BOOLEAN NOT NULL,
   paymentFrequency varchar(50) NOT NULL,
+  longitude varchar(15),
+  latitude varchar(15),
+  livingArea varchar(50),
+  addressLine varchar(1000),
+  city varchar(500),
+  state varchar(500),
+  zipcode varchar(15),
   PRIMARY KEY (listingId)
 );
 
 CREATE TABLE collections (
- collectionId int(10) unsigned NOT NULL AUTO_INCREMENT,
- collectionName varchar(200) NOT NULL,
- ownerId int(10) unsigned NOT NULL,
- PRIMARY KEY (collectionId),
- FOREIGN KEY (ownerId) REFERENCES users(userId)
+  collectionId int(10) unsigned NOT NULL AUTO_INCREMENT,
+  collectionName varchar(200) NOT NULL,
+  ownerId int(10) unsigned NOT NULL,
+  PRIMARY KEY (collectionId),
+  FOREIGN KEY (ownerId) REFERENCES users(userId)
 );
 
 CREATE TABLE reports (
- reportId int(10) unsigned NOT NULL AUTO_INCREMENT,
- userId int(10) unsigned NOT NULL,
- listingId int(10) unsigned NOT NULL,
- reasonForReport varchar(1000),
- PRIMARY KEY (reportId),
- FOREIGN KEY (userId) REFERENCES users(userId),
- FOREIGN KEY (listingId) REFERENCES currentListings(listingId)
+  reportId int(10) unsigned NOT NULL AUTO_INCREMENT,
+  userId int(10) unsigned NOT NULL,
+  listingId int(10) unsigned NOT NULL,
+  reasonForReport varchar(1000),
+  PRIMARY KEY (reportId),
+  FOREIGN KEY (userId) REFERENCES users(userId),
+  FOREIGN KEY (listingId) REFERENCES currentListings(listingId)
 );
 
 CREATE TABLE collectionListings (
@@ -93,12 +100,10 @@ CREATE TABLE listingAmenities (
   FOREIGN KEY (listingId) REFERENCES listings(listingId)
 );
 
-CREATE TABLE locations (
-  locationId int(10) unsigned NOT NULL AUTO_INCREMENT,
-  addressLine1 varchar(1000),
-  addressLine2 varchar(1000),
-  city varchar(100),
-  state varchar(100),
-  zipcode varchar(15),
-  PRIMARY KEY (locationId)
+CREATE TABLE userBookmarks (
+  userId int(10) unsigned NOT NULL,
+  listingId int(10) unsigned NOT NULL,
+  PRIMARY KEY (userId, listingId),
+  FOREIGN KEY (userId) REFERENCES users(userId),
+  FOREIGN KEY (listingId) REFERENCES listings(listingId)
 );

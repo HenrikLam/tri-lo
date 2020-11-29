@@ -13,8 +13,8 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
         
+        <script src="js/loginPageScripts.js"></script>
         <script src="js/scripts.js"></script>
-        <script src="js/signupScripts.js"></script>
 
         <title>Tri-lo</title>
         <style>
@@ -30,9 +30,9 @@
             .card {
                 position: relative;
             }
-            .active{
-                background-color: black;
-            }
+                .active{
+                    background-color: black;
+                }
             .container {
                 position: absolute;
                 text-align: center;
@@ -58,6 +58,7 @@
     </head>
 
     <?php
+
       $dbOk = false;
     
       @ $db = new mysqli('localhost', 'root', '', 'tri-lo');
@@ -69,44 +70,46 @@
         $dbOk = true; 
       }
 
-      $havePost = isset($_POST["signup"]);
-      
-      if ($havePost) {
+      $havePost = isset($_POST["accLogIn"]);
 
+      if ($havePost) {
         if ($dbOk) {
-          $firstName = trim($_POST["fname"]);  
-          $lastName = trim($_POST["lname"]);  
           $username = trim($_POST["username"]);  
-          $email = trim($_POST["email"]);
           $password = trim($_POST["password"]);
 
           $query = "select * from users where username = '";
-          $query = $query.$username."'";
+          $query = $query.$username."' and password = '";
+          $query = $query.$password."' limit 1";
+
           $result = $db->query($query);
           $numRecords = $result->num_rows;
-          if ($numRecords > 0) {
-              echo "Username is already taken, please try another one";
-          } else {
-            $insQuery = "insert into users (`firstName`,`lastName`,`username`,`password`,`email`) values(?,?,?,?,?)";
-            $statement = $db->prepare($insQuery);
-            $statement->bind_param("sssss", $firstName, $lastName, $username, $password, $email);
-            $statement->execute();
-            $statement->close();
 
-            //   redirect user to login page
-            header("Location: login.php"); 
+          if ($numRecords == 1) {
+            $record = $result->fetch_assoc();
+            setcookie("currentUsername", $record['username'], time()+86400);
+            setcookie("currentUserId", $record['userId'], time()+86400);
+            setcookie("currentFirstName", $record['firstName'], time()+86400);
+            setcookie("currentLastName", $record['lastName'], time()+86400);
+            // cookies for currently logged in user expire after one day
+
+            header("Location: homepage.html"); 
             exit();
+            
           }
-          
+          else {
+            echo "Your username password combination is invalid, please try again";
+          }
+
+
         }
-        
-      
       }
+
+      
+       
 
     ?>
 
-
-    <body onload="setEventListeners();setSignupEventListeners();">
+    <body onload="setEventListeners(); setLoginEventListeners();">
         <nav class="navbar navbar-expand fixed-top lg navbar-dark">
             <a class="navbar-brand" href="#">Tri-lo</a>
             <div class="collapse navbar-collapse" id="navbarText">
@@ -121,46 +124,24 @@
             </div>
         </nav>
         <div class="card mb-3 col-auto centered" style="position: absolute; width: 28%; left:35%; margin-top: 5%; padding-left: 2%; padding-right: 2%; padding-bottom: 1%;">
-            <div class="font-weight-bold" style="text-align: center; font-size: 36px; padding: 8%">Sign up for Tri-Lo</div>
-            <div class= "form-row align-items-center">
-              <form action="signup.php" method="post">
-                <label for="fname" style="float:left; width: 50%;">First Name</label>
-                <label for="lname" style="float:right; width: 50%;">Last Name</label>
-                <div style="width: 45%; float:left;">
-                    <input type="text" class="form-control mb-2" id="fname" name="fname" placeholder="">
-                </div>
-                <div style = "width:5%;float:left;"> </div>
-                <div style="width: 45%; float:right;">
-                    <input type="text" class="form-control mb-2" id="lname" name="lname" placeholder="">
-                </div>
-
-                <label for="username">Username</label>
+            <div class="font-weight-bold" style="text-align: center; font-size: 36px; padding: 8%">Log in to Tri-Lo</div>
+            <p style="color: red; font-size: 10pt; padding:0%;" id="alertBox"> </p>
+            <div class="form-row align-items-center">
+              <form action="login.php" method="post" class="form-row align-items-center">
+                <label for="username">Username/Email Address</label>
                 <div style="width: 100%;">
                     <input type="text" class="form-control mb-2" id="username" name="username" placeholder="">
                 </div>
-                <div style="font-size: 12px; color: gray; width: 100%;" id="usernameReq">Must be between 4-12 characters long, no special characters allowed (:<>/%#&?')</div>
-                <label for="email">Email Address</label>
-                <div style="width: 100%;">
-                    <input type="text" class="form-control mb-2" id="email" name="email" placeholder="user@email.com">
-                </div>
-                <div style="font-size: 12px; color: gray; width: 100%;" id="emailReq">Please enter a valid email address</div>
-                <label for="password">Create new password</label>
+                <label for="password">Password</label>
                 <div style="width: 100%;">
                     <input type="password" class="form-control mb-2" id="password" name="password" placeholder="">
                 </div>
-                <div style="font-size: 12px; color: gray; width: 100%;" id="passwordReq">Must be at least 8 characters, at least 1 number, 1 lowercase, 1 uppercase</div>
-                <label for="cpassword">Confirm password</label>
-                <div style="width: 100%;">
-                    <input type="password" class="form-control mb-2" id="cpassword" name="cpassword" placeholder="">
-                </div>
-                <div style="font-size: 12px; color: gray; width: 100%;" id="cpasswordReq"> The two passwords must match</div>
-
-                <!--https://www.geeksforgeeks.org/password-matching-using-javascript/ to be done later-->
-                <input class="btn btn-light" style="width: 100%" id="signup" type="submit" value="Sign Up" name="signup"/>
-                <a href="#" class="btn btn-link" style="width: 100%" id="login2">Go back to login page</a>
-              </form> 
-            </div>
-            
+                
+                <input class="btn btn-dark" style="width: 100%" id="accLogIn" type="submit" value="Log In" name="accLogIn"/>
+                <a href="#" class="btn btn-light" style="width: 100%" id="signup">Sign up</a>
+                <a href="#" class="btn btn-link" style="width: 100%">Forgot Password?</a>
+              </form>
+              </div>
         </div>
     </body>
 </html>
