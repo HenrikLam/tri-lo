@@ -14,12 +14,13 @@
         
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
         <title>Tri-lo</title>
         <style>
             body {
                 background-color: white;
                 width:100%;
-                heigth:100%;
+                height:100%;
             }
             /* Remove the navbar's default margin-bottom and rounded borders */ 
             .navbar {
@@ -63,8 +64,20 @@
         background: #0b7dda;
         }
         
-        
+    listinglist {
+      width: 100%;
+        height: 100%;
+    }
+    
+    #house1 img {
+      display:block;
+        height:100px;
+      float:left;
+  }
+
+    
         </style>
+        
     </head>
 
     <nav class="navbar navbar-expand fixed-top lg navbar-dark">
@@ -129,27 +142,52 @@
       </div>
         
     <br> <!--- needed a break for some reason lmao--->
-    <div id="second bar" style="width:100%">
-      <div id="googleMap" style="width:50%;height: 300px; float:left;">
+    
+      <div class="listinglist">
+      Listing List (# results)
+      <div class="btn-group">
+        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:black; border: 1px black; font-size: 17px; padding: 2px; border-left:none;">Sort by
+          <span class="sr-only">Toggle Dropdown</span>
+        </button>
+        <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Price (lowest to highest)</a>
+        <a class="dropdown-item" href="#">Price (highest to lowest)</a>
+        <a class="dropdown-item" href="#">Newest</a>
+        <a class="dropdown-item" href="#">Oldest</a>
+        <a class="dropdown-item" href="#">Square Feet</a>
+        </div>
       </div>
-  
-    <script>
-      function myMap() {
-        var mapProp= {
-          center:new google.maps.LatLng(51.508742,-0.120850),
-          zoom:5,
-      };
-      var map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
-      }
-    </script>
-
-    <script src="https://maps.googleapis.com/maps/api/js?key=YOUR_KEY&callback=myMap"></script>
-
-    <div id="sep" style ="width:1%"></div>
-      <div id="listinglist" style=" width: 49%; height: 500px; float:right; border: 10px black;">
-      Listing List
+      
+      <!--start listing stuff somehow-->
+      
+      
+      <br>
+      <button id="house1" style="width:100%;"><img src="https://i.imgur.com/S7cTEgw.png">
+      <div class ="address" style="float:left;">EMPAC for sale</div>
+      <div class = "rent" style = "float:right;">big money too wow</div>
+      <br>
+      <br>
+      <br>
+      <div class = "bedroomnum" style = "float:left;">much bedroom</div>
+      <div class ="memesep" style = "float:left;">,&nbsp;</div>
+      <div class = "bathroomnum" style = "float:left;">much bathroom</div>
+      <div class= "lastposted" style = "float:right;">Posted 69420 hours ago</div>
+      </button>
+      
+      <br>
+      <br>
       </div>
+        <div style="text-align: center">
+          Pages
+            <div style="float:left;">&nbsp;</div>
+            <a href="#">1</a>
+            <div style="float:left;">&nbsp;</div>
+            <a href="#">2</a>
+            <div style="float:left;">&nbsp;</div>
+            <a href="#">3</a>
+            <div style="float:left;">&nbsp;</div>
+          <a href="#">4</a>
+    </div>
     </div>
     
-    </div>
 </html>
