@@ -101,42 +101,43 @@
         </div>
     </nav>
     
-    <div class = "body">
+    <div class = "container-fluid" style="padding-top: 10px;">
       <div class="first-bar">
-        <form class="example" action="action_page.php" style="">
-          <input type="text" placeholder="Search.." name="search">
-          <button type="submit" class="submit"><i class="fa fa-search"></i></button> 
+        <form class="example" action="action_page.php">
+          <div class="col-md-8">
+          <input type="text" placeholder="Address, Neighborhood, City, or ZipCode" id="search" class="border font-weight-light">
+          <button type="submit" class="submit bg-dark" style=""><i class="fa fa-search" style="color:white;"></i></button>
+          </div> 
         </form>
-            
-      <div class="btn-group">
-        <button type="button" class="btn btn-danger" style="margin-left: 5px;background:black; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">Price</button>
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:black; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">
+      
+        <div class="btn-group">
+        <button type="button" class="btn dropdown-toggle font-weight-light dropdown-toggle-split bg-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 10px; color: white; border: 1px black; font-size: 17px; padding: 10px;">Price
           <span class="sr-only">Toggle Dropdown</span>
         </button>
         <div class="dropdown-menu">
+        <a class="dropdown-item" href="#">Any</a>
         <a class="dropdown-item" href="#">$0-$500</a>
         <a class="dropdown-item" href="#">$500-$1000</a>
         <!--need to add class names to input types or maybe not, idk in order to get values-->
-        <a class="dropdown-item" href="#"><input type ="text" placeholder="$" style="width:45%">-<input type ="text" placeholder="$" style="width:55%"></a>
+        <a class="dropdown-item" href="#"><input type ="text" placeholder="$" style="width:45%">-<input type ="text" placeholder="$" style="width:50%"></a>
         </div>
-      </div>
+        </div>
 
-      <div class="btn-group">
-        <button type="button" class="btn btn-danger"style="margin-left: 5px;background:black; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">Bed</button>
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:black; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">
+    <div class="btn-group">
+        <button type="button" class="btn dropdown-toggle font-weight-light dropdown-toggle-split bg-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 5px; color: white; border: 1px black; font-size: 17px; padding: 10px;">Bedrooms
         <span class="sr-only">Toggle Dropdown</span>
         </button>
         <div class="dropdown-menu">
-          <a class="dropdown-item" href="#">1+</a>
-          <a class="dropdown-item" href="#">2+</a>
-          <!--need to add class names to input types or maybe not, idk in order to get values-->
-          <a class="dropdown-item" href="#"><input type ="text" placeholder="# bed" style="width:45%">-<input type ="text" placeholder="# bed" style="width:55%"></a>
+          <a class="dropdown-item" href="#">Any</a>
+            <a class="dropdown-item" href="#">1+</a>
+            <a class="dropdown-item" href="#">2+</a>
+            <!--need to add class names to input types or maybe not, idk in order to get values-->
+            <a class="dropdown-item" href="#"><input type ="text" placeholder="Low" style="width:45%">-<input type ="text" placeholder="High" style="width:55%"></a>
         </div>
-      </div>
+        </div>
   
       <div class="btn-group">
-        <button type="button" class="btn btn-danger"style="margin-left: 5px;background:black; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">Other Amenities</button>
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:black; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">
+        <button type="button" class="btn dropdown-toggle font-weight-light dropdown-toggle-split bg-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 5px; color: white; border: 1px black; font-size: 17px; padding: 10px;">Other Amenities
         <span class="sr-only">Toggle Dropdown</span>
         </button>
         <div class="dropdown-menu">
@@ -145,15 +146,15 @@
         </div>
       </div>
 
-      <button type="button" class="btn btn-danger" style="margin-left: 5px;background:black; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">Save search</button>
+      <button type="button" class="btn btn-danger bg-dark font-weight-light" style="margin-left: 5px; border: 1px black; font-size: 17px; padding: 10px; border-left:none;">Save search</button>
       </div>
         
     <br> <!--- needed a break for some reason lmao--->
     
-      <div class="listinglist">
-      Listing List (# results)
-      <div class="btn-group">
-        <button type="button" class="btn btn-danger dropdown-toggle dropdown-toggle-split" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="background:black; border: 1px black; font-size: 17px; padding: 4px;">Sort by
+      <div class="container-fluid">
+      Listing List (# of results)
+      <div class="btn-group" style="margin-left: 5px;">
+        <button type="button" class="btn dropdown-toggle dropdown-toggle-split bg-light font-weight-normal border" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: gray; border: 1px black; font-size: 17px; padding: 4px;">Sort by&nbsp;
           <span class="sr-only">Toggle Dropdown</span>
         </button>
         <div class="dropdown-menu">
@@ -164,38 +165,38 @@
         <a class="dropdown-item" href="#">Square Feet</a>
         </div>
       </div>
-      
+      <br>
       <!--start listing stuff somehow-->
       
       
       <br>
-      <button id="house1" style="width:100%;"><img src="https://i.imgur.com/S7cTEgw.png">
-      <div class ="address" style="float:left;">EMPAC for sale</div>
-      <div class = "rent" style = "float:right;">big money too wow</div>
+      <button id="house1" class = "btn bg-light border"style="width:100%;"><img src="https://i.imgur.com/S7cTEgw.png" class="rounded img-fluid">
+      <div id="address" style="float:left; margin-left: 10px;">EMPAC for sale</div>
+      <div id = "rent" style = "float:right;">big money too wow</div>
       <br>
       <br>
       <br>
-      <div class = "bedroomnum" style = "float:left;">much bedroom</div>
-      <div class ="memesep" style = "float:left;">,&nbsp;</div>
-      <div class = "bathroomnum" style = "float:left;">much bathroom</div>
-      <div class= "lastposted" style = "float:right;">Posted 69420 hours ago</div>
+      <div id = "bedroomnum" style = "float:left; margin-left: 10px;">much bedroom</div>
+      <div id ="memesep" style = "float:left;">,&nbsp;</div>
+      <div id = "bathroomnum" style = "float:left;">much bathroom</div>
+      <div id= "lastposted" style = "float:right;">Posted 69420 hours ago</div>
       </button>
       
       </div>
       
       
       <br>
-      
-        <div style="text-align: center">
-          Pages
-            <a href="#" style="margin: 1px;"><span class="dot">1</span></a>
-            <a href="#" style="margin: 1px;"><span class="dot">2</span></a>
-            <a href="#" style="margin: 1px;"><span class="dot">3</span></a>
-            <a href="#" style="margin: 1px;"><span class="dot">4</span></a>
-            <a href="#" style="margin: 1px;"><span class="dot"><svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-right-short" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-  <path fill-rule="evenodd" d="M4 8a.5.5 0 0 1 .5-.5h5.793L8.146 5.354a.5.5 0 1 1 .708-.708l3 3a.5.5 0 0 1 0 .708l-3 3a.5.5 0 0 1-.708-.708L10.293 8.5H4.5A.5.5 0 0 1 4 8z"/>
-</svg></span></a>
-    </div>
+      <div class="d-flex justify-content-center" >
+        <ul class="pagination">
+  <li class="page-item"><a class="page-link" href="#">Previous</a></li>
+  <li class="page-item active"><a class="page-link" href="#">1</a></li>
+  <li class="page-item"><a class="page-link" href="#">2</a></li>
+  <li class="page-item"><a class="page-link" href="#">3</a></li>
+  <li class="page-item"><a class="page-link" href="#">Next</a></li>
+</ul>
+  </div>
+    
+    
     </div>
     
 </html>
