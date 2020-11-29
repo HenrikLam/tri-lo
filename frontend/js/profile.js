@@ -9,16 +9,16 @@ function getUsername(){
 function getProfilePicture(){
     return "sisman.png";
 }
+function getName(){
+    return "Man, SIS";
+}
 
 function getEmail(){
     return "sisman@rpi.edu";
 }
-function changeProfileButton(){
-    document.getElementById("profileNavButton").innerHTML = "<img src =\"" + getProfilePicture() + "\" class = \"rounded-circle\" style = \"height:40px; width:40px\"> " + getUsername();
-}
 
 function doOnLoad(){
-    changeProfileButton();
+    document.getElementById("nameField").innerHTML = getName();
     document.getElementById("usernameField").innerHTML = getUsername();
     document.getElementById("emailField").innerHTML = getEmail();
 
