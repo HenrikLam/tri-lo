@@ -1,5 +1,10 @@
 var ffn;
 var lln;
+var attype;
+var usernameInput;
+var emailInput;
+var passwordInput;
+var cpasswordInput;
 
 function setSignupEventListeners(){
     document.getElementById("login2").addEventListener("click", redirectToLogin);
@@ -21,6 +26,7 @@ function redirectToLogin(){
 
 // to be implemented later
 function signupAccount(){
+    //has everything stored in the above variables so far.
     window.location.replace("homepage.html");
 }
 
@@ -34,13 +40,16 @@ function setLLN() {
 
 function kekC() {
     changeBooton("clienta");
+    attype = "Client";
 }
 
 function kekL() {
     changeBooton("llda");
+    attype = "Landlord";
 }
 function kekA() {
     changeBooton("agenta");
+    attype = "Agent";
 }
 
 function changeBooton(value) {
@@ -75,7 +84,7 @@ function isValidPassword(passwordInput){
 }
 
 function checkUsername(){
-    var usernameInput = document.getElementById("username").value;
+    usernameInput = document.getElementById("username").value;
     if (isValidUsername(usernameInput)){
         document.getElementById("usernameReq").style.color = "gray";
     } else {
@@ -83,7 +92,7 @@ function checkUsername(){
     }
 }
 function checkEmail(){
-    var emailInput = document.getElementById("email").value;
+    emailInput = document.getElementById("email").value;
     if (!isValidEmail(emailInput)){
         document.getElementById("emailReq").style.color = "red";
     } else {
@@ -91,13 +100,13 @@ function checkEmail(){
     }
 }
 function checkPassword(){
-    var passwordInput = document.getElementById("password").value;
+    passwordInput = document.getElementById("password").value;
     if (!isValidPassword(passwordInput)){
         document.getElementById("passwordReq").style.color = "red";
     } else {
         document.getElementById("passwordReq").style.color = "gray";
     }
-    var cpasswordInput = document.getElementById("cpassword").value;
+    cpasswordInput = document.getElementById("cpassword").value;
     if (cpasswordInput != passwordInput){
         document.getElementById("cpasswordReq").style.color = "red";
     } else {
