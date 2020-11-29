@@ -1,7 +1,7 @@
 <?php
     $dbOk = false;
     
-    @ $db = new mysqli('localhost', 'root', '', 'tri-lo');
+    $db = mysqli_connect('localhost', 'root', '', 'tri-lo');
       
       if ($db->connect_error) {
         echo '<div class="messages">Could not connect to the database. Error: ';
@@ -10,15 +10,29 @@
         $dbOk = true; 
       }
 
-      $havePost = isset($_POST["signup"]);
       
       $errors = '';
-      if ($havePost) {
-
-        if ($dbOk) {
-          $username = trim($_POST["username"]);  
-          $email = trim($_POST["email"]);
-          $password = trim($_POST["password"]);
+      if ($db0k) {
+          $firstname = "";
+          if (isset($_POST['firstName'])) {
+            $firstname = mysqli_real_escape_string($db, $_POST['firstName']);
+          }
+          $lastname = "";
+          if (isset($_POST['lastName'])) {
+            $lastname = mysqli_real_escape_string($db, $_POST['lastName']);
+          }
+          $username = "";
+          if (isset($_POST['username'])) {
+            $username = mysqli_real_escape_string($db, $_POST['username']);
+          }
+          $email = "";
+          if (isset($_POST['email'])) {
+            $email = mysqli_real_escape_string($db, $_POST['email']);
+          }
+          $password = "";
+          if (isset($_POST['password'])) {
+            $password = mysqli_real_escape_string($db, $_POST['password']);
+          }
 
           $query = "select * from users where username = '";
           $query = $query.$username."'";
@@ -27,7 +41,7 @@
           if ($numRecords > 0) {
               echo "Username is already taken, please try another one";
           } else {
-            $insQuery = "insert into users (`firstName`,`lastName`,`username`,`password`,`email`) values('first', 'last', ?,?,?)";
+            $insQuery = "insert into users (`firstName`,`lastName`,`username`,`password`,`email`) values('$firstname', '$lastname', $username, $email, $password)";
             $statement = $db->prepare($insQuery);
             $statement->bind_param("sss",$username,$password,$email);
             $statement->execute();
@@ -38,9 +52,8 @@
             exit();
           }
           
-        }
+      }
         
       
-      }
 
 ?>
