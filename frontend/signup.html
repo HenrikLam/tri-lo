@@ -73,6 +73,7 @@
         <div class="card mb-3 col-auto centered" style="position: absolute; width: 28%; left:35%; margin-top: 5%; padding-left: 2%; padding-right: 2%; padding-bottom: 1%;">
             <div class="font-weight-bold" style="text-align: center; font-size: 36px; padding: 8%">Sign up for Tri-Lo</div>
             <div class= "form-row align-items-center">
+                
                 <label for="fname" style="float:left; width: 50%;">First Name</label>
                 <label for="lname" style="float:right; width: 50%;">Last Name</label>
                 <div style="width: 45%; float:left;">
@@ -82,7 +83,16 @@
                 <div style="width: 45%; float:right;">
                     <input type="text" class="form-control mb-2" id="lname" placeholder="">
                 </div>
-                
+                <div class="btn-group col-md-12" style="margin-left:-5px;">
+                    <button class="btn dropdown-toggle font-weight-light dropdown-toggle-split bg-light border" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 15px; color: black; border: 1px black; font-size: 17px; padding: 10px;">Account Type:&nbsp;
+                    <span class="sr-only">Toggle Dropdown</span>
+                    </button>
+                    <div class="dropdown-menu col-md-12" style="text-align:center;">
+                        <a class="dropdown-item" href="#">Client</a>
+                        <a class="dropdown-item" href="#">Landlord</a>
+                        <a class="dropdown-item" href="#">Agent</a>
+                    </div>
+                </div>
                 <label for="username">Username</label>
                 <div style="width: 100%;">
                     <input type="text" class="form-control mb-2" id="username" placeholder="">
@@ -104,16 +114,7 @@
                 </div>
                 <div style="font-size: 12px; color: gray; width: 100%;" id="cpasswordReq"> The two passwords must match</div>
                 <!--https://www.geeksforgeeks.org/password-matching-using-javascript/ to be done later-->
-                <div class="btn-group">
-                    <button type="button" class="btn dropdown-toggle font-weight-light dropdown-toggle-split bg-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-top: 15px; color: white; border: 1px black; font-size: 17px; padding: 10px;">Account Type:&nbsp;
-                    <span class="sr-only">Toggle Dropdown</span>
-                    </button>
-                    <div class="dropdown-menu">
-                        <a class="dropdown-item" href="#">Client</a>
-                        <a class="dropdown-item" href="#">Landlord</a>
-                        <a class="dropdown-item" href="#">Agent</a>
-                    </div>
-                </div>
+                
                 
             </div>
             <a href="#" class="btn btn-light" style="width: 100%" id="signup">Sign up</a>
