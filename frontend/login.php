@@ -103,10 +103,7 @@
 
         }
       }
-
       
-       
-
     ?>
 
     <body onload="setEventListeners(); setLoginEventListeners();">

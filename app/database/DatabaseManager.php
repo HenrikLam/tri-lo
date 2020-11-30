@@ -21,9 +21,19 @@ class DatabaseManager {
     private $databaseConnection;
 
   */
+  private static $instance = null;
+  private $databaseConnection;
 
   public function __construct($databaseConnection) {
-    $this->databaseConnection = $databaseConnection
+    $this->databaseConnection = new mysqli('localhost', 'root', '', 'tri-lo');
+  }
+
+  public static function getInstance() {
+    if (self::$instance == null) {
+      self::$instance = new Singleton();
+    }
+ 
+    return self::$instance;
   }
 
   /**
