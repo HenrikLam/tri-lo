@@ -71,10 +71,11 @@
 
       $havePost = isset($_POST["signup"]);
       
-      $errors = '';
       if ($havePost) {
 
         if ($dbOk) {
+          $firstName = trim($_POST["fname"]);  
+          $lastName = trim($_POST["lname"]);  
           $username = trim($_POST["username"]);  
           $email = trim($_POST["email"]);
           $password = trim($_POST["password"]);
@@ -86,14 +87,14 @@
           if ($numRecords > 0) {
               echo "Username is already taken, please try another one";
           } else {
-            $insQuery = "insert into users (`firstName`,`lastName`,`username`,`password`,`email`) values('first', 'last', ?,?,?)";
+            $insQuery = "insert into users (`firstName`,`lastName`,`username`,`password`,`email`) values(?,?,?,?,?)";
             $statement = $db->prepare($insQuery);
-            $statement->bind_param("sss",$username,$password,$email);
+            $statement->bind_param("sssss", $firstName, $lastName, $username, $password, $email);
             $statement->execute();
             $statement->close();
 
             //   redirect user to login page
-            header("Location: login.html"); 
+            header("Location: login.php"); 
             exit();
           }
           
@@ -123,6 +124,16 @@
             <div class="font-weight-bold" style="text-align: center; font-size: 36px; padding: 8%">Sign up for Tri-Lo</div>
             <div class= "form-row align-items-center">
               <form action="signup.php" method="post">
+                <label for="fname" style="float:left; width: 50%;">First Name</label>
+                <label for="lname" style="float:right; width: 50%;">Last Name</label>
+                <div style="width: 45%; float:left;">
+                    <input type="text" class="form-control mb-2" id="fname" name="fname" placeholder="">
+                </div>
+                <div style = "width:5%;float:left;"> </div>
+                <div style="width: 45%; float:right;">
+                    <input type="text" class="form-control mb-2" id="lname" name="lname" placeholder="">
+                </div>
+
                 <label for="username">Username</label>
                 <div style="width: 100%;">
                     <input type="text" class="form-control mb-2" id="username" name="username" placeholder="">
