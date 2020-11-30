@@ -14,6 +14,8 @@ use app\models\Group;
 
 class DatabaseManager {
 
+  private static $instance = null;
+
   /*
     Serena is a database master, how do we log in (private variables here?)
 
@@ -22,8 +24,19 @@ class DatabaseManager {
 
   */
 
-  public function __construct($databaseConnection) {
-    $this->databaseConnection = $databaseConnection;
+  private function __construct() {
+    $this->databaseConnection = new \mysqli('localhost', 'root', '', 'tri-lo');
+  }
+
+  /**
+   * Get the singleton instance
+   * @return DatabaseManager
+   */
+  public static function getInstance() {
+    if (self::$instance == null) {
+      self::$instance = new DatabaseManager();
+    }
+    return self::$instance;
   }
 
   /**
