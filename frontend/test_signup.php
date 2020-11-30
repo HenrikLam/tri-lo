@@ -1,7 +1,7 @@
 <?php
     $dbOk = false;
     
-    $db = mysqli_connect('localhost', 'root', '', 'tri-lo');
+    $db = mysqli_connect('localhost', 'root', '', 'meme');
       
       if ($db->connect_error) {
         echo '<div class="messages">Could not connect to the database. Error: ';
@@ -33,9 +33,16 @@
           if (isset($_POST['password'])) {
             $password = mysqli_real_escape_string($db, $_POST['password']);
           }
-
-          $query = "select * from users where username = '";
-          $query = $query.$username."'";
+          $query = "Insert into users (firstName, lastName, username, password,
+          email) values('$firstname', '$lastname', '$username', '$password', '$email')";
+          if (mysqli_query($db, $query)) {
+            echo 'User added..';
+          } 
+          else {
+            echo 'Error: '. mysqli_error($db);
+          }
+          /*
+          $query = "select * from users where username = '".$username."'";
           $result = $db->query($query);
           $numRecords = $result->num_rows;
           if ($numRecords > 0) {
@@ -51,9 +58,8 @@
             header("Location: login.html"); 
             exit();
           }
+          */
           
       }
         
       
-
-?>

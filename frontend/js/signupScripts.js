@@ -25,13 +25,18 @@ function redirectToLogin(){
 }
 
 // to be implemented later
-function signupAccount(){
+function signupAccount(e){
     //has everything stored in the above variables so far.
+    e.preventDefault();
+
     var xhr = new XMLHttpRequest();
     var params = "firstName="+ffn+"&lastName="+lln+"&username="+
     usernameInput + "&email="+emailInput+"&password="+ passwordInput;
     // OPEN- type, url/file, async
-    xhr.open("POST", "test_signup.php", true);
+    xhr.open('POST', 'test_signup.php', true);
+    xhr.onerror = function() {
+        console.log('Request Error...');
+    }
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
     //xhr.onprogress can be used to show loading screen
@@ -40,6 +45,9 @@ function signupAccount(){
         //200 ok, 403 forbidden, 404 not found
         if (this.status=200) {
             console.log(this.responseText);
+        }
+        else {
+            console.log("error boi");
         }
     }
     xhr.send(params);
