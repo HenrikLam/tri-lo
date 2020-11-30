@@ -33,7 +33,20 @@ class DatabaseManager {
    * @return Group[]
    */
   public function getGroupsFromUserId($userId){
+     $query = "SELECT * 
+    FROM groupMembers
+    WHERE groupMembers.memberId=?";
 
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $userId);
+    $result = $stmt->execute();
+
+    $return = [];
+    foreach ($stmt->get_result() as $row) {
+      $return[] = $this->getGroupFromGroupId($row['groupId']);
+    }
+
+    return $return;
   }
 
   /**
@@ -377,23 +390,203 @@ class DatabaseManager {
   }
 
   /**
+   * Get members of a group
+   *
+   * @param int $groupId
+   * @return CLientAccount[]
+   */
+  public function getMembersFromGroupId($groupId) {
+    $query = "SELECT * 
+    FROM groupMembers
+    LEFT JOIN users
+    ON users.userId = groupMembers.memberId
+    WHERE groupMembers.groupId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $groupId);
+    $result = $stmt->execute();
+
+    $return = [];
+    foreach($stmt->get_result() as $row) {
+      $member = ClientAccount::listConstructor($row);
+      $member->setUserId($row['memberId']);
+
+      $return[] = $member;
+    }
+
+    return $return;
+  }
+
+
+  /**
+   * Get invited members to a group
+   *
+   * @param int $groupId
+   * @return CLientAccount[]
+   */
+  public function getInvitedMembersFromGroupId($groupId) {
+    $query = "SELECT * 
+    FROM groupInvitations
+    LEFT JOIN users
+    ON users.userId = groupInvitations.invitedId
+    WHERE groupInvitations.groupId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $groupId);
+    $result = $stmt->execute();
+
+    $return = [];
+    foreach($stmt->get_result() as $row) {
+      $member = ClientAccount::listConstructor($row);
+      $member->setUserId($row['invitedId']);
+
+      $return[] = $member;
+    }
+
+    return $return;
+  }
+
+  /**
+   * Get a group object
+   *
+   * @param int $groupId
+   * @return Group
+   */
+  public function getGroupFromGroupId($groupId) {
+    $query = "SELECT * 
+    FROM groups
+    LEFT JOIN users
+    ON users.userId = groups.groupOwnerId
+    WHERE groups.groupId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $groupId);
+    $result = $stmt->execute();
+
+    $row = $stmt->get_result()->fetch_assoc();
+    $owner = ClientAccount::listConstructor($row);
+    $owner->setUserId($row['groupOwnerId']);
+
+    $invited = $this->getInvitedMembersFromGroupId($groupId);
+    $members = $this->getMembersFromGroupId($groupId);
+
+    $group = new Group($members, $invited, $owner, $row['groupName'], $row['groupDescription']);
+    $group->setGroupId($groupId);
+
+    return $group;
+  }
+
+  /**
+   * Remove a group from the table
+   *
+   * @param int $groupId
+   */
+  public function removeGroup($groupId) {
+    $this->removeAllInvitesFromGroup($groupId);
+    $this->removeAllUsersFromGroup($groupId);
+
+    $query = "DELETE FROM groups 
+    WHERE groupId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $groupId);
+    $result = $stmt->execute();
+  }
+
+  /**
    * Invite a user to a group
    *
    * @param int $groupId
-   * @param UserAccount $user The user getting invited
+   * @param int $inviter Invider userId
+   * @param int $userId The user getting invited
    */
-  public function inviteUserToGroup($groupId, $user) {
+  public function inviteUserToGroup($groupId, $inviter, $userId) {
+    $query = "INSERT INTO groupInvitations
+    VALUES (?, ?, ?)";
 
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("ddd", $groupId, $userId, $inviter);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Uninvite a user from a group
+   *
+   * @param int $groupId
+   * @param int $userId The user getting invited
+   */
+  public function removeInviteFromGroup($groupId, $userId) {
+    $query = "DELETE FROM groupInvitations
+    WHERE groupId=? AND invitedId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+
+    if (!$stmt) {
+      echo $this->databaseConnection->error;
+    }
+    $stmt->bind_param("dd", $groupId, $userId);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Uninvite all users from a group
+   *
+   * @param int $groupId
+   */
+  public function removeAllInvitesFromGroup($groupId) {
+    $query = "DELETE FROM groupInvitations
+    WHERE groupId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $groupId);
+    $result = $stmt->execute();
   }
 
   /**
    * Add a user to a group and remove the invitation
    *
    * @param int $groupId
-   * @param User $user The user getting added to the group
+   * @param int $userId The user getting added
    */
-  public function addUserToGroup($groupId, $user) {
+  public function addUserToGroup($groupId, $userId) {
+    // Remove the invitation in order to accept
+    $this->removeInviteFromGroup($groupId, $userId);
 
+    $query = "INSERT INTO groupMembers
+    VALUES (?, ?)";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("dd", $groupId, $userId);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Remove a user from a group
+   *
+   * @param int $groupId
+   * @param int $userId The user getting removed
+   */
+  public function removeUserFromGroup($groupId, $userId) {
+    $query = "DELETE FROM groupMembers 
+    WHERE groupId=? AND memberId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("dd", $groupId, $userId);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Remove all users from a group
+   *
+   * @param int $groupId
+   */
+  public function removeAllUsersFromGroup($groupId) {
+    $query = "DELETE FROM groupMembers 
+    WHERE groupId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $groupId);
+    $result = $stmt->execute();
   }
 
   /**

@@ -14,6 +14,15 @@ class ClientAccount extends UserAccount {
     $this->email = $email;
   }
 
+  public static function listConstructor($data) {
+    return new ClientAccount($data['firstName'],
+      $data['lastName'],
+      $data['username'],
+      $data['password'],
+      $data['email'],
+      );
+  }
+
   public function getGroups() {
     // return groups that client is in
   }
