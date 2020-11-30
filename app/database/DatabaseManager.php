@@ -23,7 +23,7 @@ class DatabaseManager {
   */
 
   public function __construct($databaseConnection) {
-    $this->databaseConnection = $databaseConnection
+    $this->databaseConnection = $databaseConnection;
   }
 
   /**
@@ -33,17 +33,107 @@ class DatabaseManager {
    * @return Group[]
    */
   public function getGroupsFromUserId($userId){
+     $query = "SELECT * 
+    FROM groupMembers
+    WHERE groupMembers.memberId=?";
 
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $userId);
+    $result = $stmt->execute();
+
+    $return = [];
+    foreach ($stmt->get_result() as $row) {
+      $return[] = $this->getGroupFromGroupId($row['groupId']);
+    }
+
+    return $return;
+  }
+
+  /**
+   * Generate a Lisitng object from a row of the database
+   * @param array $row
+   * @return Listing
+   */
+  private function constructListingFromRow($row){
+    // Generate associated objects for the listing
+    $row['location'] = new Location($row);
+    $row['owner'] = $this->getUserInfoFromUserId($row['ownerId']);
+
+    // Create the listing
+    $lis = Listing::listConstructor($row);
+    $lis->setId($row['listingId']);
+    $lis->setAmenities($this->getAmenitiesFromListingId($row['listingId']));
+
+    return $lis;
+  }
+
+  /**
+   * Get an owner's listings with a specific status
+   *
+   * @param int $userId The user id of the owner
+   * @param string $status The status we are lookign for
+   * @return Listing[]
+   */
+  public function getListingsFromUserIdAndStatus($userId, $status) {
+    $query = "SELECT * 
+    FROM listings 
+    WHERE ownerID=? 
+    AND status != ?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("ds", $userId, $status);
+    $result = $stmt->execute();
+
+    $return = [];
+    foreach ($stmt->get_result() as $row) {
+      // Append listing
+      $return[] = $this->constructListingFromRow($row);
+    }
+
+    return $return;
+  }
+
+  /**
+   * Get an owner's current listings
+   *
+   * @param int $userId The user id of the owner
+   * @return Listing[]
+   */
+  public function getCurrListingsFromUserId($userId) {
+    return $this->getListingsFromUserIdAndStatus($userId, "ACTIVE");
   }
 
   /**
    * Get an owner's previous listings
    *
-   * @param string $userId The user id of the owner
+   * @param int $userId The user id of the owner
    * @return Listing[]
    */
   public function getPrevListingsFromUserId($userId) {
+    return $this->getListingsFromUserIdAndStatus($userId, "PREVIOUS");
+  }
 
+  /**
+   * Get all of the amenity info from a listing
+   * @param int $listingId
+   * @return array
+   */
+  public function getAmenitiesFromListingId($listingId) {
+    $query = "SELECT * 
+    FROM listingAmenities 
+    WHERE listingId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $listingId);
+    $result = $stmt->execute();
+
+    $return = [];
+    foreach ($stmt->get_result() as $row) {
+      // Append amenity pair
+      $return[$row['amenity']] = $row['amenityValue'];
+    }
+
+    return $return;
   }
 
   /**
@@ -87,7 +177,7 @@ class DatabaseManager {
     foreach ($filters as $key => $value) {
       $query = $query . " AND " . "EXISTS (SELECT * FROM amenities 
                                            WHERE listingId = $listingId 
-                                           AND " . $key . " LIKE '%" . $value . "%')"
+                                           AND " . $key . " LIKE '%" . $value . "%')";
     }
 
     return $query;
@@ -101,7 +191,15 @@ class DatabaseManager {
    * @return boolean True if the login combination was successful
    */
   public function checkLogIn($username, $password) {
+    $query = "SELECT * 
+    FROM users  
+    WHERE username=? AND password=?";
 
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("ss", $username, $password);
+    $result = $stmt->execute();
+
+    return $stmt->get_result()->num_rows > 0;
   }
 
   /**
@@ -111,7 +209,35 @@ class DatabaseManager {
    * @return Collection[]
    */
   public function getCollectionsFromUserId($userId) {
+    $query = "SELECT * 
+    FROM collections  
+    INNER JOIN collectionListings as cl
+    ON collections.collectionId = cl.collectionId
+    INNER JOIN listings 
+    ON listings.listingId=cl.listingId 
+    WHERE collections.ownerID=?
+    ORDER BY collections.collectionId";
 
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $userId);
+    $result = $stmt->execute();
+
+    $collections = [];
+    foreach ($stmt->get_result() as $row) {
+      if (!isset($collections[$row['collectionName']])) {
+        $collections[$row['collectionName']] = [];
+      }
+
+      // Append listing
+      $collections[$row['collectionName']][] = $this->constructListingFromRow($row);
+    }
+
+    $return = [];
+    foreach ($collections as $name => $listings) {
+      $return[] = new Collection($name, $userId, $listings);
+    }
+
+    return $return;
   }
 
   /**
@@ -122,8 +248,36 @@ class DatabaseManager {
    * @param string $cname The search made by the user
    * @return Collection[]
    */
-  public function getCollectionFromName($userId, $cname) {
+  public function getCollectionsFromName($userId, $cname) {
+    $cname = "%{$cname}%";
+    $query = "SELECT * 
+    FROM collections  
+    INNER JOIN collectionListings as cl
+    ON collections.collectionId = cl.collectionId AND collections.collectionName LIKE ?
+    INNER JOIN listings 
+    ON listings.listingId=cl.listingId
+    WHERE collections.ownerID=?";
 
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("sd", $cname, $userId);
+    $result = $stmt->execute();
+
+    $collections = [];
+    foreach ($stmt->get_result() as $row) {
+      if (!isset($collections[$row['collectionName']])) {
+        $collections[$row['collectionName']] = [];
+      }
+
+      // Append listing
+      $collections[$row['collectionName']][] = $this->constructListingFromRow($row);
+    }
+
+    $return = [];
+    foreach ($collections as $name => $listings) {
+      $return[] = new Collection($name, $userId, $listings);
+    }
+
+    return $return;
   }
 
   /**
@@ -144,6 +298,40 @@ class DatabaseManager {
    */
   public function getUserInfoFromUsername($username) {
 
+  }
+
+  /**
+   * Get the user account associated with a username
+   *
+   * @param string $username
+   * @return User
+   */
+  public function getUserInfoFromUserId($userId) {
+    $query = "SELECT * 
+    FROM users 
+    WHERE userId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $userId);
+    $result = $stmt->execute();
+
+    $row = $stmt->get_result()->fetch_assoc();
+
+    // TO DO: ACCOUNT TYPES
+    // if ($row['accountType'] == 'CLIENT') {
+
+    // }
+    // elseif ($row['accountType'] == 'LANDLORD') {
+
+    // }
+    // else {
+
+    // }
+
+    // Temproary
+    $user = LandlordAccount::listConstructor($row);
+    $user->setUserId($row['userId']);
+    return $user;
   }
 
   /**
@@ -202,23 +390,203 @@ class DatabaseManager {
   }
 
   /**
+   * Get members of a group
+   *
+   * @param int $groupId
+   * @return CLientAccount[]
+   */
+  public function getMembersFromGroupId($groupId) {
+    $query = "SELECT * 
+    FROM groupMembers
+    LEFT JOIN users
+    ON users.userId = groupMembers.memberId
+    WHERE groupMembers.groupId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $groupId);
+    $result = $stmt->execute();
+
+    $return = [];
+    foreach($stmt->get_result() as $row) {
+      $member = ClientAccount::listConstructor($row);
+      $member->setUserId($row['memberId']);
+
+      $return[] = $member;
+    }
+
+    return $return;
+  }
+
+
+  /**
+   * Get invited members to a group
+   *
+   * @param int $groupId
+   * @return CLientAccount[]
+   */
+  public function getInvitedMembersFromGroupId($groupId) {
+    $query = "SELECT * 
+    FROM groupInvitations
+    LEFT JOIN users
+    ON users.userId = groupInvitations.invitedId
+    WHERE groupInvitations.groupId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $groupId);
+    $result = $stmt->execute();
+
+    $return = [];
+    foreach($stmt->get_result() as $row) {
+      $member = ClientAccount::listConstructor($row);
+      $member->setUserId($row['invitedId']);
+
+      $return[] = $member;
+    }
+
+    return $return;
+  }
+
+  /**
+   * Get a group object
+   *
+   * @param int $groupId
+   * @return Group
+   */
+  public function getGroupFromGroupId($groupId) {
+    $query = "SELECT * 
+    FROM groups
+    LEFT JOIN users
+    ON users.userId = groups.groupOwnerId
+    WHERE groups.groupId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $groupId);
+    $result = $stmt->execute();
+
+    $row = $stmt->get_result()->fetch_assoc();
+    $owner = ClientAccount::listConstructor($row);
+    $owner->setUserId($row['groupOwnerId']);
+
+    $invited = $this->getInvitedMembersFromGroupId($groupId);
+    $members = $this->getMembersFromGroupId($groupId);
+
+    $group = new Group($members, $invited, $owner, $row['groupName'], $row['groupDescription']);
+    $group->setGroupId($groupId);
+
+    return $group;
+  }
+
+  /**
+   * Remove a group from the table
+   *
+   * @param int $groupId
+   */
+  public function removeGroup($groupId) {
+    $this->removeAllInvitesFromGroup($groupId);
+    $this->removeAllUsersFromGroup($groupId);
+
+    $query = "DELETE FROM groups 
+    WHERE groupId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $groupId);
+    $result = $stmt->execute();
+  }
+
+  /**
    * Invite a user to a group
    *
    * @param int $groupId
-   * @param UserAccount $user The user getting invited
+   * @param int $inviter Invider userId
+   * @param int $userId The user getting invited
    */
-  public function inviteUserToGroup($groupId, $user) {
+  public function inviteUserToGroup($groupId, $inviter, $userId) {
+    $query = "INSERT INTO groupInvitations
+    VALUES (?, ?, ?)";
 
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("ddd", $groupId, $userId, $inviter);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Uninvite a user from a group
+   *
+   * @param int $groupId
+   * @param int $userId The user getting invited
+   */
+  public function removeInviteFromGroup($groupId, $userId) {
+    $query = "DELETE FROM groupInvitations
+    WHERE groupId=? AND invitedId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+
+    if (!$stmt) {
+      echo $this->databaseConnection->error;
+    }
+    $stmt->bind_param("dd", $groupId, $userId);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Uninvite all users from a group
+   *
+   * @param int $groupId
+   */
+  public function removeAllInvitesFromGroup($groupId) {
+    $query = "DELETE FROM groupInvitations
+    WHERE groupId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $groupId);
+    $result = $stmt->execute();
   }
 
   /**
    * Add a user to a group and remove the invitation
    *
    * @param int $groupId
-   * @param User $user The user getting added to the group
+   * @param int $userId The user getting added
    */
-  public function addUserToGroup($groupId, $user) {
+  public function addUserToGroup($groupId, $userId) {
+    // Remove the invitation in order to accept
+    $this->removeInviteFromGroup($groupId, $userId);
 
+    $query = "INSERT INTO groupMembers
+    VALUES (?, ?)";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("dd", $groupId, $userId);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Remove a user from a group
+   *
+   * @param int $groupId
+   * @param int $userId The user getting removed
+   */
+  public function removeUserFromGroup($groupId, $userId) {
+    $query = "DELETE FROM groupMembers 
+    WHERE groupId=? AND memberId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("dd", $groupId, $userId);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Remove all users from a group
+   *
+   * @param int $groupId
+   */
+  public function removeAllUsersFromGroup($groupId) {
+    $query = "DELETE FROM groupMembers 
+    WHERE groupId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $groupId);
+    $result = $stmt->execute();
   }
 
   /**
@@ -227,7 +595,9 @@ class DatabaseManager {
    * @param string $username The account the verification is associated with
    * @param string $code
    */
-  public function saveVerificationCode($username, $code)
+  public function saveVerificationCode($username, $code) {
+
+  }
 
   /**
    * Check if the latest verification code matches the one given
