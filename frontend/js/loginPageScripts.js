@@ -17,5 +17,8 @@ function accLogIn(){
     if (password == ""){
         document.getElementById("alertBox").innerHTML += "<br>Password field cannot be empty!";
     }
-    //send login request to server and obtain return code
+    //send AJAX message to php code to log in
+
+    var xhr = new XMLHttpRequest();
+    var params = "&username=" + username + "&password=" + password;
 }
