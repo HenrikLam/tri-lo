@@ -36,7 +36,7 @@ function accLogIn(){
             d.setTime(d.getTime() + (60*60*1000));
             var expires = "expires="+ d.toUTCString();
             var response = this.responseText;
-            if (!isNaN(response)){
+            if (!isNaN(response) && response > 0){
                 document.cookie = "sessionID="+this.responseText+"; "+ expires+"; domain=127.0.0.1; path=/";
                 window.location.replace("homepage.html");
             } else {

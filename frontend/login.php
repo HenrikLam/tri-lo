@@ -32,7 +32,7 @@
             if (mysqli_num_rows($result) == 1) {
                 //make sessionID username pair
                 //return sessionID to user to store as cookie
-                echo 'user logged in!';
+                echo '1';
             } else if (mysqli_num_rows($result) == 0){
                 echo 'Credentials not matched to an account!';
             } else {
