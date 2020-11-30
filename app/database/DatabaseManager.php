@@ -178,7 +178,15 @@ class DatabaseManager {
    * @return boolean True if the login combination was successful
    */
   public function checkLogIn($username, $password) {
+    $query = "SELECT * 
+    FROM users  
+    WHERE username=? AND password=?";
 
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("ss", $username, $password);
+    $result = $stmt->execute();
+
+    return $stmt->get_result()->num_rows > 0;
   }
 
   /**
@@ -191,29 +199,32 @@ class DatabaseManager {
     $query = "SELECT * 
     FROM collections  
     INNER JOIN collectionListings as cl
-    ON collections.collectionId
+    ON collections.collectionId = cl.collectionId
     INNER JOIN listings 
-    ON listings.listingId=cl.listingId
-    WHERE collections.ownerID=?";
+    ON listings.listingId=cl.listingId 
+    WHERE collections.ownerID=?
+    ORDER BY collections.collectionId";
 
     $stmt = $this->databaseConnection->prepare($query);
-    if (!$stmt) {
-      echo $this->databaseConnection->error;
-    }
     $stmt->bind_param("d", $userId);
     $result = $stmt->execute();
 
-    $listings = [];
-    $name = "";
+    $collections = [];
     foreach ($stmt->get_result() as $row) {
-      // Grab the colelction name
-      $name = $row['collectionName'];
+      if (!isset($collections[$row['collectionName']])) {
+        $collections[$row['collectionName']] = [];
+      }
 
       // Append listing
-      $listings[] = $this->constructListingFromRow($row);
+      $collections[$row['collectionName']][] = $this->constructListingFromRow($row);
     }
 
-    return new Collection($name, $userId, $listings);
+    $return = [];
+    foreach ($collections as $name => $listings) {
+      $return[] = new Collection($name, $userId, $listings);
+    }
+
+    return $return;
   }
 
   /**
@@ -224,8 +235,36 @@ class DatabaseManager {
    * @param string $cname The search made by the user
    * @return Collection[]
    */
-  public function getCollectionFromName($userId, $cname) {
+  public function getCollectionsFromName($userId, $cname) {
+    $cname = "%{$cname}%";
+    $query = "SELECT * 
+    FROM collections  
+    INNER JOIN collectionListings as cl
+    ON collections.collectionId = cl.collectionId AND collections.collectionName LIKE ?
+    INNER JOIN listings 
+    ON listings.listingId=cl.listingId
+    WHERE collections.ownerID=?";
 
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("sd", $cname, $userId);
+    $result = $stmt->execute();
+
+    $collections = [];
+    foreach ($stmt->get_result() as $row) {
+      if (!isset($collections[$row['collectionName']])) {
+        $collections[$row['collectionName']] = [];
+      }
+
+      // Append listing
+      $collections[$row['collectionName']][] = $this->constructListingFromRow($row);
+    }
+
+    $return = [];
+    foreach ($collections as $name => $listings) {
+      $return[] = new Collection($name, $userId, $listings);
+    }
+
+    return $return;
   }
 
   /**

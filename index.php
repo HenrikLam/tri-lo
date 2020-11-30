@@ -17,6 +17,13 @@
   $manager = new \app\database\DatabaseManager(new mysqli('localhost', 'root', '', 'tri-lo'));
 
   // var_dump($manager->getCurrListingsFromUserId(1)[0]);
-  var_dump($manager->getCollectionsFromUserId(1)->getListings()[0]);
+
+  // These give the same answer with 2 collections, "Nest" and "Test"
+  // var_dump($manager->getCollectionsFromUserId(1));
+  // var_dump($manager->getCollectionsFromName(1, "st")); //shows collection "Test"
+
+
+  // var_dump($manager->checkLogIn("portoj", "Password123"));
+  // var_dump($manager->checkLogIn("portoj", "Password1234"));
 ?>
 
