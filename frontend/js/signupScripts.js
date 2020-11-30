@@ -35,8 +35,9 @@ function signupAccount(e){
     }
     else {
         var xhr = new XMLHttpRequest();
-        var params = "firstName="+ffn+"&lastName="+lln+"&username="+
-                    usernameInput + "&email="+emailInput+"&password="+ passwordInput;
+        var params = "firstName=" + ffn + "&lastName=" + lln +
+                     "&username=" + usernameInput + "&email=" + emailInput + 
+                     "&password=" + passwordInput + "&accountType="+ attype;
         // OPEN- type, url/file, async
         xhr.open('POST', 'test_signup.php', true);
         xhr.onerror = function() {
