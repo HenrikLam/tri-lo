@@ -4,7 +4,7 @@ function setLoginEventListeners(){
 }
 
 function redirectToSignup(){
-    window.location.replace("signup.php");
+    window.location.replace("signup.html");
 }
 
 function accLogIn(){
