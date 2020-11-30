@@ -239,13 +239,14 @@ class DatabaseManager {
   public function checkLogIn($username, $password) {
     $query = "SELECT * 
     FROM users  
-    WHERE username=? AND password=?";
+    WHERE username=? AND password=?
+    LIMIT 1";
 
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("ss", $username, $password);
     $result = $stmt->execute();
 
-    return $stmt->get_result()->num_rows > 0;
+    return $stmt->get_result()->num_rows == 1;
   }
 
   /**

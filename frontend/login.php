@@ -59,48 +59,29 @@
 
     <?php
 
-      $dbOk = false;
-    
-      @ $db = new mysqli('localhost', 'root', '', 'tri-lo');
-      
-      if ($db->connect_error) {
-        echo '<div class="messages">Could not connect to the database. Error: ';
-        echo $db->connect_errno . ' - ' . $db->connect_error . '</div>';
-      } else {
-        $dbOk = true; 
-      }
+      require dirname(__FILE__) . '\..\vendor\autoload.php';
 
       $havePost = isset($_POST["accLogIn"]);
 
       if ($havePost) {
-        if ($dbOk) {
-          $username = trim($_POST["username"]);  
-          $password = trim($_POST["password"]);
+        $manager = \app\database\DatabaseManager::getInstance();
 
-          $query = "select * from users where username = '";
-          $query = $query.$username."' and password = '";
-          $query = $query.$password."' limit 1";
+        $username = trim($_POST["username"]);  
+        $password = trim($_POST["password"]);
 
-          $result = $db->query($query);
-          $numRecords = $result->num_rows;
+        if ($manager->checkLogIn($username, $password)) {
+          $user = $manager->getUserInfoFromUsername($username);
+          setcookie("currentUsername", $user->getUsername(), time()+86400);
+          setcookie("currentUserId", $user->getUserId(), time()+86400);
+          setcookie("currentFirstName", $user->getFirstName(), time()+86400);
+          setcookie("currentLastName", $user->getLastName(), time()+86400);
+          // cookies for currently logged in user expire after one day
 
-          if ($numRecords == 1) {
-            $record = $result->fetch_assoc();
-            setcookie("currentUsername", $record['username'], time()+86400);
-            setcookie("currentUserId", $record['userId'], time()+86400);
-            setcookie("currentFirstName", $record['firstName'], time()+86400);
-            setcookie("currentLastName", $record['lastName'], time()+86400);
-            // cookies for currently logged in user expire after one day
-
-            header("Location: homepage.html"); 
-            exit();
-            
-          }
-          else {
-            echo "Your username password combination is invalid, please try again";
-          }
-
-
+          header("Location: homepage.html"); 
+          exit();
+        }
+        else {
+          echo "Your username password combination is invalid, please try again";
         }
       }
       
