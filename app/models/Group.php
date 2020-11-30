@@ -43,8 +43,24 @@ class Group {
     return $this->groupId;
   }
 
+  public function getName() {
+    return $this->name;
+  }
+
+  public function getDescription() {
+    return $this->description;
+  }
+
   public function setGroupId($groupId) {
     $this->groupId = $groupId;
+  }
+
+  public function setName($name) {
+    $this->name = $name;
+  }
+
+  public function setDescription($description) {
+    $this->description = $description;
   }
 
   public function inviteMember(\ClientAccount $user) {
