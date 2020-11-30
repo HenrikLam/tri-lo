@@ -36,7 +36,7 @@
   // var_dump($manager->inviteUserToGroup(1, 1, 4));
   // var_dump($manager->getGroupFromGroupId(1));
 
-  var_dump($manager->getGroupsFromUserId(1));
+  // var_dump($manager->getGroupsFromUserId(1));
 
 ?>
 
