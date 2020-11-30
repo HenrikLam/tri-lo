@@ -7,6 +7,7 @@ DROP TABLE IF EXISTS listingLocations;
 DROP TABLE IF EXISTS collections;
 DROP TABLE IF EXISTS groups;
 DROP TABLE IF EXISTS locations;
+DROP TABLE IF EXISTS sessions;
 DROP TABLE IF EXISTS users;
 DROP TABLE IF EXISTS images;
 DROP TABLE IF EXISTS states;
@@ -119,6 +120,14 @@ CREATE TABLE images (
   link varchar(256) NOT NULL,
   PRIMARY KEY (imageId),
   FOREIGN KEY (listingId) REFERENCES listings(listingId)
+);
+
+CREATE TABLE sessions (
+  sessionId char(36) NOT NULL,
+  userId int(10) unsigned NOT NULL UNIQUE,
+  expires TIMESTAMP NOT NULL,
+  PRIMARY KEY (sessionId),
+  FOREIGN KEY (userId) REFERENCES users(userId)
 );
 
 SET GLOBAL local_infile = 'ON';
