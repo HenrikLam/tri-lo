@@ -1,4 +1,4 @@
-var loggedIn = false;
+var loggedIn = true;
 function tryLogIn(){
     login();
 }
@@ -25,14 +25,25 @@ function login(){
             htmlString+= "You're a donkey";
             htmlString+= "</button>";
             htmlString+= "<div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"profileNavButton\">";
-            htmlString+= "<button class=\"dropdown-item\" type=\"button\">Settings</button>";
-            htmlString+= "<button class=\"dropdown-item\" type=\"button\">Group</button>";
-            htmlString+= "<button class=\"dropdown-item\" type=\"button\">Bookmarked Listings</button>";
+            htmlString+= "<button class=\"dropdown-item\" type=\"button\" id=\"settingsBtn\">Settings</button>";
+            htmlString+= "<button class=\"dropdown-item\" type=\"button\" id=\"groupBtn\">Group</button>";
+            htmlString+= "<button class=\"dropdown-item\" type=\"button\" id=\"bookmarkedBtn\">Bookmarked Listings</button>";
             htmlString+= "</div>";
             htmlString+= "</div>";
             htmlString+= "</div>";
         document.getElementById("rightNavButton").innerHTML = htmlString;
-
+        document.getElementById("settingsBtn").addEventListener("click", redirectToSettings);
+        document.getElementById("groupBtn").addEventListener("click", redirectToGroup);
+        document.getElementById("bookmarkedBtn").addEventListener("click", redirectToBookmarked);
         changeProfileButton();
     }
+}
+function redirectToSettings(){
+    window.location.replace("profilePage.html");
+}
+function redirectToGroup(){
+    window.location.replace("group.html");
+}
+function redirectToBookmarked(){
+    window.location.replace("bookmarkedListings.html");
 }
