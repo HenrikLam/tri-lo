@@ -60,7 +60,7 @@ class DatabaseManager {
   }
 
   /**
-   * Generate a Lisitng object from a row of the database
+   * Generate a Listing object from a row of the database
    * @param array $row
    * @return Listing
    */
@@ -155,11 +155,14 @@ class DatabaseManager {
    * @param array $filters Filter specifications for the query
    * @return Listing[] of previous/closed listings
    */
-  public function getListings(\Location $from, $pageNum, $radius, $filters) {
+  public function getListings(Location $from, $pageNum, $radius, $filters) {
     //$page_size = 20?
+    $filterQuery = $this->getQueryStringByAmenities($filters);
 
-    $query = "SELECT ...(all listing data we need)..., 
-      (
+    // get listing ids of listings that are within the radius
+    $radiusQuery = "SELECT listingId 
+    FROM listings 
+    WHERE (
         3959 * acos (
           cos ( radians( from.ycoord ) )
           * cos( radians( lis.ycoord ) )
@@ -167,10 +170,21 @@ class DatabaseManager {
           + sin ( radians( from.ycoord) )
           * sin( radians( lis.ycoord ) )
           )
-      ) AS distance
-    FROM currentListings as lis
-    WHERE distance < radius
+      ) < $radius
     AND lis.status = 'ACTIVE'";
+
+    $query = $filterQuery . " INTERSECT " $radiusQuery;
+    
+    $stmt = $this->databaseConnection->prepare($query);
+    $result = $stmt->execute();
+
+    $return = [];
+    foreach ($stmt->get_result() as $row) {
+      // Add listing object to return
+      $return[] = $this->getListingFromListingId($row['listingId']);
+    }
+
+    return $return;
     // append getQueryStringByAmenities() result
     // ORDER BY $ordering
     // LIMIT $pageNum * $pageSize, $pageSize + 1 (page size + 1 for page indexing)
@@ -182,12 +196,27 @@ class DatabaseManager {
    * @param array $filters Filter specifications for the query
    * @return string
    */
-  private function getQueryStringByAmenities($filters, $listingId) {
-    $query = "";
+  private function getQueryStringByAmenities($filters/*, $listingId*/) {
+    // $query = "";
+    // foreach ($filters as $key => $value) {
+    //   $query = $query . " AND " . "EXISTS (SELECT * FROM amenities 
+    //                                        WHERE listingId = $listingId 
+    //                                        AND " . $key . " LIKE '%" . $value . "%')";
+    // }
+
+
+    // get the unique listing ids that satisfy the filters 
+    $query = "SELECT DISTINCT listingId 
+              FROM listingAmenities 
+              WHERE ";
+    $count = 0;
     foreach ($filters as $key => $value) {
-      $query = $query . " AND " . "EXISTS (SELECT * FROM amenities 
-                                           WHERE listingId = $listingId 
-                                           AND " . $key . " LIKE '%" . $value . "%')";
+      // for each filter, make sure the tuple has the amenity as well as the desired value
+      if ($count > 0 ) {
+        $query = $query . " AND ";
+      }
+      $query = $query . "lower(amenity) = lower(" . $key . ") AND lower(amenityValue) = lower(" . $value . ")";
+      $count += 1;
     }
 
     return $query;
@@ -304,17 +333,40 @@ class DatabaseManager {
    * Get the user account associated with a username
    *
    * @param string $username
-   * @return User
+   * @return UserAccount
    */
   public function getUserInfoFromUsername($username) {
+    $query = "SELECT * 
+    FROM users 
+    WHERE username=?";
 
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $username);
+    $result = $stmt->execute();
+
+    $row = $stmt->get_result()->fetch_assoc();
+
+    // TO DO: ACCOUNT TYPES
+    // if ($row['accountType'] == 'CLIENT') {
+
+    // }
+    // elseif ($row['accountType'] == 'LANDLORD') {
+
+    // }
+    // else {
+
+    // }
+
+    // Temproary
+    $user = LandlordAccount::listConstructor($row);
+    return $user;
   }
 
   /**
-   * Get the user account associated with a username
+   * Get the user account associated with a user id
    *
    * @param string $username
-   * @return User
+   * @return UserAccount
    */
   public function getUserInfoFromUserId($userId) {
     $query = "SELECT * 
@@ -347,17 +399,56 @@ class DatabaseManager {
   /**
    * Save a listing to the database (real listings)
    *
+   * @param UserAccount $user
    * @param Listing $listing
    */
-  public function saveListing($listing) {
+  public function saveListing($user, $listing) {
+    $query = "INSERT INTO listings (listingName, ownerId, price, address, city, state, zipcode, ";
+    $query = $query . "latitude, longitude, isRenting, paymentFrequency, bedrooms, bathrooms,  ";
+    $query = $query . "squareFeet, dateTimePosted, status) ";
+    $query = $query . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
+    $stmt = $db->prepare($query);
+    // sisssss ddisid id
+    // not sure what the type of dateTimePosted should be
+    $stmt->bind_param("sisssssddisidids", $listing->getName(),
+                                         $user->getUserId(),
+                                         $listing->getPrice(),
+                                         $listing->getLocation()->getAddress(),
+                                         $listing->getLocation()->getCity(),
+                                         $listing->getLocation()->getState(),
+                                         $listing->getLocation()->getZipCode(),
+                                         $listing->getLatitude(),
+                                         $listing->getLongitude(),
+                                         $listing->getIsRenting(),
+                                         $listing->getPaymentFrequency(),
+                                         $listing->getBedrooms(),
+                                         $listing->getBathrooms(),
+                                         $listing->getSquareFeet(),
+                                         $listing->getTimeStamp(),
+                                         $listing->getStatus());
+
+    $stmt->execute();
+    $stmt->close();
+
+    // add amenities to listingAmenities
+    foreach ($filters as $key => $value) {
+      // for each filter, add a tuple to the table
+      $query = "INSERT INTO listingAmenities (listingId, amenity, amenityValue) VALUES (?,?,?)";
+      // not sure how to get the listingId since we fill that out automatically
+      $stmt = $db->prepare($query);
+      $statement->bind_param("dss", $listingId, , $key, $value);
+      $stmt->execute();
+      $stmt->close();
+    }
+    
   }
 
   /**
    * Save a listing to the database (pending listings/not verified yet)
    *
    * @param Listing $listing
-   * @param array $info Informationa about the listing (contact/documents) 
+   * @param array $info Information about the listing (contact/documents) 
    */
   public function requestListing($listing, $info) {
 
@@ -369,16 +460,41 @@ class DatabaseManager {
    * @param UserAccount $account
    */
   public function saveAccount($account) {
+    $query = "INSERT INTO users (firstName, lastName, username, password, email) VALUES (?,?,?,?,?,?)";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("sssss", $account->getFirstName(), 
+                               $account->getLastName(),
+                               $account->getUsername(),
+                               $account->getPassword(),
+                               $account->getEmail());
+    $stmt->execute();
+    $stmt->close();
 
+    // TO DO: add tuples to the other tables according to the account type
+    // if (is_a($accout, 'ClientAccount')) {
+      
+    // }
+    // elseif (is_a($account, 'LandlordAccount')) {
+
+    // }
+    // else {
+
+    // }
+    
   }
 
   /**
    * Save a collection/bookmark a user has created
    *
+   * @param UserAccount $user
    * @param Collection $collection
    */
-  public function saveCollection($collection) {
-
+  public function saveCollection($user, $collection) {
+    $query = "INSERT INTO collections (collectionName, ownerId) VALUES (?,?)";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("sd", $collection->getName(), $user->getOwnerId());
+    $stmt->execute();
+    $stmt->close();
   }
 
   /**
@@ -387,7 +503,11 @@ class DatabaseManager {
    * @param Report $report
    */
   public function saveReport($report) {
-
+    $query = "INSERT INTO reports (userId, listingId, reasonForReport) VALUES (?,?,?)";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("dds", $report->getUserId(), $report->getListingId(), $report->getReason());
+    $stmt->execute();
+    $stmt->close();
   }
 
   /**
@@ -396,7 +516,11 @@ class DatabaseManager {
    * @param UserAccount $account
    */
   public function saveGroup($group) {
-
+    $query = "INSERT INTO groups (groupName, groupDescription, groupOwnerId) VALUES (?,?,?)";
+    $stmt = $db->prepare($query);
+    $stmt->bind_param("ssd", $group->getName(), $group->getDescription(), $group->getGroupOwner()->getUserId());
+    $stmt->execute();
+    $stmt->close();
   }
 
   /**
