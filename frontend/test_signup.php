@@ -1,7 +1,7 @@
 <?php
     $dbOk = false;
     
-    $db = mysqli_connect('localhost', 'root', '', 'meme');
+    $db = mysqli_connect('localhost', 'root', '', 'tri-lo');
       
       if ($db->connect_error) {
         echo '<div class="messages">Could not connect to the database. Error: ';
@@ -12,7 +12,7 @@
 
       
       $errors = '';
-      if ($db0k) {
+      if ($dbOk) {
           $firstname = "";
           if (isset($_POST['firstName'])) {
             $firstname = mysqli_real_escape_string($db, $_POST['firstName']);
