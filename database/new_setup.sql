@@ -23,6 +23,7 @@ CREATE TABLE users (
  username varchar(100) NOT NULL,
  password varchar(100) NOT NULL,
  email varchar(100) NOT NULL,
+ accountType varchar(10) NOT NULL,
  PRIMARY KEY (userId)
 );
 
@@ -139,18 +140,18 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' (imageId, listingId, link);
 
 INSERT INTO users VALUES 
-(1, 'Land', 'Lord', 'lordl1', 'Password123', 'lordl1@rpi.edu'),
-(2, 'Land', 'Lord', 'lordl2', 'Password123', 'lordl2@rpi.edu'),
-(3, 'Land', 'Lord', 'lordl3', 'Password123', 'lordl3@rpi.edu'),
-(4, 'RealEstate', 'Agent', 'agentr', 'Password123', 'agentr@rpi.edu'),
-(5, 'Basic', 'User', 'username', 'Password123', 'user@rpi.edu'),
-(6, 'Joe', 'Biden', 'bidenj', 'Password123', 'bidenj@rpi.edu'),
-(7, 'Donald', 'Trump', 'trumpd', 'Password123', 'trumpd@rpi.edu'),
-(8, 'Hillary', 'Clinton', 'clinth', 'Password123', 'clinth@rpi.edu'),
-(9, 'Bernie', 'Sanders', 'sandeb', 'Password123', 'sandeb@rpi.edu'),
-(10, 'John', 'Smith', 'smithj', 'Password123', 'smithj@rpi.edu'),
-(11, 'Beth', 'Smith', 'smithb', 'Password123', 'smithb@rpi.edu'),
-(12, 'Samantha', 'Cross', 'crosss', 'Password123', 'crosss@rpi.edu');
+(1, 'Land', 'Lord', 'lordl1', 'Password123', 'lordl1@rpi.edu', 'Landlord'),
+(2, 'Land', 'Lord', 'lordl2', 'Password123', 'lordl2@rpi.edu', 'Landlord'),
+(3, 'Land', 'Lord', 'lordl3', 'Password123', 'lordl3@rpi.edu', 'Landlord'),
+(4, 'RealEstate', 'Agent', 'agentr', 'Password123', 'agentr@rpi.edu', 'Agent'),
+(5, 'Basic', 'User', 'username', 'Password123', 'user@rpi.edu', 'Client'),
+(6, 'Joe', 'Biden', 'bidenj', 'Password123', 'bidenj@rpi.edu', 'Client'),
+(7, 'Donald', 'Trump', 'trumpd', 'Password123', 'trumpd@rpi.edu', 'Client'),
+(8, 'Hillary', 'Clinton', 'clinth', 'Password123', 'clinth@rpi.edu', 'Client'),
+(9, 'Bernie', 'Sanders', 'sandeb', 'Password123', 'sandeb@rpi.edu', 'Client'),
+(10, 'John', 'Smith', 'smithj', 'Password123', 'smithj@rpi.edu', 'Client'),
+(11, 'Beth', 'Smith', 'smithb', 'Password123', 'smithb@rpi.edu', 'Client'),
+(12, 'Samantha', 'Cross', 'crosss', 'Password123', 'crosss@rpi.edu', 'Client');
 
 INSERT INTO `groups` VALUES
 (1, 'Group A', 'Looking for a cute apartment', 5),
