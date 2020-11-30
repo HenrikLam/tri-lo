@@ -741,7 +741,7 @@ class DatabaseManager {
    * @return boolean True if the code matches
    */
   public function checkVerificationCode($username, $code) {
-
+    
   }
 
 }
