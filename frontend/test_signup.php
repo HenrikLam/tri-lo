@@ -14,23 +14,17 @@
       $errors = '';
       if ($dbOk) {
           $firstname = "";
-          if (isset($_POST['firstName'])) {
-            $firstname = mysqli_real_escape_string($db, $_POST['firstName']);
-          }
           $lastname = "";
-          if (isset($_POST['lastName'])) {
-            $lastname = mysqli_real_escape_string($db, $_POST['lastName']);
-          }
           $username = "";
-          if (isset($_POST['username'])) {
-            $username = mysqli_real_escape_string($db, $_POST['username']);
-          }
           $email = "";
-          if (isset($_POST['email'])) {
-            $email = mysqli_real_escape_string($db, $_POST['email']);
-          }
           $password = "";
-          if (isset($_POST['password'])) {
+          if (isset($_POST['firstName']) && isset($_POST['lastName']) &&
+              isset($_POST['username']) && isset($_POST['email']) &&
+              isset($_POST['password'])) {
+            $firstname = mysqli_real_escape_string($db, $_POST['firstName']);
+            $lastname = mysqli_real_escape_string($db, $_POST['lastName']);
+            $username = mysqli_real_escape_string($db, $_POST['username']);
+            $email = mysqli_real_escape_string($db, $_POST['email']);
             $password = mysqli_real_escape_string($db, $_POST['password']);
           }
           $query = "Insert into users (firstName, lastName, username, password,
@@ -58,6 +52,7 @@
             header("Location: login.html"); 
             exit();
           }
+            select count(*) from users where username = '$username' and password = '$password'
           */
           
       }
