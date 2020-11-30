@@ -32,7 +32,16 @@ function accLogIn(){
     xhr.onload= function() {
         //200 ok, 403 forbidden, 404 not found
         if (this.status=200) {
-            console.log(this.responseText);
+            var d = new Date();
+            d.setTime(d.getTime() + (60*60*1000));
+            var expires = "expires="+ d.toUTCString();
+            var response = this.responseText;
+            if (!isNaN(response)){
+                document.cookie = "sessionID="+this.responseText+"; "+ expires+"; domain=127.0.0.1; path=/";
+                window.location.replace("homepage.html");
+            } else {
+                console.log(response);
+            }
         }
         else {
             console.log("Error:" + this.status);
