@@ -20,7 +20,7 @@
     if (!$error){
         $manager = \app\database\DatabaseManager::getInstance();
 
-        if ($manager->checkLogIn($username, $password)) {
+        if ($manager->checkLogIn($_POST['username'], $_POST['password'])) {
             //make sessionID username pair
             //return sessionID to user to store as cookie
             // yeet

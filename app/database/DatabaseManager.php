@@ -243,8 +243,7 @@ class DatabaseManager {
     LIMIT 1";
 
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("ss", mysqli_real_escape_string($this->databaseConnection, $username),
-                            mysqli_real_escape_string($this->databaseConnection, $password));
+    $stmt->bind_param("ss", $username, $password);
     $result = $stmt->execute();
 
     return $stmt->get_result()->num_rows == 1;
