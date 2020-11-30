@@ -1,5 +1,7 @@
 <?php
 
+namespace app\models;
+
 abstract class UserAccount {
   protected $firstName;
   protected $lastName;

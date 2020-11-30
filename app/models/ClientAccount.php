@@ -1,5 +1,9 @@
 <?php
 
+namespace app\models;
+
+use app\models\UserAccount;
+
 class ClientAccount extends UserAccount {
 
   public function __construct($firstName, $lastName, $username, $password, $email) {
@@ -8,6 +12,15 @@ class ClientAccount extends UserAccount {
     $this->username = $username;
     $this->password = $password;
     $this->email = $email;
+  }
+
+  public static function listConstructor($data) {
+    return new ClientAccount($data['firstName'],
+      $data['lastName'],
+      $data['username'],
+      $data['password'],
+      $data['email'],
+      );
   }
 
   public function getGroups() {
