@@ -57,7 +57,6 @@ function signupAccount(e){
             }
         }
         xhr.send(params);
-        redirectToLogin();
     }
 }
 
