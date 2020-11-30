@@ -62,6 +62,18 @@ abstract class UserAccount {
     $this->userId = $userId;
   }
 
+  public static function listConstructor($data) {
+    if ($data['accountType'] == 'Client') {
+      return ClientAccount::listConstructor($data);
+    }
+    elseif ($data['accountType'] == 'Landlord') {
+      return LandlordAccount::listConstructor($data);
+    }
+    else {
+      return AgentAccount::listConstructor($data);
+    }
+  }
+
 }
 
 ?>

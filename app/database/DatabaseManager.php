@@ -7,6 +7,7 @@ use app\models\Listing;
 use app\models\Collection;
 use app\models\Report;
 use app\models\Message;
+use app\models\UserAccount;
 use app\models\AgentAccount;
 use app\models\ClientAccount;
 use app\models\LandlordAccount;
@@ -15,19 +16,19 @@ use app\models\Group;
 class DatabaseManager {
 
   private static $instance = null;
-
-  /*
-    Serena is a database master, how do we log in (private variables here?)
-
-    /** @var DatabaseConnection *   ???
-    private $databaseConnection;
-
-  */
-  private static $instance = null;
-  private $databaseConnection;
+  private $databaseConnection = null;
+  private $dbOk = false;
 
   private function __construct() {
     $this->databaseConnection = new \mysqli('localhost', 'root', '', 'tri-lo');
+
+    if ($this->databaseConnection->connect_error) {
+      echo '<div class="messages">Could not connect to the database. Error: ';
+      echo $this->databaseConnection->connect_errno . ' - ' . $this->databaseConnection->connect_error . '</div>';
+    } 
+    else {
+      $dbOk = true; 
+    }
   }
 
   /**
@@ -179,7 +180,7 @@ class DatabaseManager {
       ) < $radius
     AND lis.status = 'ACTIVE'";
 
-    $query = $filterQuery . " INTERSECT " $radiusQuery;
+    $query = $filterQuery . " INTERSECT " . $radiusQuery;
     
     $stmt = $this->databaseConnection->prepare($query);
     $result = $stmt->execute();
@@ -352,20 +353,14 @@ class DatabaseManager {
 
     $row = $stmt->get_result()->fetch_assoc();
 
-    // TO DO: ACCOUNT TYPES
-    // if ($row['accountType'] == 'CLIENT') {
-
-    // }
-    // elseif ($row['accountType'] == 'LANDLORD') {
-
-    // }
-    // else {
-
-    // }
-
-    // Temproary
-    $user = LandlordAccount::listConstructor($row);
-    return $user;
+    if (!isset($row)) {
+      return null;
+    }
+    else {
+      $user = UserAccount::listConstructor($row);
+      $user->setUserId($row['userId']);
+      return $user;
+    }
   }
 
   /**
@@ -385,21 +380,14 @@ class DatabaseManager {
 
     $row = $stmt->get_result()->fetch_assoc();
 
-    // TO DO: ACCOUNT TYPES
-    // if ($row['accountType'] == 'CLIENT') {
-
-    // }
-    // elseif ($row['accountType'] == 'LANDLORD') {
-
-    // }
-    // else {
-
-    // }
-
-    // Temproary
-    $user = LandlordAccount::listConstructor($row);
-    $user->setUserId($row['userId']);
-    return $user;
+    if (!isset($row)) {
+      return null;
+    }
+    else {
+      $user = UserAccount::listConstructor($row);
+      $user->setUserId($row['userId']);
+      return $user;
+    }
   }
 
   /**
@@ -414,7 +402,7 @@ class DatabaseManager {
     $query = $query . "squareFeet, dateTimePosted, status) ";
     $query = $query . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
-    $stmt = $db->prepare($query);
+    $stmt = $this->databaseConnection->prepare($query);
     // sisssss ddisid id
     // not sure what the type of dateTimePosted should be
     $stmt->bind_param("sisssssddisidids", $listing->getName(),
@@ -442,8 +430,8 @@ class DatabaseManager {
       // for each filter, add a tuple to the table
       $query = "INSERT INTO listingAmenities (listingId, amenity, amenityValue) VALUES (?,?,?)";
       // not sure how to get the listingId since we fill that out automatically
-      $stmt = $db->prepare($query);
-      $statement->bind_param("dss", $listingId, , $key, $value);
+      $stmt = $this->databaseConnection->prepare($query);
+      $statement->bind_param("dss", $listingId, $key, $value);
       $stmt->execute();
       $stmt->close();
     }
@@ -466,27 +454,30 @@ class DatabaseManager {
    * @param UserAccount $account
    */
   public function saveAccount($account) {
-    $query = "INSERT INTO users (firstName, lastName, username, password, email) VALUES (?,?,?,?,?,?)";
-    $stmt = $db->prepare($query);
-    $stmt->bind_param("sssss", $account->getFirstName(), 
+    $type = '';
+
+    if ($account instanceof ClientAccount) {
+      $type = 'Client';
+    }
+    elseif ($account instanceof LandlordAccount) {
+      $type = 'Landlord';
+    }
+    else {
+      $type = 'Agent';
+    }
+
+    $query = "INSERT INTO users (firstName, lastName, username, password, email, accountType) VALUES (?,?,?,?,?,?)";
+    $stmt = $this->databaseConnection->prepare($query);
+
+    $stmt->bind_param("ssssss", $account->getFirstName(), 
                                $account->getLastName(),
                                $account->getUsername(),
                                $account->getPassword(),
-                               $account->getEmail());
-    $stmt->execute();
+                               $account->getEmail(),
+                               $type);
+    $result = $stmt->execute();
     $stmt->close();
-
-    // TO DO: add tuples to the other tables according to the account type
-    // if (is_a($accout, 'ClientAccount')) {
-      
-    // }
-    // elseif (is_a($account, 'LandlordAccount')) {
-
-    // }
-    // else {
-
-    // }
-    
+    return $result;
   }
 
   /**
@@ -497,7 +488,7 @@ class DatabaseManager {
    */
   public function saveCollection($user, $collection) {
     $query = "INSERT INTO collections (collectionName, ownerId) VALUES (?,?)";
-    $stmt = $db->prepare($query);
+    $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("sd", $collection->getName(), $user->getOwnerId());
     $stmt->execute();
     $stmt->close();
@@ -510,7 +501,7 @@ class DatabaseManager {
    */
   public function saveReport($report) {
     $query = "INSERT INTO reports (userId, listingId, reasonForReport) VALUES (?,?,?)";
-    $stmt = $db->prepare($query);
+    $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("dds", $report->getUserId(), $report->getListingId(), $report->getReason());
     $stmt->execute();
     $stmt->close();
@@ -523,7 +514,7 @@ class DatabaseManager {
    */
   public function saveGroup($group) {
     $query = "INSERT INTO groups (groupName, groupDescription, groupOwnerId) VALUES (?,?,?)";
-    $stmt = $db->prepare($query);
+    $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("ssd", $group->getName(), $group->getDescription(), $group->getGroupOwner()->getUserId());
     $stmt->execute();
     $stmt->close();

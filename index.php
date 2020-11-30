@@ -28,7 +28,20 @@
   // var_dump($manager->inviteUserToGroup(1, 1, 4));
   // var_dump($manager->getGroupFromGroupId(1));
 
-  var_dump($manager->getGroupsFromUserId(5));
+  // var_dump($manager->getGroupsFromUserId(5));
+
+  // $user = \app\models\UserAccount::listConstructor(['firstName' => 'h',
+                                         // 'lastName' => 'h',
+                                         // 'username' => 'h',
+                                         // 'email' => 'h',
+                                         // 'password' => 'h',
+                                         // 'type' => 'Client']);
+
+  $user = $manager->getUserInfoFromUsername('poop');
+  var_dump($user);
+  // var_dump($manager->saveAccount($user));
+
+
 
 ?>
 
