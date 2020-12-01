@@ -204,14 +204,6 @@ class DatabaseManager {
    * @return string
    */
   private function getQueryStringByAmenities($filters/*, $listingId*/) {
-    // $query = "";
-    // foreach ($filters as $key => $value) {
-    //   $query = $query . " AND " . "EXISTS (SELECT * FROM amenities 
-    //                                        WHERE listingId = $listingId 
-    //                                        AND " . $key . " LIKE '%" . $value . "%')";
-    // }
-
-
     // get the unique listing ids that satisfy the filters 
     $query = "SELECT DISTINCT listingId 
               FROM listingAmenities 
@@ -397,6 +389,23 @@ class DatabaseManager {
    * @param Listing $listing
    */
   public function saveListing($user, $listing) {
+    $name = $listing->getName();
+    $ownerId = $user->getUserId();
+    $price = $listing->getPrice();
+    $address = $listing->getLocation()->getAddress();
+    $city = $listing->getLocation()->getCity();
+    $state = $listing->getLocation()->getState();
+    $zipCode = $listing->getLocation()->getZipCode();
+    $latitude = $listing->getLatitude();
+    $longitude = $listing->getLongitude();
+    $isRenting = $listing->getIsRenting();
+    $paymentFrequency = $listing->getPaymentFrequency();
+    $bedrooms = $listing->getBedrooms();
+    $bathrooms = $listing->getBathrooms();
+    $squareFeet = $listing->getSquareFeet();
+    $timeStamp = $listing->getTimeStamp();
+    $status = $listing->getStatus();
+
     $query = "INSERT INTO listings (listingName, ownerId, price, address, city, state, zipcode, ";
     $query = $query . "latitude, longitude, isRenting, paymentFrequency, bedrooms, bathrooms,  ";
     $query = $query . "squareFeet, dateTimePosted, status) ";
@@ -405,22 +414,22 @@ class DatabaseManager {
     $stmt = $this->databaseConnection->prepare($query);
     // sisssss ddisid id
     // not sure what the type of dateTimePosted should be
-    $stmt->bind_param("sisssssddisidids", $listing->getName(),
-                                         $user->getUserId(),
-                                         $listing->getPrice(),
-                                         $listing->getLocation()->getAddress(),
-                                         $listing->getLocation()->getCity(),
-                                         $listing->getLocation()->getState(),
-                                         $listing->getLocation()->getZipCode(),
-                                         $listing->getLatitude(),
-                                         $listing->getLongitude(),
-                                         $listing->getIsRenting(),
-                                         $listing->getPaymentFrequency(),
-                                         $listing->getBedrooms(),
-                                         $listing->getBathrooms(),
-                                         $listing->getSquareFeet(),
-                                         $listing->getTimeStamp(),
-                                         $listing->getStatus());
+    $stmt->bind_param("sisssssddisidids", $name,
+                                         $ownerId,
+                                         $price,
+                                         $address,
+                                         $city,
+                                         $state,
+                                         $zipCode,
+                                         $latitude,
+                                         $longitude,
+                                         $isRenting,
+                                         $paymentFrequency,
+                                         $bedrooms,
+                                         $bathrooms,
+                                         $squareFeet,
+                                         $timeStamp,
+                                         $status);
 
     $stmt->execute();
     $stmt->close();
@@ -466,14 +475,20 @@ class DatabaseManager {
       $type = 'Agent';
     }
 
+    $firstName = $account->getFirstName();
+    $lastName = $account->getLastName();
+    $userName = $account->getUsername();
+    $password = $account->getPassword();
+    $email = $account->getEmail();
+
     $query = "INSERT INTO users (firstName, lastName, username, password, email, accountType) VALUES (?,?,?,?,?,?)";
     $stmt = $this->databaseConnection->prepare($query);
 
-    $stmt->bind_param("ssssss", $account->getFirstName(), 
-                               $account->getLastName(),
-                               $account->getUsername(),
-                               $account->getPassword(),
-                               $account->getEmail(),
+    $stmt->bind_param("ssssss", $firstName, 
+                               $lastName,
+                               $userName,
+                               $password,
+                               $email,
                                $type);
     $result = $stmt->execute();
     $stmt->close();
@@ -487,9 +502,12 @@ class DatabaseManager {
    * @param Collection $collection
    */
   public function saveCollection($user, $collection) {
+    $name = $collection->getName();
+    $ownerID = $user->getOwnerId();
+
     $query = "INSERT INTO collections (collectionName, ownerId) VALUES (?,?)";
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("sd", $collection->getName(), $user->getOwnerId());
+    $stmt->bind_param("sd", $name, $ownerId);
     $stmt->execute();
     $stmt->close();
   }
@@ -500,9 +518,13 @@ class DatabaseManager {
    * @param Report $report
    */
   public function saveReport($report) {
+    $userId = $report->getUserId();
+    $listingId = $report->getListingId();
+    $reason = $report->getReason();
+
     $query = "INSERT INTO reports (userId, listingId, reasonForReport) VALUES (?,?,?)";
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("dds", $report->getUserId(), $report->getListingId(), $report->getReason());
+    $stmt->bind_param("dds", $userId, $listingId, $reason);
     $stmt->execute();
     $stmt->close();
   }
@@ -513,9 +535,13 @@ class DatabaseManager {
    * @param UserAccount $account
    */
   public function saveGroup($group) {
+    $name = $group->getName();
+    $description = $group->getDescription();
+    $ownerId = $group->getGroupOwner()->getUserId();
+
     $query = "INSERT INTO groups (groupName, groupDescription, groupOwnerId) VALUES (?,?,?)";
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("ssd", $group->getName(), $group->getDescription(), $group->getGroupOwner()->getUserId());
+    $stmt->bind_param("ssd", $name, $description, $ownerId);
     $stmt->execute();
     $stmt->close();
   }
@@ -547,7 +573,6 @@ class DatabaseManager {
 
     return $return;
   }
-
 
   /**
    * Get invited members to a group
@@ -741,6 +766,123 @@ class DatabaseManager {
 
   }
 
+  /**
+   * Get the session information for a user
+   *
+   * @param string $userId
+   * @return array
+   */
+  public function getSessionDataFromUserId($userId) {
+    $this->removeExipredSessions();
+
+    $query = "SELECT * 
+    FROM sessions 
+    WHERE userId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $userId);
+    $result = $stmt->execute();
+
+    $row = $stmt->get_result()->fetch_assoc();
+
+    if (!isset($row)) {
+      return null;
+    }
+    else {
+      $this->removeSessionFromUserId($userId);
+      $row['sessionId'] = $this->setSessionDataWithUserId($userId);
+      return $row;
+    }
+  }
+
+  /**
+   * Get the username for a session
+   *
+   * @param string $sessionId
+   * @return array
+   */
+  public function getUsernameFromSessionId($sessionId) {
+    $this->removeExipredSessions();
+
+    $query = "SELECT * 
+    FROM sessions
+    LEFT JOIN users
+    ON users.userId=sessions.userId
+    WHERE sessions.sessionId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $sessionId);
+    $result = $stmt->execute();
+
+    $row = $stmt->get_result()->fetch_assoc();
+
+    if (!isset($row)) {
+      return null;
+    }
+    else {
+      return $row['username'];
+    }
+  }
+
+  /**
+   * Set a new session for a user
+   *
+   * @param string $userId
+   * @return string SessionId
+   */
+  public function setSessionDataWithUserId($userId) {
+    $query = "INSERT INTO sessions (userId, sessionId, expires)
+    VALUES (?, UUID(), NOW() + INTERVAL 2 HOUR)";
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $userId);
+    $result = $stmt->execute();
+
+    $query = "SELECT sessionId FROM sessions WHERE userId=?";
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $userId);
+    $result = $stmt->execute();
+
+    $row = $stmt->get_result()->fetch_assoc();
+
+    return $row['sessionId'];
+  }
+
+  /**
+   * Removes expired sessions from the database
+   */
+  public function removeExipredSessions() {
+    $query = "DELETE FROM sessions
+    WHERE expires < NOW()";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Removes a session for a user
+   * @param int $userID
+   */
+  public function removeSessionFromUserId($userId) {
+    $query = "DELETE FROM sessions
+    WHERE userId = ?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $userId);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Removes a session for a user
+   * @param string $sessionId
+   */
+  public function removeSessionFromSessionId($sessionID) {
+    $query = "DELETE FROM sessions
+    WHERE sessionID = ?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $sessionID);
+    $result = $stmt->execute();
+  }
 }
 
 ?>

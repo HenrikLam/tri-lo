@@ -37,8 +37,8 @@
                                          // 'password' => 'h',
                                          // 'type' => 'Client']);
 
-  $user = $manager->getUserInfoFromUsername('poop');
-  var_dump($user);
+  // $user = $manager->getUserInfoFromUsername('poop');
+  var_dump($manager->getSessionDataFromUserId(5));
   // var_dump($manager->saveAccount($user));
 
 
