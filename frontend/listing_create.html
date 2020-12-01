@@ -14,7 +14,6 @@
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
         
         <script src="js/scripts.js"></script>
-        <script src="js/profile.js"></script>
 
         <title>Tri-lo</title>
         <style>
@@ -29,55 +28,78 @@
     <nav class="navbar navbar-expand fixed-top lg navbar-dark">
         <a class="navbar-brand" href="#">Tri-lo</a>
         <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav mr-auto" id="home">
               <li class="nav-item">
                 <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
               </li>
             </ul>
         </div>
-        <div class="navbar-nav active">
+        <div class="navbar-nav mr-auto active" id= "login">
             <a class="nav-link" href="#"><span class="material-icons" style="font-size: 1rem; transform: translate(0,10%);">login</span>Login <span class="sr-only">(current)</span></a>
         </div>
     </nav>
 
+    <body onload="setEventListeners();">
     <div class="col-md-12">
-        <div class="col-md-9 float-left border" style=" margin-top: 15px;background-color: white;">
+        <div class="col-md-9 float-left border" style=" margin-top: 15px;background-color: white; padding-bottom: 15px;">
             <h1>Create a listing:
             </h1>
-            <div class="">
+            
+            <label for="lname">Listing Name:</label>
+            <div style="width: 100%;">
+                <input type="text" class="form-control mb-2" id="lname" placeholder="My Listing">
+            </div>
 
             <label for="addr">Property Address:</label>
             <div style="width: 100%;">
-                <input type="text" class="form-control mb-2" id="password" placeholder="">
+                <input type="text" class="form-control mb-2" id="addr" placeholder="">
             </div>
             <label for="listd">Listing Description:</label>
-            <input type="text" class="form-control mb-2" id="password" placeholder="" style="width:100%; height: 500px;">
+            <textarea id="descr"style="width: 100%; height: 300px;"></textarea>
             
             <label for="rent">Rent (per month):</label>
-            <div style="width: 100%;">
-                <input type="text" class="form-control mb-2" id="password" placeholder="">
+            <div style="width: 15%;">
+                <input type="text" class="form-control mb-2" id="rent" placeholder="$">
             </div>
+
+            <label for="sfeet">Square Feet:</label>
+            <div style="width: 15%;">
+                <input type="text" class="form-control mb-2" id="sfeet" placeholder="">
+            </div>
+            <div style="font-size: 14px; color: red; width: 100%;" id="numsf"></div>  <!-- insert this later *Must be an integer (ie; 456)-->
+
             <label for="bath">Number of Bathrooms:</label>
-            <div style="width: 100%;">
-                <input type="text" class="form-control mb-2" id="password" placeholder="">
+            <div style="width: 5%;">
+                <input type="text" class="form-control mb-2" id="bath" placeholder="">
             </div>
-            <label for="bed">Number of Bedrooms:</label>
-            <div style="width: 100%;">
-                <input type="text" class="form-control mb-2" id="password" placeholder="">
-            </div>
-            <label for="leaset">Lease Type:</label>
-            <div style="width: 100%;">
-                <input type="text" class="form-control mb-2" id="password" placeholder="">
-            </div>
-
-
-
-            </div>
-        </div>
-        <div class="col-md-3 float-left" style="background-image: url('https://i.imgur.com/kMbZsfG.png'); height: 1000px;">
+            <div style="font-size: 14px; color: red; width: 100%;" id="numba"></div>  <!-- insert this later *Must be an integer (1-100+)-->
             
+            <label for="bed">Number of Bedrooms:</label>
+            <div style="width: 5%;">
+                <input type="text" class="form-control mb-2" id="bed" placeholder="">
+            </div>
+            <div style="font-size: 14px; color: red; width: 100%;" id="numbe"></div>  <!-- insert this later *Must be an integer (1-100+)-->
+            
+            <label for="leaset">Lease Type (# of months):&nbsp;</label> 
+            <div style="width: 5%;">
+                <input type="text" class="form-control mb-2" id="leaset" placeholder="">
+            </div>
+            <div style="font-size: 14px; color: red; width: 100%;" id="numm"></div>  <!-- insert this later *Must be an integer (1-100+)-->
+            
+            <label for="amen">Amenities: (max 20)</label>
+            <div style="width: 100%;">
+                <input type="text" class="form-control mb-2" id="amen" placeholder="">
+            </div>
+
+            <button class="btn btn-secondary">Add Amenity</button>
+
+            <br>
+            <button class="btn btn-primary float-right" id="clbutt">Create listing</button>
         </div>
+        <div class="col-md-3 float-left" style="background-image: url('https://i.imgur.com/kMbZsfG.png'); height: 2000px;">
+        </div>        
     </div>
+    </body>
     
     
     
