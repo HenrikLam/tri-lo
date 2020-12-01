@@ -19,7 +19,7 @@ class AgentAccount extends OwnerAccount {
       $data['lastName'],
       $data['username'],
       $data['password'],
-      $data['email'],
+      $data['email']
       );
   }
 

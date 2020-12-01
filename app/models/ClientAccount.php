@@ -19,7 +19,7 @@ class ClientAccount extends UserAccount {
       $data['lastName'],
       $data['username'],
       $data['password'],
-      $data['email'],
+      $data['email']
       );
   }
 
