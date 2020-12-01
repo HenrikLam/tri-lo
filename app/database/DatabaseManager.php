@@ -204,14 +204,6 @@ class DatabaseManager {
    * @return string
    */
   private function getQueryStringByAmenities($filters/*, $listingId*/) {
-    // $query = "";
-    // foreach ($filters as $key => $value) {
-    //   $query = $query . " AND " . "EXISTS (SELECT * FROM amenities 
-    //                                        WHERE listingId = $listingId 
-    //                                        AND " . $key . " LIKE '%" . $value . "%')";
-    // }
-
-
     // get the unique listing ids that satisfy the filters 
     $query = "SELECT DISTINCT listingId 
               FROM listingAmenities 
@@ -239,14 +231,13 @@ class DatabaseManager {
   public function checkLogIn($username, $password) {
     $query = "SELECT * 
     FROM users  
-    WHERE username=? AND password=?
+    WHERE username='$username' AND password='$password'
     LIMIT 1";
 
-    $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("ss", $username, $password);
-    $result = $stmt->execute();
+    $result = $this->databaseConnection->query($query);
+    $numRecords = $result->num_rows;
 
-    return $stmt->get_result()->num_rows == 1;
+    return $numRecords == 1;
   }
 
   /**
@@ -549,7 +540,6 @@ class DatabaseManager {
     return $return;
   }
 
-
   /**
    * Get invited members to a group
    *
@@ -742,6 +732,123 @@ class DatabaseManager {
 
   }
 
+  /**
+   * Get the session information for a user
+   *
+   * @param string $userId
+   * @return array
+   */
+  public function getSessionDataFromUserId($userId) {
+    $this->removeExipredSessions();
+
+    $query = "SELECT * 
+    FROM sessions 
+    WHERE userId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $userId);
+    $result = $stmt->execute();
+
+    $row = $stmt->get_result()->fetch_assoc();
+
+    if (!isset($row)) {
+      return null;
+    }
+    else {
+      $this->removeSessionFromUserId($userId);
+      $row['sessionId'] = $this->setSessionDataWithUserId($userId);
+      return $row;
+    }
+  }
+
+  /**
+   * Get the username for a session
+   *
+   * @param string $sessionId
+   * @return array
+   */
+  public function getUsernameFromSessionId($sessionId) {
+    $this->removeExipredSessions();
+
+    $query = "SELECT * 
+    FROM sessions
+    LEFT JOIN users
+    ON users.userId=sessions.userId
+    WHERE sessions.sessionId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $sessionId);
+    $result = $stmt->execute();
+
+    $row = $stmt->get_result()->fetch_assoc();
+
+    if (!isset($row)) {
+      return null;
+    }
+    else {
+      return $row['username'];
+    }
+  }
+
+  /**
+   * Set a new session for a user
+   *
+   * @param string $userId
+   * @return string SessionId
+   */
+  public function setSessionDataWithUserId($userId) {
+    $query = "INSERT INTO sessions (userId, sessionId, expires)
+    VALUES (?, UUID(), NOW() + INTERVAL 2 HOUR)";
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $userId);
+    $result = $stmt->execute();
+
+    $query = "SELECT sessionId FROM sessions WHERE userId=?";
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $userId);
+    $result = $stmt->execute();
+
+    $row = $stmt->get_result()->fetch_assoc();
+
+    return $row['sessionId'];
+  }
+
+  /**
+   * Removes expired sessions from the database
+   */
+  public function removeExipredSessions() {
+    $query = "DELETE FROM sessions
+    WHERE expires < NOW()";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Removes a session for a user
+   * @param int $userID
+   */
+  public function removeSessionFromUserId($userId) {
+    $query = "DELETE FROM sessions
+    WHERE userId = ?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $userId);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Removes a session for a user
+   * @param string $sessionId
+   */
+  public function removeSessionFromSessionId($sessionID) {
+    $query = "DELETE FROM sessions
+    WHERE sessionID = ?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $sessionID);
+    $result = $stmt->execute();
+  }
 }
 
 ?>
