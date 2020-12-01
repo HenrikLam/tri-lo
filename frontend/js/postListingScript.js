@@ -12,11 +12,23 @@ var squareFeet;
 var bedrooms;
 var bathrooms;
 var leaseType;
-var datePosted;
-var status;
 
 function setCreateListingEventListeners(){
-  // add event listeners
+  document.getElementById("clbutt").addEventListener("click", saveListing);
+  document.getElementById("lname").addEventListener("change",setListingName);
+  document.getElementById("addr").addEventListener("change", checkAddress);
+  document.getElementById("city").addEventListener("change", checkCity);
+  document.getElementById("state").addEventListener("change", checkState);
+  document.getElementById("zipc").addEventListener("change", checkZipcode);
+  document.getElementById("lldname").addEventListener("change", checkLandlordName);
+  document.getElementById("hotline").addEventListener("change", checkPhoneNumber);
+  document.getElementById("email").addEventListener("change", checkEmail);
+  document.getElementById("description").addEventListener("change", setDescription);
+  document.getElementById("rent").addEventListener("change", checkRent);
+  document.getElementById("sfeet").addEventListener("change", checkSquareFeet);
+  document.getElementById("bed").addEventListener("change", checkBedrooms);
+  document.getElementById("bath").addEventListener("change", checkBathrooms);
+  document.getElementById("leaset").addEventListener("change", checkLeaseType);
 }
 
 function saveListing(e){
@@ -30,8 +42,7 @@ function saveListing(e){
         var params = "listingName=" + listingName + "&address=" + address + "&city=" + city + 
                      "&state=" + state + "&zipcode=" + zipcode + "&landlordName=" + landlordName + 
                      "&phoneNo=" + phoneNo + "&email=" + email + "&rent=" + rent + "&squareFeet=" + squareFeet + 
-                     "&bathrooms=" + bathrooms + "&bedrooms=" + bedrooms + "&leaseType=" + leaseType
-                     "&datePosted=" + datePosted + "&status=" + status;
+                     "&bathrooms=" + bathrooms + "&bedrooms=" + bedrooms + "&leaseType=" + leaseType;
         // OPEN- type, url/file, async
         xhr.open('POST', 'post_listing.php', true);
         xhr.onerror = function() {
@@ -54,12 +65,11 @@ function saveListing(e){
     }
 }
 
-// TO DO: set variables
 function setListingName() {
-  listingName = document.getElementById("listingName").value;
+  listingName = document.getElementById("lname").value;
 }
-function setLandlordName() {
-  landlordName = document.getElementById("lldname").value;
+function setDescription() {
+  description = document.getElementById("descr").value;
 }
 
 function isNumeric(input) {
@@ -134,17 +144,9 @@ function isPrecisionOne(input){
   return false;
 }
 
-function checkListingName(){
-    listingNameInput = document.getElementById("lname").value;
-    if (!isAlphaNumeric(listingNameInput) || listingNameInput == ""){
-        return false;
-    } else {
-        return true;
-    }
-}
 function checkLandlordName(){
-  landlordNameInput = document.getElementById("lldname").value;
-  if (!isAlpha(landlordNameInput) || landlordNameInput == ""){
+  landlordName = document.getElementById("lldname").value;
+  if (!isAlpha(landlordName) || landlordName == ""){
       return false;
   } else {
       return true;
@@ -182,57 +184,57 @@ function checkAddress(){
       return true;
   }
 }
-function checkCityState(type){
-  cityStateInput = document.getElementById(type).value;
-  if (!isValidAddress(cityStateInput) || cityStateInput == ""){
+function checkCity(){
+  city = document.getElementById("city").value;
+  if (!isValidCityState(city) || city == ""){
+      return false;
+  } else {
+      return true;
+  }
+}
+function checkState(){
+  state = document.getElementById("state").value;
+  if (!isValidCityState(state) || state == ""){
       return false;
   } else {
       return true;
   }
 }
 function checkZipcode(){
-  zipcodeInput = document.getElementById("zip").value;
-  if (!isNumeric(zipcodeInput) || zipcodeInput == ""){
-      return false;
-  } else {
-      return true;
-  }
-}
-function checkLongLat(type){
-  longLatInput = document.getElementById(type).value;
-  if (!isValidLongLat(longLatInput) || longLatInput == ""){
+  zipcode = document.getElementById("zipc").value;
+  if (!isNumeric(zipcode) || zipcode == ""){
       return false;
   } else {
       return true;
   }
 }
 function checkBedrooms(){
-  bedroomsInput = document.getElementById("bed").value;
-  if (!isNumeric(bedroomsInput) || bedroomsInput == ""){
+  bedrooms = document.getElementById("bed").value;
+  if (!isNumeric(bedrooms) || bedrooms == ""){
       return false;
   } else {
       return true;
   }
 }
 function checkBathrooms(){
-  bedroomsInput = document.getElementById("bath").value;
-  if (!isPrecisionOne(bedroomsInput) || bedroomsInput == ""){
+  bathrooms = document.getElementById("bath").value;
+  if (!isPrecisionOne(bathrooms) || bathrooms == ""){
       return false;
   } else {
       return true;
   }
 }
 function checkSquareFeet(){
-  squareFeetInput = document.getElementById("sfeet").value;
-  if (!isNumeric(squareFeetInput) || squareFeetInput == ""){
+  squareFeet = document.getElementById("sfeet").value;
+  if (!isNumeric(squareFeet) || squareFeet == ""){
       return false;
   } else {
       return true;
   }
 }
 function checkLeaseType(){
-  squareFeetInput = document.getElementById("leaset").value;
-  if (!isNumeric(squareFeetInput) || squareFeetInput == ""){
+  leaseType = document.getElementById("leaset").value;
+  if (!isNumeric(leaseType) || leaseType == ""){
       return false;
   } else {
       return true;
@@ -248,17 +250,16 @@ function checkEverything() {
   if (!checkAddress()) {
     checkAll = false;
   }
-  if (!checkCityState("city")) {
+  if (!checkCity()) {
     checkAll = false;
   }
-  if (!checkCityState("state")) {
+  if (!checkState()) {
     checkAll = false;
   }
-  if (!checkZipCode()) {
+  if (!checkZipcode()) {
     checkAll = false;
   }
-  if (lldname == "") {
-    console.log("Landlord name cannot be empty");
+  if (!checkLandlordName()) {
     checkAll = false;
   }
   if (!checkPhoneNumber()) {
@@ -279,7 +280,7 @@ function checkEverything() {
   if (!checkBathrooms()) {
     checkAll = false;
   }
-  if (!isNumeric(leaseType)) {
+  if (!checkLeaseType()) {
     checkAll = false;
   }
 }
