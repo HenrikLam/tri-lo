@@ -767,7 +767,7 @@ class DatabaseManager {
    * @param string $sessionId
    * @return array
    */
-  public function getUsernameFromSessionId($sessionId) {
+  public function getUserInfoFromSessionId($sessionId) {
     $this->removeExipredSessions();
 
     $query = "SELECT * 
@@ -786,7 +786,7 @@ class DatabaseManager {
       return null;
     }
     else {
-      return $row['username'];
+      return $row;
     }
   }
 
