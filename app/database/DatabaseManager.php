@@ -389,6 +389,23 @@ class DatabaseManager {
    * @param Listing $listing
    */
   public function saveListing($user, $listing) {
+    $name = $listing->getName();
+    $ownerId = $user->getUserId();
+    $price = $listing->getPrice();
+    $address = $listing->getLocation()->getAddress();
+    $city = $listing->getLocation()->getCity();
+    $state = $listing->getLocation()->getState();
+    $zipCode = $listing->getLocation()->getZipCode();
+    $latitude = $listing->getLatitude();
+    $longitude = $listing->getLongitude();
+    $isRenting = $listing->getIsRenting();
+    $paymentFrequency = $listing->getPaymentFrequency();
+    $bedrooms = $listing->getBedrooms();
+    $bathrooms = $listing->getBathrooms();
+    $squareFeet = $listing->getSquareFeet();
+    $timeStamp = $listing->getTimeStamp();
+    $status = $listing->getStatus();
+
     $query = "INSERT INTO listings (listingName, ownerId, price, address, city, state, zipcode, ";
     $query = $query . "latitude, longitude, isRenting, paymentFrequency, bedrooms, bathrooms,  ";
     $query = $query . "squareFeet, dateTimePosted, status) ";
@@ -397,22 +414,22 @@ class DatabaseManager {
     $stmt = $this->databaseConnection->prepare($query);
     // sisssss ddisid id
     // not sure what the type of dateTimePosted should be
-    $stmt->bind_param("sisssssddisidids", $listing->getName(),
-                                         $user->getUserId(),
-                                         $listing->getPrice(),
-                                         $listing->getLocation()->getAddress(),
-                                         $listing->getLocation()->getCity(),
-                                         $listing->getLocation()->getState(),
-                                         $listing->getLocation()->getZipCode(),
-                                         $listing->getLatitude(),
-                                         $listing->getLongitude(),
-                                         $listing->getIsRenting(),
-                                         $listing->getPaymentFrequency(),
-                                         $listing->getBedrooms(),
-                                         $listing->getBathrooms(),
-                                         $listing->getSquareFeet(),
-                                         $listing->getTimeStamp(),
-                                         $listing->getStatus());
+    $stmt->bind_param("sisssssddisidids", $name,
+                                         $ownerId,
+                                         $price,
+                                         $address,
+                                         $city,
+                                         $state,
+                                         $zipCode,
+                                         $latitude,
+                                         $longitude,
+                                         $isRenting,
+                                         $paymentFrequency,
+                                         $bedrooms,
+                                         $bathrooms,
+                                         $squareFeet,
+                                         $timeStamp,
+                                         $status);
 
     $stmt->execute();
     $stmt->close();
@@ -458,14 +475,20 @@ class DatabaseManager {
       $type = 'Agent';
     }
 
+    $firstName = $account->getFirstName();
+    $lastName = $account->getLastName();
+    $userName = $account->getUsername();
+    $password = $account->getPassword();
+    $email = $account->getEmail();
+
     $query = "INSERT INTO users (firstName, lastName, username, password, email, accountType) VALUES (?,?,?,?,?,?)";
     $stmt = $this->databaseConnection->prepare($query);
 
-    $stmt->bind_param("ssssss", $account->getFirstName(), 
-                               $account->getLastName(),
-                               $account->getUsername(),
-                               $account->getPassword(),
-                               $account->getEmail(),
+    $stmt->bind_param("ssssss", $firstName, 
+                               $lastName,
+                               $userName,
+                               $password,
+                               $email,
                                $type);
     $result = $stmt->execute();
     $stmt->close();
@@ -479,9 +502,12 @@ class DatabaseManager {
    * @param Collection $collection
    */
   public function saveCollection($user, $collection) {
+    $name = $collection->getName();
+    $ownerID = $user->getOwnerId();
+
     $query = "INSERT INTO collections (collectionName, ownerId) VALUES (?,?)";
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("sd", $collection->getName(), $user->getOwnerId());
+    $stmt->bind_param("sd", $name, $ownerId));
     $stmt->execute();
     $stmt->close();
   }
@@ -492,9 +518,13 @@ class DatabaseManager {
    * @param Report $report
    */
   public function saveReport($report) {
+    $userId = $report->getUserId();
+    $listingId = $report->getListingId();
+    $reason = $report->getReason();
+
     $query = "INSERT INTO reports (userId, listingId, reasonForReport) VALUES (?,?,?)";
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("dds", $report->getUserId(), $report->getListingId(), $report->getReason());
+    $stmt->bind_param("dds", $userId, $listingId, $reason);
     $stmt->execute();
     $stmt->close();
   }
@@ -505,9 +535,13 @@ class DatabaseManager {
    * @param UserAccount $account
    */
   public function saveGroup($group) {
+    $name = $group->getName();
+    $description = $group->getDescription();
+    $ownerId = $group->getGroupOwner()->getUserId();
+
     $query = "INSERT INTO groups (groupName, groupDescription, groupOwnerId) VALUES (?,?,?)";
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("ssd", $group->getName(), $group->getDescription(), $group->getGroupOwner()->getUserId());
+    $stmt->bind_param("ssd", $name, $description, $ownerId);
     $stmt->execute();
     $stmt->close();
   }
