@@ -507,7 +507,7 @@ class DatabaseManager {
 
     $query = "INSERT INTO collections (collectionName, ownerId) VALUES (?,?)";
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("sd", $name, $ownerId));
+    $stmt->bind_param("sd", $name, $ownerId);
     $stmt->execute();
     $stmt->close();
   }
