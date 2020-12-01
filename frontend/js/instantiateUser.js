@@ -1,5 +1,5 @@
 var sessionID;
-
+var usernameReady = false;
 function tryLogIn(){
     console.log("trying to log in...\n");
     login();
@@ -9,9 +9,12 @@ function changeProfileButton(pfp, username){
     document.getElementById("profileNavButton").innerHTML = "<img src =\"" + pfp + "\" class = \"rounded-circle\" style = \"height:40px; width:40px\"> " + username;
 }
 
+function setUsername(usr){
+    console.log("setting username...");
+    changeProfileButton("sisman.png", usr);
+}
 function getUsername(){
 
-    console.log("dasdas: " + sessionID);
     var xhr = new XMLHttpRequest();
     //retrieve sessionId from cookie
 
@@ -26,9 +29,7 @@ function getUsername(){
     xhr.onload= function() {
         //200 ok, 403 forbidden, 404 not found
         if (this.status=200) {
-            var response = this.responseText;
-
-            return response;
+            setUsername(this.responseText);
         }
         else {
             return "Error";
@@ -62,16 +63,14 @@ function login(){
         document.getElementById("groupBtn").addEventListener("click", redirectToGroup);
         document.getElementById("bookmarkedBtn").addEventListener("click", redirectToBookmarked);
         document.getElementById("logoutButton").addEventListener("click", logout);
-        
-        changeProfileButton("sisman.png",getUsername());
+        getUsername();
     }
 }
 
 function isLoggedIn(){
     var decodedCookie = decodeURIComponent(document.cookie);
     var cookieSplit = decodedCookie.split(';');
-    if (sessionID = cookieSplit.find(checkSessionID)) {
-        console.log(sessionID + " found");
+    if (sessionID = cookieSplit.find(checkSessionID).substr("sessionID=".length +1)) {
         return true;
     }
     return false;
