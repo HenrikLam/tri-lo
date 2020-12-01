@@ -781,8 +781,6 @@ class DatabaseManager {
 
     $row = $stmt->get_result()->fetch_assoc();
 
-    var_dump($row);
-
     return $row['sessionId'];
   }
 

@@ -25,6 +25,9 @@
             //return sessionID to user to store as cookie
             // yeet
             echo 'user logged in!';
+            $user = $manager->getUserInfoFromUsername($_POST['username']);
+            $sessionId = $manager->setSessionDataWithUserId($user->getUserId());
+            //cookie stuff??
         } else {
             echo 'Credentials not matched to an account!';
         } 
