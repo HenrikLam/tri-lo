@@ -1,3 +1,5 @@
+var sessionID;
+var usernameReady = false;
 function tryLogIn(){
     console.log("trying to log in...\n");
     login();
@@ -7,6 +9,38 @@ function changeProfileButton(pfp, username){
     document.getElementById("profileNavButton").innerHTML = "<img src =\"" + pfp + "\" class = \"rounded-circle\" style = \"height:40px; width:40px\"> " + username;
 }
 
+function setUsername(usr){
+    console.log("setting username...");
+    changeProfileButton("sisman.png", usr);
+}
+function getUsername(){
+
+    var xhr = new XMLHttpRequest();
+    //retrieve sessionId from cookie
+
+    xhr.open('POST', 'instantiateUser.php', true);
+    xhr.onerror = function() {
+        console.log('Request Error...');
+    }
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    //xhr.onprogress can be used to show loading screen
+    //can also use xhr.onerror for error
+    xhr.onload= function() {
+        //200 ok, 403 forbidden, 404 not found
+        if (this.status=200) {
+            setUsername(this.responseText);
+        }
+        else {
+            return "Error";
+        }
+    }
+
+    xhr.send("&sessionID=" + sessionID);
+}
+function checkSessionID(string){
+    return string.trim().startsWith("sessionID=");
+}
 function login(){
     // does nothing if the user is not logged in
     if (isLoggedIn()){
@@ -28,16 +62,15 @@ function login(){
         document.getElementById("settingsBtn").addEventListener("click", redirectToSettings);
         document.getElementById("groupBtn").addEventListener("click", redirectToGroup);
         document.getElementById("bookmarkedBtn").addEventListener("click", redirectToBookmarked);
-        document.getElementById("logoutButton").addEventListener("click", logout)
-        changeProfileButton("sisman.png","SIS-Man");
+        document.getElementById("logoutButton").addEventListener("click", logout);
+        getUsername();
     }
 }
 
 function isLoggedIn(){
-    var name = "sessionID=";
     var decodedCookie = decodeURIComponent(document.cookie);
-    if (decodedCookie.split(';').some((item) => item.trim().startsWith(name))) {
-        console.log('The cookie "sessionID" exists!');
+    var cookieSplit = decodedCookie.split(';');
+    if (sessionID = cookieSplit.find(checkSessionID).substr("sessionID=".length +1)) {
         return true;
     }
     return false;
@@ -54,7 +87,33 @@ function redirectToBookmarked(){
 }
 function logout(){
     console.log("Logging out!!Logging out!!Logging out!!Logging out!!Logging out!!Logging out!!Logging out!!Logging out!!Logging out!!Logging out!!Logging out!!");
+    
+    var xhr = new XMLHttpRequest();
+    //retrieve sessionId from cookie
 
-    document.cookie = "sessionID=-1; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=127.0.0.1; path=/";
-    window.location.replace("homepage.html");
+    xhr.open('POST', 'logOut.php', true);
+    xhr.onerror = function() {
+        console.log('Request Error...');
+    }
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    //xhr.onprogress can be used to show loading screen
+    //can also use xhr.onerror for error
+    xhr.onload= function() {
+        //200 ok, 403 forbidden, 404 not found
+        if (this.status=200) {
+            var response = this.responseText;
+
+            if (response == "logged out"){
+                document.cookie = "sessionID=-1; expires=Thu, 01 Jan 1970 00:00:00 UTC; domain=127.0.0.1; path=/";
+                window.location.replace("homepage.html");
+            } else {
+                console.log(response);
+            }
+        }
+        else {
+            console.log("Error:" + this.status);
+        }
+    }
+    xhr.send("&sessionID=" + sessionID);
 }

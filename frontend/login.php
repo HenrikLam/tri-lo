@@ -23,13 +23,14 @@
         if ($manager->checkLogIn($_POST['username'], $_POST['password'])) {
             //make sessionID username pair
             //return sessionID to user to store as cookie
-            // yeet
-            echo 'user logged in!';
+            
             $user = $manager->getUserInfoFromUsername($_POST['username']);
             $sessionId = $manager->setSessionDataWithUserId($user->getUserId());
-            //cookie stuff??
+            echo $sessionId;
+
+            //cookie handled in loginPageScripts.js
         } else {
-            echo 'Credentials not matched to an account!';
+            echo 'Error: Credentials not matched to an account!';
         } 
     }
 ?>

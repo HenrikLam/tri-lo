@@ -796,6 +796,35 @@ class DatabaseManager {
   }
 
   /**
+   * Get the username for a session
+   *
+   * @param string $sessionId
+   * @return array
+   */
+  public function getUsernameFromSessionId($sessionId) {
+    $this->removeExipredSessions();
+
+    $query = "SELECT * 
+    FROM sessions
+    LEFT JOIN users
+    ON users.userId=sessions.userId
+    WHERE sessions.sessionId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $sessionId);
+    $result = $stmt->execute();
+
+    $row = $stmt->get_result()->fetch_assoc();
+
+    if (!isset($row)) {
+      return null;
+    }
+    else {
+      return $row['username'];
+    }
+  }
+
+  /**
    * Set a new session for a user
    *
    * @param string $userId
@@ -831,7 +860,7 @@ class DatabaseManager {
 
   /**
    * Removes a session for a user
-   * @param int $userId
+   * @param int $userID
    */
   public function removeSessionFromUserId($userId) {
     $query = "DELETE FROM sessions
@@ -842,6 +871,18 @@ class DatabaseManager {
     $result = $stmt->execute();
   }
 
+  /**
+   * Removes a session for a user
+   * @param string $sessionId
+   */
+  public function removeSessionFromSessionId($sessionID) {
+    $query = "DELETE FROM sessions
+    WHERE sessionID = ?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $sessionID);
+    $result = $stmt->execute();
+  }
 }
 
 ?>
