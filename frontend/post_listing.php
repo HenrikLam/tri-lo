@@ -7,7 +7,7 @@
   // saveListing
   
   $error = false;
-  $username = ''
+  $username = '';
   if (!isset($_POST['username'])){
       echo 'Error: no username provided!\n';
       $error = true;
@@ -32,7 +32,7 @@
     echo 'Error: no bedroom count provided!\n';
     $error = true;
   }
-  if (!isset($_POST['bathroom'])){
+  if (!isset($_POST['bathrooms'])){
     echo 'Error: no bathroom count provided!\n';
     $error = true;
   }
@@ -93,8 +93,8 @@
       "description" => $description,
       "rent" => $rent,
       "squareFeet" => $squareFeet,
-      "longitude" => $longitude;
-      "latitude" => $latitude;
+      "longitude" => $longitude,
+      "latitude" => $latitude,
       "bedrooms" => $bedrooms,
       "bathrooms" => $bathrooms,
       "leaseType" => $leaseType,
@@ -104,8 +104,12 @@
     
     $listing = \app\models\Listing::listConstructor($data);
 
-    $manager->saveListing($owner, $listing)
-
+    if ($manager->saveListing($listing)) {
+      echo 'Listing added..';
+    } 
+    else {
+      echo 'Error: ';
+    }
   }
 
   // create location object
