@@ -7,10 +7,10 @@
   // saveListing
   
   $error = false;
-  // if (!isset($_COOKIE['sessionId'])){
-  //   echo 'Error: no sessionId provided!';
-  //   $error = true;
-  // }
+  if (!isset($_COOKIE['sessionId'])){
+    echo 'Error: no sessionId provided!';
+    $error = true;
+  }
   if (!isset($_POST['listingName'])){
     echo 'Error: no listing name provided!';
     $error = true;
@@ -46,8 +46,8 @@
 
   if (!$error) {
     // get user from username
-    // $ownerInfo = $manager->getUserInfoFromSessionId($_COOKIE['sessionID']);
-    // $owner = \app\models\UserAccount::listConstructor($ownerInfo);
+    $ownerInfo = $manager->getUserInfoFromSessionId($_COOKIE['sessionID']);
+    $owner = \app\models\UserAccount::listConstructor($ownerInfo);
 
     // make the Listing object
     $listingName = $_POST['listingName'];
@@ -110,14 +110,6 @@
       echo 'Error: ';
     }
   }
-
-  // create location object
-  // create listing object
-
-  // create location and ownerAccount
-  // get ownerId
-  // get longitude latitude of location
-  
       
 ?>
       
