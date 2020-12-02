@@ -306,8 +306,8 @@ function checkRent(){
   }
 }
 function checkAddress(){
-  addressInput = document.getElementById("addr").value;
-  if (!isValidAddress(addressInput) || addressInput == ""){
+  address = document.getElementById("addr").value;
+  if (!isValidAddress(address) || address == ""){
     document.getElementById("checkaddr").innerHTML="Please enter a valid address.";
     return false;
   } else {
