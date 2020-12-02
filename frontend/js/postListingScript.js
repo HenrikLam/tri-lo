@@ -23,7 +23,7 @@ function setCreateListingEventListeners(){
   document.getElementById("lldname").addEventListener("change", checkLandlordName);
   document.getElementById("hotline").addEventListener("change", checkPhoneNumber);
   document.getElementById("email").addEventListener("change", checkEmail);
-  document.getElementById("description").addEventListener("change", setDescription);
+  document.getElementById("descr").addEventListener("change", setDescription);
   document.getElementById("rent").addEventListener("change", checkRent);
   document.getElementById("sfeet").addEventListener("change", checkSquareFeet);
   document.getElementById("bed").addEventListener("change", checkBedrooms);
