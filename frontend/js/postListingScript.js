@@ -21,7 +21,7 @@ function setCreateListingEventListeners(){
   document.getElementById("state").addEventListener("change", checkState);
   document.getElementById("zipc").addEventListener("change", checkZipcode);
   document.getElementById("lldname").addEventListener("change", checkLandlordName);
-  document.getElementById("hotline").addEventListener("change", checkPhoneNumber);
+  document.getElementById("phoneno").addEventListener("change", checkPhoneNumber);
   document.getElementById("lemail").addEventListener("change", checkEmail);
   document.getElementById("descr").addEventListener("change", setDescription);
   document.getElementById("rent").addEventListener("change", checkRent);
@@ -94,7 +94,6 @@ function isAlphaNumeric(input){
   return false;
 }
 function isValidPhoneNumber(phoneNoInput){
-  // make sure phone number is in XXX-XXX-XXXX format
   var pattern = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
   if(pattern.test(phoneNoInput)){
     return true;
@@ -109,18 +108,18 @@ function isValidEmail(emailInput){
   return false;
 }
 function isValidRent(priceInput){
-    var pattern = /^[$]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$/;
-    if (pattern.test(priceInput)){
-        return true;
-    }
-    return false;
+  var pattern = /^[$]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$/;
+  if (pattern.test(priceInput)){
+      return true;
+  }
+  return false;
 }
 function isValidAddress(addressInput){
-    var pattern = /^[a-zA-Z0-9.#',-/\s]+$/;
-    if (pattern.test(addressInput)){
-        return true;
-    }
-    return false;
+  var pattern = /^[a-zA-Z0-9.#',-/\s]+$/;
+  if (pattern.test(addressInput)){
+      return true;
+  }
+  return false;
 }
 function isValidCityState(cityStateInput){
   var pattern = /^[a-zA-Z-\s]+$/;
@@ -130,13 +129,13 @@ function isValidCityState(cityStateInput){
   return false;
 }
 function isValidZipcode(zipcodeInput){
-  var pattern = /^\d{5}(?:[-\s]\d{4})?$/;
+  var pattern = /^\d{5}$/;
   if (pattern.test(zipcodeInput)){
     return true;
   }
   return false;
 }
-function isPrecisionOne(input){
+function isValidBathroom(input){
   var pattern = /^[0-9]+(\.[5])?$/;
   if (pattern.test(input)){
     return true;
@@ -147,121 +146,121 @@ function isPrecisionOne(input){
 function checkLandlordName(){
   landlordName = document.getElementById("lldname").value;
   if (!isValidName(landlordName) || landlordName == ""){
-      document.getElementById("checklldname").innerHTML="Please enter a name.";
-      return false;
+    document.getElementById("checklldname").innerHTML="Please enter a name.";
+    return false;
   } else {
-      document.getElementById("checklldname").innerHTML="";
-      return true;
+    document.getElementById("checklldname").innerHTML="";
+    return true;
   }
 }
 function checkPhoneNumber(){
-  phoneNoInput = document.getElementById("hotline").value;
+  phoneNoInput = document.getElementById("phoneno").value;
   if (!isValidPhoneNumber(phoneNoInput) || phoneNoInput == ""){
-      document.getElementById("checkhotline").innerHTML="Please enter a valid phone number.";
-      return false;
+    document.getElementById("checkphoneno").innerHTML="Please enter a valid phone number.";
+    return false;
   } else {
-      document.getElementById("checkhotline").innerHTML="";
-      return true;
+    document.getElementById("checkphoneno").innerHTML="";
+    return true;
   }
 }
 function checkEmail(){
   emailInput = document.getElementById("lemail").value;
   if (!isValidEmail(emailInput)){
-      document.getElementById("checklemail").innerHTML="Please enter a valid email.";
-      return false;
+    document.getElementById("checklemail").innerHTML="Please enter a valid email.";
+    return false;
   } else {
-      document.getElementById("checklemail").innerHTML="";
-      return true;
+    document.getElementById("checklemail").innerHTML="";
+    return true;
   }
 }
 function checkRent(){
-    rentInput = document.getElementById("rent").value;
-    if (!isValidRent(rentInput) || rentInput == ""){
-        document.getElementById("checkrent").innerHTML="Please enter a number.";
-        return false;
-    } else {
-        document.getElementById("checkrent").innerHTML="";
-        return true;
-    }
+  rentInput = document.getElementById("rent").value;
+  if (!isValidRent(rentInput) || rentInput == ""){
+      document.getElementById("checkrent").innerHTML="Please enter a number.";
+      return false;
+  } else {
+      document.getElementById("checkrent").innerHTML="";
+      return true;
+  }
 }
 function checkAddress(){
   addressInput = document.getElementById("addr").value;
   if (!isValidAddress(addressInput) || addressInput == ""){
-      document.getElementById("checkaddr").innerHTML="Please enter a valid address.";
-      return false;
+    document.getElementById("checkaddr").innerHTML="Please enter a valid address.";
+    return false;
   } else {
-      document.getElementById("checkaddr").innerHTML="";
-      return true;
+    document.getElementById("checkaddr").innerHTML="";
+    return true;
   }
 }
 function checkCity(){
   city = document.getElementById("city").value;
   if (!isValidCityState(city) || city == ""){
-      document.getElementById("checkcity").innerHTML="Please enter a valid city.";
-      return false;
+    document.getElementById("checkcity").innerHTML="Please enter a valid city.";
+    return false;
   } else {
-      document.getElementById("checkcity").innerHTML="";
-      return true;
+    document.getElementById("checkcity").innerHTML="";
+    return true;
   }
 }
 function checkState(){
   state = document.getElementById("state").value;
   if (!isValidCityState(state) || state == ""){
-      document.getElementById("checkstate").innerHTML="Please enter a valid state.";
-      return false;
+    document.getElementById("checkstate").innerHTML="Please enter a valid state.";
+    return false;
   } else {
-      document.getElementById("checkstate").innerHTML="";
-      return true;
+    document.getElementById("checkstate").innerHTML="";
+    return true;
   }
 }
 function checkZipcode(){
   zipcode = document.getElementById("zipc").value;
   if (!isNumeric(zipcode) || zipcode == ""){
-      document.getElementById("checkzipc").innerHTML="Please enter a valid zip code.";
-      return false;
+    document.getElementById("checkzipc").innerHTML="Please enter a valid zip code.";
+    return false;
   } else {
-      document.getElementById("checkzipc").innerHTML="";
-      return true;
+    document.getElementById("checkzipc").innerHTML="";
+    return true;
   }
 }
 function checkBedrooms(){
   bedrooms = document.getElementById("bed").value;
   if (!isNumeric(bedrooms) || bedrooms == ""){
-      document.getElementById("checkbed").innerHTML="Please enter an integer.";
-      return false;
+    document.getElementById("checkbed").innerHTML="Please enter an integer.";
+    return false;
   } else {
-      document.getElementById("checkbed").innerHTML="";
-      return true;
+    document.getElementById("checkbed").innerHTML="";
+    return true;
   }
 }
 function checkBathrooms(){
   bathrooms = document.getElementById("bath").value;
-  if (!isNumeric(bathrooms) || bathrooms == ""){
-      document.getElementById("checkbath").innerHTML="Please enter an integer.";
-      return false;
+  if (!isValidBathroom(bathrooms) || bathrooms == ""){
+    document.getElementById("checkbath").innerHTML="Please enter an number.";
+    return false;
   } else {
-      document.getElementById("checkbath").innerHTML="";
-      return true;
+    document.getElementById("checkbath").innerHTML="";
+    return true;
   }
 }
 function checkSquareFeet(){
   squareFeet = document.getElementById("sfeet").value;
   if (!isNumeric(squareFeet) || squareFeet == ""){
-      document.getElementById("checksfeet").innerHTML="Please enter a number.";
-      return false;
+    document.getElementById("checksfeet").innerHTML="Please enter a number.";
+    return false;
   } else {
-      document.getElementById("checksfeet").innerHTML="";
-      return true;
+    document.getElementById("checksfeet").innerHTML="";
+    return true;
   }
 }
 function checkLeaseType(){
   leaseType = document.getElementById("leaset").value;
   if (!isNumeric(leaseType) || leaseType == ""){
-      document.getElementById("checkleaset").innerHTML="Please enter an integer.";
-      return false;
+    document.getElementById("checkleaset").innerHTML="Please enter an integer.";
+    return false;
   } else {
-      document.getElementById("checkleaset").innerHTML="";
-      return true;
+    document.getElementById("checkleaset").innerHTML="";
+    return true;
   }
 }
 
