@@ -1,29 +1,24 @@
+id,amenity,value
 1,Date available,Tue Dec 1 2020
 1,Type,Single Family
 1,Cooling,None
-1,Heating,Other
-1,Heating,Gas
-1,Pets,Cats
-1,Pets,Small Dogs
-1,Parking,Garage - Detached
-1,Parking,Covered
+1,Heating,"Other, Gas"
+1,Pets,"Cats, Small Dogs"
+1,Parking,"Garage - Detached, Covered"
 1,Laundry,In Unit
 1,Deposit & fees,"$1,445"
 1,Bedrooms,3
 1,Bathrooms,2
 1,Basement,Unfinished
 1,Flooring,Hardwood
-1,Heating features,Other
-1,Heating features,Gas
+1,Heating features,"Other, Gas"
 1,Cooling features,None
-1,Appliances included,Dryer
-1,Appliances included,Washer
+1,Appliances included,"Dryer, Washer"
 1,Laundry features,In Unit
 1,Total interior livable area,"1,500 sqft"
 1,Fireplace,Yes
 1,Total spaces,2
-1,Parking features,Garage - Detached
-1,Parking features,Covered
+1,Parking features,"Garage - Detached, Covered"
 1,Garage spaces,2
 1,Exterior features,Vinyl
 1,Lot size,"3,484 sqft"
@@ -32,8 +27,7 @@
 2,Type,Apartment
 2,Cooling,None
 2,Heating,Gas
-2,Pets,Cats
-2,Pets,Small Dogs
+2,Pets,"Cats, Small Dogs"
 2,Parking,Off-street
 2,Laundry,Contact manager
 2,Deposit & fees,$895
@@ -60,15 +54,10 @@
 3,Deposit & fees,Contact manager
 3,Bedrooms,1
 3,Bathrooms,1
-3,Flooring,Tile
-3,Flooring,Carpet
+3,Flooring,"Tile, Carpet"
 3,Heating features,Gas
 3,Cooling features,Central
-3,Appliances included,Dishwasher
-3,Appliances included,Freezer
-3,Appliances included,Microwave
-3,Appliances included,Range / Oven
-3,Appliances included,Refrigerator
+3,Appliances included,"Dishwasher, Freezer, Microwave, Range / Oven, Refrigerator"
 3,Total spaces,0
 3,Parking features,Off-street
 3,Has garage,No
@@ -77,8 +66,7 @@
 4,Type,Apartment
 4,Cooling,Other
 4,Heating,Forced air
-4,Pets,Cats
-4,Pets,Small Dogs
+4,Pets,"Cats, Small Dogs"
 4,Parking,None
 4,Laundry,In Unit
 4,Deposit & fees,"$1,000"
@@ -86,11 +74,7 @@
 4,Bathrooms,1
 4,Heating features,Forced air
 4,Cooling features,Other
-4,Appliances included,Dishwasher
-4,Appliances included,Dryer
-4,Appliances included,Microwave
-4,Appliances included,Refrigerator
-4,Appliances included,Washer
+4,Appliances included,"Dishwasher, Dryer, Microwave, Refrigerator, Washer"
 4,Laundry features,In Unit
 4,Total interior livable area,688 sqft
 4,Total spaces,0
@@ -117,9 +101,7 @@
 5,Garage spaces,0
 6,Type,Apartment
 6,Year built,1890
-6,Heating,Baseboard
-6,Heating,Electric
-6,Heating,Gas
+6,Heating,"Baseboard, Electric, Gas"
 6,Cooling,None
 6,Parking,None
 7,Date available,Available Now
@@ -133,8 +115,7 @@
 7,Bedrooms,3
 7,Bathrooms,1
 7,Cooling features,None
-7,Appliances included,Dryer
-7,Appliances included,Washer
+7,Appliances included,"Dryer, Washer"
 7,Laundry features,In Unit
 7,Total interior livable area,"1,250 sqft"
 7,Total spaces,0
@@ -163,28 +144,23 @@
 9,Garage spaces,0
 10,Type,Single Family
 10,Cooling,Other
-10,Heating,Forced air
-10,Heating,Gas
+10,Heating,"Forced air, Gas"
 10,Pets,Small Dogs
-10,Parking,Off-street
-10,Parking,Covered
+10,Parking,"Off-street, Covered"
 10,Laundry,In Unit
 10,Deposit & fees,"$3,800"
 10,Bedrooms,4
 10,Bathrooms,3
 10,Basement,Unfinished
 10,Flooring,Hardwood
-10,Heating features,Forced air
-10,Heating features,Gas
+10,Heating features,"Forced air, Gas"
 10,Cooling features,Other
-10,Appliances included,Dryer
-10,Appliances included,Washer
+10,Appliances included,"Dryer, Washer"
 10,Laundry features,In Unit
 10,Furnished,Yes
 10,Total interior livable area,"2,600 sqft"
 10,Total spaces,4
-10,Parking features,Off-street
-10,Parking features,Covered
+10,Parking features,"Off-street, Covered"
 10,Garage spaces,4
 10,Stories,2
 10,Exterior features,Wood
@@ -237,23 +213,16 @@
 15,Date available,Available Now
 15,Type,Single Family
 15,Cooling,None
-15,Heating,Radiant
-15,Heating,Gas
-15,Pets,Cats
-15,Pets,Small Dogs
+15,Heating,"Radiant, Gas"
+15,Pets,"Cats, Small Dogs"
 15,Parking,None
 15,Laundry,Contact manager
 15,Deposit & fees,"$1,600"
 15,Bedrooms,3
 15,Flooring,Hardwood
-15,Heating features,Radiant
-15,Heating features,Gas
+15,Heating features,"Radiant, Gas"
 15,Cooling features,None
-15,Appliances included,Dishwasher
-15,Appliances included,Microwave
-15,Appliances included,Range / Oven
-15,Appliances included,Refrigerator
-15,Appliances included,Washer
+15,Appliances included,"Dishwasher, Microwave, Range / Oven, Refrigerator, Washer"
 15,Total interior livable area,"2,000 sqft"
 15,Total spaces,0
 15,Parking features,None
@@ -270,36 +239,22 @@
 17,Date available,Available Now
 17,Type,Single Family
 17,Cooling,None
-17,Heating,Baseboard
-17,Heating,Other
-17,Heating,Gas
-17,Pets,Cats
-17,Pets,Small Dogs
-17,Pets,Dogs
-17,Parking,Carport
-17,Parking,Off-street
-17,Parking,Covered
+17,Heating,"Baseboard, Other, Gas"
+17,Pets,"Cats, Small Dogs, Dogs"
+17,Parking,"Carport, Off-street, Covered"
 17,Laundry,In Unit
 17,Deposit & fees,"$1,795"
 17,Bedrooms,4
 17,Bathrooms,2
 17,Basement,Unfinished
-17,Flooring,Tile
-17,Flooring,Hardwood
-17,Heating features,Baseboard
-17,Heating features,Other
-17,Heating features,Gas
+17,Flooring,"Tile, Hardwood"
+17,Heating features,"Baseboard, Other, Gas"
 17,Cooling features,None
-17,Appliances included,Dryer
-17,Appliances included,Range / Oven
-17,Appliances included,Refrigerator
-17,Appliances included,Washer
+17,Appliances included,"Dryer, Range / Oven, Refrigerator, Washer"
 17,Laundry features,In Unit
 17,Total interior livable area,"1,493 sqft"
 17,Total spaces,1
-17,Parking features,Carport
-17,Parking features,Off-street
-17,Parking features,Covered
+17,Parking features,"Carport, Off-street, Covered"
 17,Garage spaces,1
 17,Exterior features,Vinyl
 17,Lot size,"7,840 sqft"
@@ -316,8 +271,7 @@
 18,Flooring,Hardwood
 18,Heating features,Gas
 18,Cooling features,None
-18,Appliances included,Range / Oven
-18,Appliances included,Refrigerator
+18,Appliances included,"Range / Oven, Refrigerator"
 18,Total interior livable area,"4,128 sqft"
 18,Total spaces,0
 18,Parking features,None
@@ -331,27 +285,21 @@
 20,Date available,Available Now
 20,Type,Single Family
 20,Cooling,None
-20,Heating,Other
-20,Heating,Other
-20,Pets,Cats
-20,Pets,Small Dogs
-20,Parking,Garage - Detached
-20,Parking,Off-street
+20,Heating,"Other, Other"
+20,Pets,"Cats, Small Dogs"
+20,Parking,"Garage - Detached, Off-street"
 20,Laundry,In Unit
 20,Deposit & fees,"$1,550"
 20,Bedrooms,3
 20,Bathrooms,1
 20,Flooring,Hardwood
-20,Heating features,Other
-20,Heating features,Other
+20,Heating features,"Other, Other"
 20,Cooling features,None
-20,Appliances included,Dryer
-20,Appliances included,Washer
+20,Appliances included,"Dryer, Washer"
 20,Laundry features,In Unit
 20,Total interior livable area,"1,009 sqft"
 20,Total spaces,0
-20,Parking features,Garage - Detached
-20,Parking features,Off-street
+20,Parking features,"Garage - Detached, Off-street"
 20,Has garage,No
 20,Garage spaces,0
 20,Stories,1
@@ -363,8 +311,7 @@
 21,Cooling,None
 21,Heating,Contact manager
 21,Pets,Cats
-21,Parking,Garage - Attached
-21,Parking,None
+21,Parking,"Garage - Attached, None"
 21,Laundry,Contact manager
 21,Deposit & fees,"$1,195"
 21,Bedrooms,2
@@ -374,8 +321,7 @@
 21,Cooling features,None
 21,Total interior livable area,800 sqft
 21,Total spaces,0
-21,Parking features,Garage - Attached
-21,Parking features,None
+21,Parking features,"Garage - Attached, None"
 21,Has garage,No
 21,Garage spaces,0
 21,Stories,3
@@ -416,8 +362,7 @@
 24,Type,Apartment
 24,Cooling,None
 24,Heating,Other
-24,Pets,Cats
-24,Pets,Small Dogs
+24,Pets,"Cats, Small Dogs"
 24,Parking,Off-street
 24,Laundry,In Unit
 24,Deposit & fees,"$3,100"
@@ -426,10 +371,7 @@
 24,Flooring,Hardwood
 24,Heating features,Other
 24,Cooling features,None
-24,Appliances included,Dryer
-24,Appliances included,Range / Oven
-24,Appliances included,Refrigerator
-24,Appliances included,Washer
+24,Appliances included,"Dryer, Range / Oven, Refrigerator, Washer"
 24,Laundry features,In Unit
 24,Total spaces,0
 24,Parking features,Off-street
@@ -469,12 +411,9 @@
 26,Garage spaces,0
 27,Type,Apartment
 27,Year built,1890
-27,Heating,Other
-27,Heating,Other
+27,Heating,"Other, Other"
 27,Cooling,None
-27,Parking,Garage - Detached
-27,Parking,None
-27,Parking,Covered
+27,Parking,"Garage - Detached, None, Covered"
 28,Type,Apartment
 28,Year built,1890
 28,Heating,Gas
@@ -492,10 +431,7 @@
 29,Bathrooms,1
 29,Heating features,Gas
 29,Cooling features,None
-29,Appliances included,Dryer
-29,Appliances included,Range / Oven
-29,Appliances included,Refrigerator
-29,Appliances included,Washer
+29,Appliances included,"Dryer, Range / Oven, Refrigerator, Washer"
 29,Laundry features,In Unit
 29,Total interior livable area,"1,100 sqft"
 29,Total spaces,0
@@ -509,38 +445,29 @@
 30,Parking,None
 31,Type,Single Family
 31,Year built,1900
-31,Heating,Forced air
-31,Heating,Other
+31,Heating,"Forced air, Other"
 31,Cooling,Other
 31,Parking,Off-street
 31,Lot,"3,049 sqft"
 32,Date available,Available Now
 32,Type,Single Family
 32,Cooling,None
-32,Heating,Baseboard
-32,Heating,Gas
-32,Pets,Cats
-32,Pets,Small Dogs
-32,Parking,Garage
-32,Parking,Off-street
-32,Parking,Covered
+32,Heating,"Baseboard, Gas"
+32,Pets,"Cats, Small Dogs"
+32,Parking,"Garage, Off-street, Covered"
 32,Laundry,In Unit
 32,Deposit & fees,"$1,550"
 32,Bedrooms,3
 32,Bathrooms,1
 32,Basement,Finished
 32,Flooring,Hardwood
-32,Heating features,Baseboard
-32,Heating features,Gas
+32,Heating features,"Baseboard, Gas"
 32,Cooling features,None
-32,Appliances included,Dryer
-32,Appliances included,Washer
+32,Appliances included,"Dryer, Washer"
 32,Laundry features,In Unit
 32,Total interior livable area,"1,700 sqft"
 32,Total spaces,1
-32,Parking features,Garage
-32,Parking features,Off-street
-32,Parking features,Covered
+32,Parking features,"Garage, Off-street, Covered"
 32,Garage spaces,1
 32,Stories,2
 32,Exterior features,Vinyl
@@ -611,8 +538,7 @@
 37,Type,Apartment
 37,Cooling,None
 37,Heating,Contact manager
-37,Pets,Cats
-37,Pets,Small Dogs
+37,Pets,"Cats, Small Dogs"
 37,Parking,None
 37,Laundry,Contact manager
 37,Deposit & fees,"$1,050"
@@ -627,11 +553,9 @@
 37,Garage spaces,0
 38,Type,Apartment
 38,Year built,1890
-38,Heating,Forced air
-38,Heating,Gas
+38,Heating,"Forced air, Gas"
 38,Cooling,Other
-38,Parking,Garage - Detached
-38,Parking,Covered
+38,Parking,"Garage - Detached, Covered"
 39,Type,Apartment
 39,Cooling,None
 39,Heating,Contact manager
@@ -656,21 +580,17 @@
 41,Date available,Available Now
 41,Type,Apartment
 41,Cooling,None
-41,Heating,Forced air
-41,Heating,Other
-41,Pets,Cats
-41,Pets,Small Dogs
+41,Heating,"Forced air, Other"
+41,Pets,"Cats, Small Dogs"
 41,Parking,None
 41,Laundry,In Unit
 41,Deposit & fees,$695
 41,Bedrooms,1
 41,Bathrooms,1
 41,Flooring,Hardwood
-41,Heating features,Forced air
-41,Heating features,Other
+41,Heating features,"Forced air, Other"
 41,Cooling features,None
-41,Appliances included,Dryer
-41,Appliances included,Washer
+41,Appliances included,"Dryer, Washer"
 41,Laundry features,In Unit
 41,Total interior livable area,"1,000 sqft"
 41,Total spaces,0
@@ -686,8 +606,7 @@
 42,Deposit & fees,"$1,500"
 42,Bedrooms,3
 42,Cooling features,None
-42,Appliances included,Dryer
-42,Appliances included,Washer
+42,Appliances included,"Dryer, Washer"
 42,Laundry features,In Unit
 42,Total interior livable area,"1,400 sqft"
 42,Total spaces,0
@@ -707,8 +626,7 @@
 43,Flooring,Hardwood
 43,Heating features,Forced air
 43,Cooling features,None
-43,Appliances included,Dryer
-43,Appliances included,Washer
+43,Appliances included,"Dryer, Washer"
 43,Total interior livable area,"1,069 sqft"
 43,Total spaces,0
 43,Parking features,None
@@ -726,9 +644,7 @@
 44,Bathrooms,1
 44,Flooring,Hardwood
 44,Cooling features,None
-44,Appliances included,Microwave
-44,Appliances included,Range / Oven
-44,Appliances included,Refrigerator
+44,Appliances included,"Microwave, Range / Oven, Refrigerator"
 44,Total interior livable area,"1,400 sqft"
 44,Total spaces,0
 44,Parking features,Off-street
@@ -741,43 +657,32 @@
 45,Parking,None
 46,Type,Apartment
 46,Cooling,Central
-46,Heating,Radiant
-46,Heating,Gas
+46,Heating,"Radiant, Gas"
 46,Pets,No Pets
-46,Parking,Garage
-46,Parking,None
-46,Parking,Covered
+46,Parking,"Garage, None, Covered"
 46,Laundry,Contact manager
 46,Deposit & fees,Contact manager
 46,Bedrooms,1
 46,Bathrooms,1
 46,Basement,Partially finished
 46,Flooring,Hardwood
-46,Heating features,Radiant
-46,Heating features,Gas
+46,Heating features,"Radiant, Gas"
 46,Cooling features,Central
-46,Appliances included,Dishwasher
-46,Appliances included,Microwave
-46,Appliances included,Range / Oven
-46,Appliances included,Refrigerator
+46,Appliances included,"Dishwasher, Microwave, Range / Oven, Refrigerator"
 46,Furnished,Yes
 46,Total interior livable area,"9,576 sqft"
 46,Fireplace,Yes
 46,Total spaces,2
-46,Parking features,Garage
-46,Parking features,None
-46,Parking features,Covered
+46,Parking features,"Garage, None, Covered"
 46,Garage spaces,2
 46,Stories,1
-46,Exterior features,Stone
-46,Exterior features,Brick
+46,Exterior features,"Stone, Brick"
 46,Lot size,"6,969 sqft"
 46,Parcel number,38170010076105
 47,Date available,Tue Jun 1 2021
 47,Type,Apartment
 47,Cooling,None
-47,Heating,Baseboard
-47,Heating,Gas
+47,Heating,"Baseboard, Gas"
 47,Pets,Contact manager
 47,Parking,Off-street
 47,Laundry,In Unit
@@ -785,11 +690,9 @@
 47,Bedrooms,4
 47,Bathrooms,1
 47,Flooring,Hardwood
-47,Heating features,Baseboard
-47,Heating features,Gas
+47,Heating features,"Baseboard, Gas"
 47,Cooling features,None
-47,Appliances included,Dryer
-47,Appliances included,Washer
+47,Appliances included,"Dryer, Washer"
 47,Laundry features,In Unit
 47,Furnished,Yes
 47,Total interior livable area,"1,000 sqft"
@@ -807,8 +710,7 @@
 48,Bedrooms,2
 48,Bathrooms,1
 48,Cooling features,None
-48,Appliances included,Dryer
-48,Appliances included,Washer
+48,Appliances included,"Dryer, Washer"
 48,Laundry features,In Unit
 48,Total interior livable area,800 sqft
 48,Total spaces,0
@@ -819,8 +721,7 @@
 49,Type,Apartment
 49,Cooling,None
 49,Heating,Gas
-49,Pets,Cats
-49,Pets,Small Dogs
+49,Pets,"Cats, Small Dogs"
 49,Parking,None
 49,Laundry,In Unit
 49,Deposit & fees,$975
@@ -829,8 +730,7 @@
 49,Flooring,Hardwood
 49,Heating features,Gas
 49,Cooling features,None
-49,Appliances included,Dryer
-49,Appliances included,Washer
+49,Appliances included,"Dryer, Washer"
 49,Laundry features,In Unit
 49,Total interior livable area,"1,000 sqft"
 49,Total spaces,0
@@ -841,23 +741,19 @@
 50,Type,Apartment
 50,Cooling,Other
 50,Heating,Forced air
-50,Pets,Cats
-50,Pets,Small Dogs
-50,Parking,Garage - Detached
-50,Parking,Off-street
+50,Pets,"Cats, Small Dogs"
+50,Parking,"Garage - Detached, Off-street"
 50,Laundry,In Unit
 50,Deposit & fees,Contact manager
 50,Bedrooms,2
 50,Bathrooms,2
 50,Heating features,Forced air
 50,Cooling features,Other
-50,Appliances included,Dryer
-50,Appliances included,Washer
+50,Appliances included,"Dryer, Washer"
 50,Laundry features,In Unit
 50,Total interior livable area,"1,320 sqft"
 50,Total spaces,0
-50,Parking features,Garage - Detached
-50,Parking features,Off-street
+50,Parking features,"Garage - Detached, Off-street"
 50,Has garage,No
 50,Garage spaces,0
 50,Private pool,Yes
@@ -882,10 +778,8 @@
 52,Date available,Available Now
 52,Type,Single Family
 52,Cooling,None
-52,Heating,Other
-52,Heating,Gas
-52,Pets,Cats
-52,Pets,Small Dogs
+52,Heating,"Other, Gas"
+52,Pets,"Cats, Small Dogs"
 52,Parking,Off-street
 52,Laundry,In Unit
 52,Deposit & fees,"$1,550"
@@ -893,11 +787,9 @@
 52,Bathrooms,2
 52,Basement,Unfinished
 52,Flooring,Hardwood
-52,Heating features,Other
-52,Heating features,Gas
+52,Heating features,"Other, Gas"
 52,Cooling features,None
-52,Appliances included,Dryer
-52,Appliances included,Washer
+52,Appliances included,"Dryer, Washer"
 52,Laundry features,In Unit
 52,Total interior livable area,"1,400 sqft"
 52,Total spaces,0
@@ -940,8 +832,7 @@
 55,Bedrooms,3
 55,Bathrooms,1
 55,Cooling features,None
-55,Appliances included,Dryer
-55,Appliances included,Washer
+55,Appliances included,"Dryer, Washer"
 55,Laundry features,Hookups
 55,Total interior livable area,"1,400 sqft"
 55,Total spaces,0
@@ -950,31 +841,24 @@
 55,Garage spaces,0
 56,Type,Apartment
 56,Cooling,Other
-56,Heating,Forced air
-56,Heating,Gas
+56,Heating,"Forced air, Gas"
 56,Pets,Cats
-56,Parking,Garage - Detached
-56,Parking,Off-street
-56,Parking,Covered
+56,Parking,"Garage - Detached, Off-street, Covered"
 56,Laundry,In Unit
 56,Deposit & fees,"$7,000"
 56,Bedrooms,4
 56,Bathrooms,2
 56,Basement,Finished
 56,Flooring,Hardwood
-56,Heating features,Forced air
-56,Heating features,Gas
+56,Heating features,"Forced air, Gas"
 56,Cooling features,Other
-56,Appliances included,Dryer
-56,Appliances included,Washer
+56,Appliances included,"Dryer, Washer"
 56,Laundry features,In Unit
 56,Furnished,Yes
 56,Total interior livable area,"3,600 sqft"
 56,Fireplace,Yes
 56,Total spaces,4
-56,Parking features,Garage - Detached
-56,Parking features,Off-street
-56,Parking features,Covered
+56,Parking features,"Garage - Detached, Off-street, Covered"
 56,Garage spaces,4
 56,Private pool,Yes
 56,Exterior features,Brick
@@ -1015,22 +899,17 @@
 58,Garage spaces,0
 59,Type,Apartment
 59,Cooling,Other
-59,Heating,Radiant
-59,Heating,Gas
+59,Heating,"Radiant, Gas"
 59,Pets,No Pets
 59,Parking,None
 59,Laundry,Contact manager
 59,Deposit & fees,Contact manager
 59,Bedrooms,2
 59,Bathrooms,1
-59,Flooring,Tile
-59,Flooring,Carpet
-59,Flooring,Hardwood
-59,Heating features,Radiant
-59,Heating features,Gas
+59,Flooring,"Tile, Carpet, Hardwood"
+59,Heating features,"Radiant, Gas"
 59,Cooling features,Other
-59,Appliances included,Range / Oven
-59,Appliances included,Refrigerator
+59,Appliances included,"Range / Oven, Refrigerator"
 59,Total interior livable area,800 sqft
 59,Total spaces,0
 59,Parking features,None
@@ -1069,17 +948,14 @@
 61,Garage spaces,0
 62,Type,Condo
 62,Year built,1890
-62,Heating,Baseboard
-62,Heating,Gas
+62,Heating,"Baseboard, Gas"
 62,Cooling,None
 62,Parking,None
 63,Date available,Available Now
 63,Type,Apartment
 63,Cooling,None
 63,Heating,Contact manager
-63,Pets,Cats
-63,Pets,Small Dogs
-63,Pets,Dogs
+63,Pets,"Cats, Small Dogs, Dogs"
 63,Parking,Off-street
 63,Laundry,Contact manager
 63,Deposit & fees,"$1,200"
@@ -1087,8 +963,7 @@
 63,Bathrooms,1
 63,Flooring,Hardwood
 63,Cooling features,None
-63,Appliances included,Dryer
-63,Appliances included,Washer
+63,Appliances included,"Dryer, Washer"
 63,Total interior livable area,"1,100 sqft"
 63,Total spaces,0
 63,Parking features,Off-street
@@ -1098,43 +973,32 @@
 64,Cooling,Central
 64,Heating,Gas
 64,Pets,Contact manager
-64,Parking,None
-64,Parking,Covered
+64,Parking,"None, Covered"
 64,Laundry,Contact manager
 64,Deposit & fees,Contact manager
 64,Bedrooms,2
 64,Bathrooms,2
-64,Flooring,Tile
-64,Flooring,Carpet
-64,Flooring,Hardwood
+64,Flooring,"Tile, Carpet, Hardwood"
 64,Heating features,Gas
 64,Cooling features,Central
-64,Appliances included,Dishwasher
-64,Appliances included,Garbage disposal
-64,Appliances included,Microwave
-64,Appliances included,Range / Oven
+64,Appliances included,"Dishwasher, Garbage disposal, Microwave, Range / Oven"
 64,Total interior livable area,"1,361 sqft"
 64,Total spaces,1
-64,Parking features,None
-64,Parking features,Covered
+64,Parking features,"None, Covered"
 64,Garage spaces,1
 65,Type,Multiple Occupancy
 65,Cooling,None
 65,Heating,Gas
-65,Pets,Cats
-65,Pets,Small Dogs
+65,Pets,"Cats, Small Dogs"
 65,Parking,None
 65,Laundry,Contact manager
 65,Deposit & fees,Contact manager
 65,Bedrooms,3
 65,Bathrooms,1
-65,Flooring,Carpet
-65,Flooring,Hardwood
-65,Flooring,Laminate
+65,Flooring,"Carpet, Hardwood, Laminate"
 65,Heating features,Gas
 65,Cooling features,None
-65,Appliances included,Range / Oven
-65,Appliances included,Refrigerator
+65,Appliances included,"Range / Oven, Refrigerator"
 65,Total interior livable area,"1,600 sqft"
 65,Total spaces,0
 65,Parking features,None
@@ -1143,8 +1007,7 @@
 66,Type,Apartment
 66,Cooling,None
 66,Heating,Contact manager
-66,Pets,Cats
-66,Pets,Small Dogs
+66,Pets,"Cats, Small Dogs"
 66,Parking,None
 66,Laundry,Contact manager
 66,Deposit & fees,"$1,650"
@@ -1157,25 +1020,18 @@
 66,Garage spaces,0
 67,Type,Apartment
 67,Cooling,Central
-67,Heating,Forced air
-67,Heating,Gas
-67,Pets,Cats
-67,Pets,Small Dogs
+67,Heating,"Forced air, Gas"
+67,Pets,"Cats, Small Dogs"
 67,Parking,Garage - Detached
 67,Laundry,Contact manager
 67,Deposit & fees,Contact manager
 67,Bedrooms,2
 67,Bathrooms,2
 67,Basement,None
-67,Flooring,Carpet
-67,Flooring,Hardwood
-67,Heating features,Forced air
-67,Heating features,Gas
+67,Flooring,"Carpet, Hardwood"
+67,Heating features,"Forced air, Gas"
 67,Cooling features,Central
-67,Appliances included,Dishwasher
-67,Appliances included,Microwave
-67,Appliances included,Range / Oven
-67,Appliances included,Refrigerator
+67,Appliances included,"Dishwasher, Microwave, Range / Oven, Refrigerator"
 67,Total interior livable area,"1,547 sqft"
 67,Fireplace,Yes
 67,Total spaces,0

@@ -470,10 +470,10 @@ class DatabaseManager {
    * @param OwnerAccount $user
    * @param Listing $listing
    */
-  public function saveListing($user, $listing) {
+  public function saveListing($listing) {
     $name = $listing->getName();
     $description = $listing->getDescription();
-    $ownerId = $user->getUserId();
+    $ownerId = $listing->getOwner()->getUserId();
     $rent = $listing->getRent();
     $address = $listing->getLocation()->getAddress();
     $city = $listing->getLocation()->getCity();
