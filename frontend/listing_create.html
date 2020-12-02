@@ -40,7 +40,7 @@
         </div>
     </nav>
 
-    <body onload="setEventListeners();">
+    <body onload="setEventListeners(); setCreateListingEventListeners();">
     <div class="container-fluid" style="background-image: url('https://i.imgur.com/kMbZsfG.png')">
         <div class="col-md-6 border" style="margin-left: 25%; margin-right: 25%; margin-top: 15px;background-color: white; padding-bottom: 50px; margin-bottom: 15px;">
             <h1>Create a Listing:
@@ -92,7 +92,7 @@
             <div class="row" style="padding-left: 15px;">
             
             <div style="width: 20%; float:left;">
-                <input type="text" class="form-control mb-2" id="hotline" placeholder="1-800-GET-HELP">
+                <input type="text" class="form-control mb-2" id="hotline" placeholder="(xxx)-xxx-xxxx">
             </div>
             <div style="width: 40%; float:left; margin-left: 15px;">
                 <input type="text" class="form-control mb-2" id="lemail" placeholder="user@email.com">
