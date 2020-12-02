@@ -39,7 +39,7 @@ function signupAccount(e){
                      "&username=" + usernameInput + "&email=" + emailInput + 
                      "&password=" + passwordInput + "&accountType="+ attype;
         // OPEN- type, url/file, async
-        xhr.open('POST', 'test_signup.php', true);
+        xhr.open('POST', 'signup.php', true);
         xhr.onerror = function() {
             console.log('Request Error...');
         }
