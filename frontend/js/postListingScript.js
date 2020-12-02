@@ -95,7 +95,7 @@ function saveListing(e){
             console.log("error");
           }
         }
-        xhr2.send(amenities);
+        xhr2.send(JSON.stringify(amenities));
     }
 }
 
@@ -200,7 +200,9 @@ function checkAmen() {
     }
   }
   for (var i = 0; i < newAmen; i++) {
-    amenities[amenityTs[i]] = amenityDs[i];
+    if (!(amenityTs[i] == "")) {
+      amenities[amenityTs[i]] = amenityDs[i];
+    }
   }
   return true;
 }
