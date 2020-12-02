@@ -1,5 +1,6 @@
 var sessionID;
-var usernameReady = false;
+var username;
+
 function tryLogIn(){
     console.log("trying to log in...\n");
     login();
@@ -10,15 +11,16 @@ function changeProfileButton(pfp, username){
 }
 
 function setUsername(usr){
-    console.log("setting username...");
+    console.log("setting username:" + usr);
+    username = usr;
     changeProfileButton("sisman.png", usr);
 }
-function getUsername(){
+function getUsername(funct){
 
     var xhr = new XMLHttpRequest();
     //retrieve sessionId from cookie
 
-    xhr.open('POST', 'instantiateUser.php', true);
+    xhr.open('POST', 'getUsername.php', true);
     xhr.onerror = function() {
         console.log('Request Error...');
     }
@@ -29,7 +31,7 @@ function getUsername(){
     xhr.onload= function() {
         //200 ok, 403 forbidden, 404 not found
         if (this.status=200) {
-            setUsername(this.responseText);
+            funct(this.responseText);
         }
         else {
             return "Error";
@@ -63,7 +65,7 @@ function login(){
         document.getElementById("groupBtn").addEventListener("click", redirectToGroup);
         document.getElementById("bookmarkedBtn").addEventListener("click", redirectToBookmarked);
         document.getElementById("logoutButton").addEventListener("click", logout);
-        getUsername();
+        getUsername(setUsername);
     }
 }
 
@@ -86,7 +88,6 @@ function redirectToBookmarked(){
     window.location.replace("bookmarkedListings.html");
 }
 function logout(){
-    console.log("Logging out!!Logging out!!Logging out!!Logging out!!Logging out!!Logging out!!Logging out!!Logging out!!Logging out!!Logging out!!Logging out!!");
     
     var xhr = new XMLHttpRequest();
     //retrieve sessionId from cookie
