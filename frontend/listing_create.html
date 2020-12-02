@@ -51,10 +51,12 @@
                 <input type="text" class="form-control mb-2" id="lname" placeholder="My Listing">
             </div>
 
+
             <h3>Property Address:</h3>
             <label for="addr" style="padding-top: 5px;">Street Address: </label>
             <div style="width: 75%;">
                 <input type="text" class="form-control mb-2" id="addr" placeholder="">
+                <div style="color:red;" id = "checkaddr"></div> <!--Please enter a valid address.-->
             </div>
             <div class="row" style="padding-left: 15px;">
                 <label for="city" style="width: 25%;">City:
@@ -67,12 +69,15 @@
             <div class="row" style="padding-left: 15px; padding-bottom: 30px;">
             <div style="width: 25%; float:left;">
                 <input type="text" class="form-control mb-2" id="city" placeholder="">
+                <div style="color:red;" id = "checkcity"></div> <!--Please enter a valid city.-->
             </div>
             <div style="width: 25%; float: left; margin-left: 2%;">
                 <input type="text" class="form-control mb-2" id="state" placeholder="">
+                <div style="color:red;" id = "checkstate"></div> <!--Please enter a valid state.-->
             </div>
             <div style="width: 20%; float: left; margin-left: 2%;">
                 <input type="text" class="form-control mb-2" id="zipc" placeholder="">
+                <div style="color:red;" id = "checkzipc"></div> <!--Please enter a valid zip code.-->
             </div>
             </div>
 
@@ -82,6 +87,7 @@
             <label style="padding-top: 5px;">Landlord Name:</label>
             <div style="width: 30%;">
                 <input type="text" class="form-control mb-2" id="lldname" placeholder="John Doe">
+                <div style="color:red;" id = "checklldname"></div> <!--Please enter a name.-->
             </div>
 
             <div class="row" style="padding-left:15px;">
@@ -93,9 +99,11 @@
             
             <div style="width: 20%; float:left;">
                 <input type="text" class="form-control mb-2" id="hotline" placeholder="(xxx)-xxx-xxxx">
+                <div style="color:red;" id = "checkhotline"></div> <!--Please enter a valid phone number.-->
             </div>
             <div style="width: 40%; float:left; margin-left: 15px;">
                 <input type="text" class="form-control mb-2" id="lemail" placeholder="user@email.com">
+                <div style="color:red;" id = "checklemail"></div> <!--Please enter a valid email.-->
             </div>
             
             </div>
@@ -103,35 +111,37 @@
             <label for="listd">Listing Description:</label>
 
             <textarea id="descr"style="width: 100%; height: 300px;"></textarea>
+
             
             <label for="rent">Rent (per month):</label>
             <div style="width: 15%;">
                 <input type="text" class="form-control mb-2" id="rent" placeholder="$">
+                <div style="color:red;" id = "checkrent"></div> <!--Please enter a number.-->
             </div>
 
             <label for="sfeet">Square Feet:</label>
             <div style="width: 15%;">
                 <input type="text" class="form-control mb-2" id="sfeet" placeholder="">
+                <div style="color:red;" id = "checksfeet"></div> <!--Please enter a number.-->
             </div>
-            <div style="font-size: 14px; color: red; width: 100%;" id="numsf"></div>  <!-- insert this later *Must be an integer (ie; 456)-->
 
             <label for="bath">Number of Bathrooms:</label>
             <div style="width: 10%;">
                 <input type="text" class="form-control mb-2" id="bath" placeholder="">
+                <div style="color:red;" id = "checkbath"></div> <!--Please enter an integer.-->
             </div>
-            <div style="font-size: 14px; color: red; width: 100%;" id="numba"></div>  <!-- insert this later *Must be an integer (1-100+)-->
             
             <label for="bed">Number of Bedrooms:</label>
             <div style="width: 10%;">
                 <input type="text" class="form-control mb-2" id="bed" placeholder="">
+                <div style="color:red;" id = "checkbed"></div> <!--Please enter an integer.-->
             </div>
-            <div style="font-size: 14px; color: red; width: 100%;" id="numbe"></div>  <!-- insert this later *Must be an integer (1-100+)-->
             
             <label for="leaset">Lease Type (# of months):&nbsp;</label> 
             <div style="width: 10%;">
                 <input type="text" class="form-control mb-2" id="leaset" placeholder="">
+                <div style="color:red;" id = "checkleaset"></div> <!--Please enter an integer.-->
             </div>
-            <div style="font-size: 14px; color: red; width: 100%;" id="numm"></div>  <!-- insert this later *Must be an integer (1-100+)-->
             
             <label for="amen">Amenities: (max 10)</label> <label style="color: gray;">(optional)</label>
             <br>
