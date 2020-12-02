@@ -519,6 +519,7 @@ class DatabaseManager {
       return false;
     }
 
+    $listingId = $this->databaseConnection->insert_id;
     $stmt->close();
 
     if (!is_null($filters)) {
@@ -540,7 +541,7 @@ class DatabaseManager {
       }
     }
 
-    return true;    
+    return $listingId;    
   }
 
   /**
@@ -611,8 +612,9 @@ class DatabaseManager {
                                $email,
                                $type);
     $result = $stmt->execute();
+    $userId = $this->databaseConnection->insert_id;
     $stmt->close();
-    return $result;
+    return $userId;
   }
 
   /**
