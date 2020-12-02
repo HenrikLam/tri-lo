@@ -40,7 +40,7 @@ class Location {
     return $this->state;
   }
 
-  public function getZipCode() {
+  public function getZipcode() {
     return $this->zipcode;
   }
 
@@ -69,6 +69,26 @@ class Location {
     ];
 
     return $data;
+  }
+
+  public function getFullAddress() {
+    $fullAddress = '';
+    if (!is_null($this->address)) {
+      $fullAddress = $fullAddress . $this->address;
+    }
+    if (!is_null($this->city)) {
+      $fullAddress = $fullAddress . " " . $this->city;
+      if (!is_null($this->state)) {
+        $fullAddress = $fullAddress . ", " . $this->state;
+      }
+    }
+    else if (!is_null($this->state)) {
+      $fullAddress = $fullAddress . " " . $this->state;
+    }
+    if (!is_null($this->zipcode)) {
+      $fullAddress = $fullAddress . " " . $this->zipcode;
+    }
+    return $fullAddress;
   }
 
 }
