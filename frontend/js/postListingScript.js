@@ -78,6 +78,24 @@ function saveListing(e){
             }
         }
         xhr.send(params);
+
+        //new xmlhttprequest to a different file
+        var xhr2 = new XMLHttpRequest();
+        xhr2.open('POST', 'listing_amen.php', true);
+        xhr2.onerror = function() {
+          console.log('Request Error...');
+        }
+        xhr2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+        xhr2.onload = function() {
+          if(this.status = 200) {
+            console.log(this.responseText);
+          }
+          else {
+            console.log("error");
+          }
+        }
+        xhr2.send(amenities);
     }
 }
 
