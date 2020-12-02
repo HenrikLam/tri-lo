@@ -13,9 +13,18 @@ var bedrooms;
 var bathrooms;
 var leaseType;
 
-var amenities = {};
-var numAmen = 0;
-var newAmen = 4;
+var checkAll = true;
+
+var amenityTs = [];
+var amenityDs = [];
+var newAmen = 3;
+for (var i = 0; i < newAmen; i++) {
+  amenityTs.push("");
+}
+for (var i = 0; i < newAmen; i++) {
+  amenityDs.push("");
+}
+var amenities;
 
 function setCreateListingEventListeners(){
   document.getElementById("clbutt").addEventListener("click", saveListing);
@@ -34,6 +43,7 @@ function setCreateListingEventListeners(){
   document.getElementById("bath").addEventListener("change", checkBathrooms);
   document.getElementById("leaset").addEventListener("change", checkLeaseType);
   document.getElementById("aamen").addEventListener("click", addButton);
+  document.getElementById("addBootonBox").addEventListener("change", setAmenity);
 }
 
 function saveListing(e){
@@ -77,6 +87,15 @@ function saveListing(e){
 // .createTextNode() allows you to add text
 // .appendChild() is insertion of text/class/object
 function addButton() {
+  //need to set ids by doing .id on the input elements.
+  // ie; srinput1.id = "id";
+  if (newAmen == 10) {
+    document.getElementById("buttonWarning").innerHTML = "Cannot add more than 10 listings on this page."
+    document.getElementById("buttonWarning").style.color = "red";
+    document.getElementById("buttonWarning").style.marginBottom = "15px";
+    return;
+  }
+
   const first_row = document.createElement("div");
   first_row.classList.add("row");
   first_row.style.marginLeft = "0px";
@@ -106,6 +125,7 @@ function addButton() {
   srinput1.classList.add("mb-2");
   srinput1.style.width = "15%";
   srinput1.style.float = "left";
+  srinput1.id = "amen" + newAmen + "t";
 
   const srinput2 = document.createElement("input");
   srinput2.type = "text";
@@ -114,14 +134,56 @@ function addButton() {
   srinput2.style.width = "30%";
   srinput2.style.float = "left";
   srinput2.style.marginLeft = "15px";
+  srinput2.id = "amen" + newAmen + "d";
+  newAmen++;
 
   second_row.appendChild(srinput1);
   second_row.appendChild(srinput2);
+
+
+  amenityTs.push("");
+  amenityDs.push("");
 
   document.getElementById("addBootonBox").appendChild(second_row);
 
 }
 
+function setAmenity(e) {
+  if (e.target && e.target.nodeName == "INPUT") {
+    if (e.target.id.match(/amen[0-9]t/)) {
+      var meme = e.target.id.replace("amen", "").replace("t", "");
+      amenityTs[parseInt(meme)] = e.target.value;
+    }
+    if (e.target.id.match(/amen[0-9]d/)) {
+      var meme = e.target.id.replace("amen", "").replace("d", "");
+      amenityDs[parseInt(meme)] = e.target.value;
+    }
+  }
+}
+
+function checkAmen() {
+  amenities = {};
+  for (var i = 0; i < newAmen; i++) {
+    if (amenityDs[i] == "" && !(amenityTs[i] == "")) {
+      document.getElementById("amen" + i + "d").placeholder = "(required)";
+      document.getElementById("amen" + i + "d").style.borderColor = "red";
+      return false;
+    }
+    else if (amenityTs[i] == "" && !(amenityDs[i] == "")) {
+      document.getElementById("amen" + i + "t").placeholder = "(required)";
+      document.getElementById("amen" + i + "t").style.borderColor = "red";
+      return false;
+    }
+    else {
+      document.getElementById("amen" + i + "t").placeholder = "";
+      document.getElementById("amen" + i + "t").style.borderColor = "";
+      document.getElementById("amen" + i + "d").placeholder = "";
+      document.getElementById("amen" + i + "d").style.borderColor = "";
+      amenities[amenityTs[i]] = amenityDs[i];
+      return true;
+    }
+  }
+}
 
 function setListingName() {
   listingName = document.getElementById("lname").value;
@@ -323,7 +385,6 @@ function checkLeaseType(){
 }
 
 function checkEverything() {
-  checkAll = true;
   if (lname == "") {
     console.log("Listing name cannot be empty");
     checkAll = false;
@@ -362,6 +423,9 @@ function checkEverything() {
     checkAll = false;
   }
   if (!checkLeaseType()) {
+    checkAll = false;
+  }
+  if (!checkAmen()) {
     checkAll = false;
   }
 }
