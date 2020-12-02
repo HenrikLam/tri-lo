@@ -3,7 +3,6 @@ DROP TABLE IF EXISTS groupInvitations;
 DROP TABLE IF EXISTS groupMembers;
 DROP TABLE IF EXISTS listingAmenities;
 DROP TABLE IF EXISTS reports;
-DROP TABLE IF EXISTS listingLocations;
 DROP TABLE IF EXISTS collections;
 DROP TABLE IF EXISTS groups;
 DROP TABLE IF EXISTS locations;
@@ -55,13 +54,13 @@ CREATE TABLE listings (
   city varchar(100) NOT NULL,
   state varchar(100) NOT NULL,
   zipcode varchar(15) NOT NULL,
-  latitude FLOAT(9, 6) NOT NULL,
-  longitude FLOAT(9, 6) NOT NULL,
-  bedrooms int(3),
-  bathrooms FLOAT(4, 1),
-  squareFeet int(5),
+  latitude varchar(15) NOT NULL,
+  longitude varchar(15) NOT NULL,
+  bedrooms varchar(5),
+  bathrooms varchar(5),
+  squareFeet varchar(10),
   leaseType varchar(20),
-  dateTimePosted TIMESTAMP NOT NULL,
+  dateTimePosted varchar(20) NOT NULL,
   status varchar(20) NOT NULL,
   PRIMARY KEY (listingId)
 );

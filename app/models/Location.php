@@ -40,7 +40,7 @@ class Location {
     return $this->state;
   }
 
-  public function getZipCode() {
+  public function getZipcode() {
     return $this->zipcode;
   }
 

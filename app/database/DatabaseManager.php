@@ -171,7 +171,7 @@ class DatabaseManager {
     $return = null;
     $row = $stmt->get_result()->fetch_assoc();
 
-    if (isset($row))
+    if (isset($row)) {
       // Append listing
       $return = $this->constructListingFromRow($row);
     }
@@ -418,7 +418,7 @@ class DatabaseManager {
     $query = "SELECT * 
     FROM users 
     LEFT JOIN owners
-    ON owners.user
+    ON owners.userId
     WHERE username=?";
 
     $stmt = $this->databaseConnection->prepare($query);
@@ -470,63 +470,77 @@ class DatabaseManager {
    * @param OwnerAccount $user
    * @param Listing $listing
    */
-  public function saveListing($user, $listing) {
-    $name = $listing->getName();
+  public function saveListing($listing) {
+    $listingName = $listing->getListingName();
     $description = $listing->getDescription();
-    $ownerId = $user->getUserId();
+    $ownerId = $lsting->getOwner()->getUserId();
     $rent = $listing->getRent();
     $address = $listing->getLocation()->getAddress();
     $city = $listing->getLocation()->getCity();
     $state = $listing->getLocation()->getState();
-    $zipCode = $listing->getLocation()->getZipCode();
+    $zipcode = $listing->getLocation()->getZipcode();
     $latitude = $listing->getLatitude();
     $longitude = $listing->getLongitude();
     $bedrooms = $listing->getBedrooms();
     $bathrooms = $listing->getBathrooms();
     $squareFeet = $listing->getSquareFeet();
-    $squareFeet = $listing->getSquareFeet();
-    $timeStamp = $listing->getTimeStamp();
+    $timeStamp = $listing->getDateTimePosted();
+    $leaseType = $listing->getLeaseType();
     $status = $listing->getStatus();
 
     $query = "INSERT INTO listings (listingName, ownerId, description, rent, address, city, state, zipcode, ";
     $query = $query . "latitude, longitude, bedrooms, bathrooms,  ";
     $query = $query . "squareFeet, leaseType, dateTimePosted, status) ";
-    $query = $query . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+    $query = $query . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     $stmt = $this->databaseConnection->prepare($query);
 
-    // sisssss ddisid id
-    // not sure what the type of dateTimePosted should be
-    $stmt->bind_param("sisssssddisidids", $name,
+    // sissssss ssss ssss
+    $stmt->bind_param("sissssssssssssss", $listingName,
                                          $ownerId,
                                          $description,
                                          $rent,
                                          $address,
                                          $city,
                                          $state,
-                                         $zipCode,
+                                         $zipcode,
                                          $latitude,
                                          $longitude,
                                          $bedrooms,
                                          $bathrooms,
                                          $squareFeet,
                                          $leaseType,
-                                         $timeStamp,
+                                         $dateTimePosted,
                                          $status);
     $stmt->execute();
+
+    if (!$stmt->error == '') {
+      $stmt->close();
+      return false;
+    }
+
     $stmt->close();
 
-    // add amenities to listingAmenities
-    foreach ($filters as $key => $value) {
-      // for each filter, add a tuple to the table
-      $query = "INSERT INTO listingAmenities (listingId, amenity, amenityValue) VALUES (?,?,?)";
-      // not sure how to get the listingId since we fill that out automatically
-      $stmt = $this->databaseConnection->prepare($query);
-      $statement->bind_param("dss", $listingId, $key, $value);
-      $stmt->execute();
-      $stmt->close();
+    if (!is_null($filters)) {
+      // add amenities to listingAmenities
+      foreach ($filters as $key => $value) {
+        // for each filter, add a tuple to the table
+        $query = "INSERT INTO listingAmenities (listingId, amenity, amenityValue) VALUES (?,?,?)";
+        // not sure how to get the listingId since we fill that out automatically
+        $stmt = $this->databaseConnection->prepare($query);
+        $statement->bind_param("dss", $listingId, $key, $value);
+        $stmt->execute();
+
+        if (!$stmt->error == '') {
+          $stmt->close();
+          return false;
+        }
+
+        $stmt->close();
+      }
     }
-    
+
+    return true;    
   }
 
   /**
