@@ -5,33 +5,35 @@ namespace app\models;
 use app\models\Locatioon;
 
 class Listing {
-  private $name;
+  private $listingName;
   private $location;
-  private $amenities;
-  private $price;
   private $owner;
-  private $isRenting;
-  private $paymentFrequency;
-  private $id;
-  private $latitude;
+  private $description;
+  private $amenities;
+  private $rent;
+  private $squareFeet;
   private $longitude;
+  private $latitude;
   private $bedrooms;
   private $bathrooms;
+  private $leaseType;
+  private $dateTimePosted;
+  private $status;
 
-  public function __construct($name, $location, $amenities, $price, $owner, $isRenting, $paymentFrequency, $latitude, $longitude, $bedrooms, $bathrooms, $squareFeet, $timeStamp, $status) {
-    $this->name = $name;
+  public function __construct($listingName, $location, $owner, $description, $amenities, $rent, $squareFeet, $longitude, $latitude, $bedrooms, $bathrooms, $leaseType, $dateTimePosted, $status) {
+    $this->listingName = $listingName;
     $this->location = $location;
-    $this->amenities = $amenities;
-    $this->price = $price;
     $this->owner = $owner;
-    $this->isRenting = $isRenting;
-    $this->paymentFrequency = $paymentFrequency;
-    $this->latitude = $latitude;
+    $this->description = $description;
+    $this->amenities = $amenities;
+    $this->rent = $rent;
+    $this->squareFeet = $squareFeet;
     $this->longitude = $longitude;
+    $this->latitude = $latitude;
     $this->bedrooms = $bedrooms;
     $this->bathrooms = $bathrooms;
-    $this->squareFeet = $squareFeet;
-    $this->timeStamp = $timeStamp;
+    $this->leaseType = $leaseType;
+    $this->dateTimePosted = $dateTimePosted;
     $this->status = $status;
   }
 
@@ -39,57 +41,53 @@ class Listing {
     return new Listing(
       $data['listingName'], 
       $data['location'],
-      null,
-      $data['price'],
       $data['owner'],
-      $data['isRenting'],
-      $data['paymentFrequency'],
-      $data['latitude'],
+      $data['description']
+      null,
+      $data['rent'],
+      $data['squareFeet'],
       $data['longitude'],
+      $data['latitude'],
       $data['bedrooms'],
       $data['bathrooms'],
-      $data['squareFeet'],
+      $data['leaseType'],
       $data['dateTimePosted'],
       $data['status']);
   }
 
-  public function getName() {
-    return $this->name;
+  public function getListingName() {
+    return $this->listingName;
   }
 
   public function getLocation() {
     return $this->location;
   }
 
-  public function getAmenities() {
-    return $this->amenities;
-  }
-
-  public function getPrice() {
-    return $this->price;
-  }
-
   public function getOwner() {
     return $this->owner;
   }
 
-  public function getIsRenting() {
-    return $this->isRenting;
+  public function getDescription() {
+    return $this->description;
   }
 
-  public function getPaymentFrequency() {
-    return $this->paymentFrequency;
+  public function getAmenities() {
+    return $this->amenities;
   }
 
-  public function getId() {
-    return $this->id;
+  public function getRent() {
+    return $this->rent;
   }
 
-  public function getLatitude() {
-    return $this->latitude;
+  public function getSquareFeet() {
+    return $this->squareFeet;
   }
 
   public function getLongitude() {
+    return $this->longitude;
+  }
+
+  public function getLatitude() {
     return $this->latitude;
   }
 
@@ -101,55 +99,51 @@ class Listing {
     return $this->bathrooms;
   }
 
-  public function getSquareFeet() {
-    return $this->squareFeet;
+  public function getLeaseType() {
+    return $this->leaseType;
+  }
+
+  public function getDateTimePosted() {
+    return $this->dateTimePosted;
   }
 
   public function getStatus() {
     return $this->status;
   }
 
-  public function getTimeStamp() {
-    return $this->timeStamp;
-  }
-
-  public function setName($name) {
-    $this->name = $name;
+  public function setListingName($listingName) {
+    $this->listingName = $listingName;
   }
 
   public function setLocation($location) {
     $this->location = $location;
   }
 
-  public function setAmenities($amenities) {
-    $this->amenities = $amenities;
-  }
-
-  public function setPrice($price) {
-    $this->price = $price;
-  }
-
   public function setOwner($owner) {
     $this->owner = $owner;
   }
 
-  public function setIsRenting($isRenting) {
-    $this->isRenting = $isRenting;
+  public function setDescription($description) {
+    $this->description = $description;
   }
 
-  public function setPaymentFrequency($paymentFrequency) {
-    $this->paymentFrequency = $paymentFrequency;
+  public function setAmenities($amenities) {
+    $this->amenities = $amenities;
   }
 
-  public function setId($id) {
-    $this->id = $id;
+  public function setRent($rent) {
+    $this->rent = $rent;
+  }
+
+  public function setSquareFeet($squareFeet) {
+    $this->squareFeet = $squareFeet;
+  }
+
+  public function setLongitude($longitude) {
+    $this->longitude = $longitude;
   }
 
   public function setLatitude($latitude) {
-    $this->latitude = $latitude;
-  }
-
-  public function setLongitude($latitude) {
     $this->latitude = $latitude;
   }
 
@@ -161,22 +155,19 @@ class Listing {
     $this->bathrooms = $bathrooms;
   }
 
-  public function setSquareFeet($squareFeet) {
-    $this->squareFeet = $squareFeet;
+  public function setLeaseType($leaseType) {
+    $this->leaseType = $leaseType;
+  }
+  
+  public function setTimeStamp($timeStamp) {
+    $this->timeStamp = $timeStamp;
   }
 
   public function setStatus($status) {
     $this->status = $status;
   }
 
-  public function setTimeStamp($timeStamp) {
-    $this->timeStamp = $timeStamp;
-  }
-
   public function updateAmenity($amenity, $val) {
-    // if the amenity doesn't exist in the amenities list yet,
-    // then it gets added with the new value
-    // if it already exists in the listing, we change the value 
     $this->amenities[$amenity] = $val;
   } 
 
