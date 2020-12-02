@@ -22,7 +22,7 @@ function setCreateListingEventListeners(){
   document.getElementById("zipc").addEventListener("change", checkZipcode);
   document.getElementById("lldname").addEventListener("change", checkLandlordName);
   document.getElementById("hotline").addEventListener("change", checkPhoneNumber);
-  document.getElementById("email").addEventListener("change", checkEmail);
+  document.getElementById("lemail").addEventListener("change", checkEmail);
   document.getElementById("descr").addEventListener("change", setDescription);
   document.getElementById("rent").addEventListener("change", checkRent);
   document.getElementById("sfeet").addEventListener("change", checkSquareFeet);
@@ -74,21 +74,21 @@ function setDescription() {
 
 function isNumeric(input) {
   var pattern = /^[0-9\s]+$/i;
-  if (input != pattern.match(input)){
+  if (!input.match(pattern)){
     return false;
   }
   return true;
 }
 function isAlpha(input){
   var pattern = /^[a-zA-Z\s]+$/i;
-  if (input != pattern.match(input)){
+  if (!input.match(pattern)){
     return false;
   }
   return true;
 }
 function isAlphaNumeric(input){
   var pattern = /^[a-zA-Z0-9\s]+$/i;
-  if (input != pattern.match(input)){
+  if (!input.match(pattern)){
     return false;
   }
   return true;
@@ -96,7 +96,7 @@ function isAlphaNumeric(input){
 function isValidPhoneNumber(phoneNoInput){
   // make sure phone number is in XXX-XXX-XXXX format
   var pattern = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-  if(phoneNoInput != pattern.match(phoneNoInput)){
+  if(!phoneNoInput.match(pattern)){
     return false;
   }
   return true;
@@ -236,7 +236,7 @@ function checkBedrooms(){
 }
 function checkBathrooms(){
   bathrooms = document.getElementById("bath").value;
-  if (!isPrecisionOne(bathrooms) || bathrooms == ""){
+  if (!isNumeric(bathrooms) || bathrooms == ""){
       document.getElementById("checkbath").innerHTML="Please enter an integer.";
       return false;
   } else {
