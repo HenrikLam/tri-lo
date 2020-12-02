@@ -849,6 +849,19 @@ class DatabaseManager {
     $stmt->bind_param("s", $sessionID);
     $result = $stmt->execute();
   }
-}
 
+  /**
+   * Updates teh password for a user
+   * @param string $username
+   */
+  public function changePasswordFromUsername($username, $password) {
+    $query = "UPDATE users
+    SET password = ?
+    WHERE username=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("ss", $password, $username);
+    $result = $stmt->execute();
+  }
+}
 ?>
