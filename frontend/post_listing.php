@@ -4,8 +4,6 @@
 
   $manager = \app\database\DatabaseManager::getInstance();
   
-  // saveListing
-  
   $error = false;
   if (!isset($_COOKIE['sessionId'])){
     echo 'Error: no sessionId provided!';
