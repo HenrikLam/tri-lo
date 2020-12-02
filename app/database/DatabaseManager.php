@@ -883,6 +883,5 @@ class DatabaseManager {
     $stmt->bind_param("s", $sessionID);
     $result = $stmt->execute();
   }
-}
 
 ?>
