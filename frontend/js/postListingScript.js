@@ -13,6 +13,10 @@ var bedrooms;
 var bathrooms;
 var leaseType;
 
+var amenities = {};
+var numAmen = 0;
+var newAmen = 4;
+
 function setCreateListingEventListeners(){
   document.getElementById("clbutt").addEventListener("click", saveListing);
   document.getElementById("lname").addEventListener("change",setListingName);
@@ -29,6 +33,7 @@ function setCreateListingEventListeners(){
   document.getElementById("bed").addEventListener("change", checkBedrooms);
   document.getElementById("bath").addEventListener("change", checkBathrooms);
   document.getElementById("leaset").addEventListener("change", checkLeaseType);
+  document.getElementById("aamen").addEventListener("click", addButton);
 }
 
 function saveListing(e){
@@ -64,6 +69,58 @@ function saveListing(e){
         xhr.send(params);
     }
 }
+
+// .createElement can create a html object
+// .classList.add adds to class at the end, overlaying any previous classes
+// .style.property = changes the styles property
+// .createTextNode() allows you to add text
+// .appendChild() is insertion of text/class/object
+function addButton() {
+  const first_row = document.createElement("div");
+  first_row.classList.add("row");
+  first_row.style.marginLeft = "0px";
+  const frlabel1 = document.createElement("label");
+  frlabel1.style.width = "15%";
+  const label1text = document.createTextNode("Type:");
+  frlabel1.appendChild(label1text);
+
+  const frlabel2 = document.createElement("label");
+  frlabel2.style.width = "15%";
+  frlabel2.style.marginLeft = "15px";
+  const label2text = document.createTextNode("Description:");
+  frlabel2.appendChild(label2text);
+
+  first_row.appendChild(frlabel1);
+  first_row.appendChild(frlabel2);
+
+  document.getElementById("addBootonBox").appendChild(first_row);
+
+  const second_row = document.createElement("div");
+  second_row.classList.add("row");
+  second_row.style.marginLeft = "0px";
+
+  const srinput1 = document.createElement("input");
+  srinput1.type = "text";
+  srinput1.classList.add("form-control");
+  srinput1.classList.add("mb-2");
+  srinput1.style.width = "15%";
+  srinput1.style.float = "left";
+
+  const srinput2 = document.createElement("input");
+  srinput2.type = "text";
+  srinput2.classList.add("form-control");
+  srinput2.classList.add("mb-2");
+  srinput2.style.width = "30%";
+  srinput2.style.float = "left";
+  srinput2.style.marginLeft = "15px";
+
+  second_row.appendChild(srinput1);
+  second_row.appendChild(srinput2);
+
+  document.getElementById("addBootonBox").appendChild(second_row);
+
+}
+
 
 function setListingName() {
   listingName = document.getElementById("lname").value;
