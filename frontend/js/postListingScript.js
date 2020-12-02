@@ -46,8 +46,9 @@ function saveListing(e){
         var xhr = new XMLHttpRequest();
         var params = "listingName=" + listingName + "&address=" + address + "&city=" + city + 
                      "&state=" + state + "&zipcode=" + zipcode + "&landlordName=" + landlordName + 
-                     "&phoneNo=" + phoneNo + "&email=" + email + "&rent=" + rent + "&squareFeet=" + squareFeet + 
-                     "&bathrooms=" + bathrooms + "&bedrooms=" + bedrooms + "&leaseType=" + leaseType;
+                     "&phoneNo=" + phoneNo + "&email=" + email + "&description=" + description +
+                     "&rent=" + rent + "&squareFeet=" + squareFeet + "&bathrooms=" + bathrooms +
+                     "&bedrooms=" + bedrooms + "&leaseType=" + leaseType + "&status=ACTIVE";
         // OPEN- type, url/file, async
         xhr.open('POST', 'post_listing.php', true);
         xhr.onerror = function() {
