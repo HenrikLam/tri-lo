@@ -1,9 +1,17 @@
 <?php
 
+namespace app\models;
+
 class Report {
   private $userId;
   private $listingId;
   private $reason;
+
+  public function __construct($userId, $listingId, $reason) {
+    $this->userId = $userId;
+    $this->listingId = $listingId;
+    $this->reason = $reason;
+  }
 
   public function getUserId() {
     return $this->userId;

@@ -154,47 +154,115 @@ class DatabaseManager {
   }
 
   /**
+   * Get a listing from listingId
+   *
+   * @param int $listingId
+   * @return Listing
+   */
+  public function getListingFromListingId($listingId) {
+    $query = "SELECT * 
+    FROM listings 
+    WHERE listingId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $listingId);
+    $result = $stmt->execute();
+
+    $return = null;
+    $row = $stmt->get_result()->fetch_assoc();
+
+    if (isset($row))
+      // Append listing
+      $return = $this->constructListingFromRow($row);
+    }
+
+    return $return;
+  }
+
+  /**
    * Search for listings from a location
    *
-   * @param Location $from The location we are searching
+   * @param float $latitude
+   * @param float $longitude
    * @param int $pageNum The offset for the query
    * @param int $radius The distance from the location we are looking
    * @param array $filters Filter specifications for the query
    * @return Listing[] of previous/closed listings
    */
-  public function getListings(Location $from, $pageNum, $radius, $filters) {
+  public function getListingsFromSearch(Location $latitude, $longitude, $pageNum, $radius, $filters) {
     //$page_size = 20?
-    $filterQuery = $this->getQueryStringByAmenities($filters);
-
     // get listing ids of listings that are within the radius
-    $radiusQuery = "SELECT listingId 
+    $baseQuery = "SELECT * 
     FROM listings 
     WHERE (
         3959 * acos (
-          cos ( radians( from.ycoord ) )
+          cos ( radians( ? [fromLatitude] ) )
           * cos( radians( lis.ycoord ) )
-          * cos( radians( lis.xcoord ) - radians( from.xcoord ) )
-          + sin ( radians( from.ycoord) )
+          * cos( radians( lis.xcoord ) - radians( ? [fromLongitude] ) )
+          + sin ( radians( ? [fromLatitude] ) )
           * sin( radians( lis.ycoord ) )
           )
       ) < $radius
-    AND lis.status = 'ACTIVE'";
+    AND status = 'ACTIVE'";
 
-    $query = $filterQuery . " INTERSECT " . $radiusQuery;
+    $basicFeatures = $this->getQueryStringByBasicFeatures($filters);
+    $baseQuery = $filterQuery . $basicFeatures;
+
+    $filterQuery = $this->getQueryStringByAmenities($filters);
+    $query = $filterQuery . " INTERSECT " . $baseQuery;
+
+    // ORDER BY $ordering
+    // LIMIT $pageNum * $pageSize, $pageSize + 1 (page size + 1 for page indexing)
     
     $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("fff", $latitude, $longitude, $latitude);
     $result = $stmt->execute();
 
     $return = [];
     foreach ($stmt->get_result() as $row) {
-      // Add listing object to return
-      $return[] = $this->getListingFromListingId($row['listingId']);
+      // Append listing
+      $return[] = $this->constructListingFromRow($row);
     }
 
     return $return;
-    // append getQueryStringByAmenities() result
-    // ORDER BY $ordering
-    // LIMIT $pageNum * $pageSize, $pageSize + 1 (page size + 1 for page indexing)
+  }
+
+  /**
+   * Get the query string section with basic requirments
+   *
+   * @param array $filters Filter specifications for the query
+   * @return string
+   */
+  private function getQueryStringByBasicFeatures($filters) {
+    $query = "";
+
+    // add check for price range
+    if (isset($filters['startingPrice'])) {
+      $query = $query . "AND price >= " . $filters['startingPrice'] .
+                                "AND price <= " . $filters['endingPrice'];
+      unset($filters['startingPrice']);
+      unset($filters['endingPrice']);
+    }
+
+    // add check for rooms and squareFeet
+    if (isset($filters['bedrooms'])) {
+      $query = $query . "AND bedrooms >= " . $filters['bedrooms'];
+      unset($filters['bedrooms']);
+    }
+
+    // add check for rooms and squareFeet
+    if (isset($filters['bathrooms'])) {
+      $query = $query . "AND bathrooms >= " . $filters['bathrooms'];
+      unset($filters['bathrooms']);
+    }
+
+    // add check for rooms and squareFeet
+    if (isset($filters['squareFeet'])) {
+      $query = $query . "AND squareFeet >= " . $filters['squareFeet'];
+      unset($filters['squareFeet']);
+    }
+
+    return $query;
   }
 
   /**
@@ -325,7 +393,19 @@ class DatabaseManager {
    * @return Report[]
    */
   public function getReportsFromListing($listingId) {
+    $query = "SELECT * 
+    FROM reports  
+    WHERE reports.listingId=?";
 
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $listingId);
+    $result = $stmt->execute();
+
+    foreach ($stmt->get_result() as $row) {
+      $return[] = new Report($row['userId'], $row['listingId'], $row['reasonForReport']);
+    }
+
+    return $return;
   }
 
   /**
@@ -337,6 +417,8 @@ class DatabaseManager {
   public function getUserInfoFromUsername($username) {
     $query = "SELECT * 
     FROM users 
+    LEFT JOIN owners
+    ON owners.user
     WHERE username=?";
 
     $stmt = $this->databaseConnection->prepare($query);
@@ -385,52 +467,52 @@ class DatabaseManager {
   /**
    * Save a listing to the database (real listings)
    *
-   * @param UserAccount $user
+   * @param OwnerAccount $user
    * @param Listing $listing
    */
   public function saveListing($user, $listing) {
     $name = $listing->getName();
+    $description = $listing->getDescription();
     $ownerId = $user->getUserId();
-    $price = $listing->getPrice();
+    $rent = $listing->getRent();
     $address = $listing->getLocation()->getAddress();
     $city = $listing->getLocation()->getCity();
     $state = $listing->getLocation()->getState();
     $zipCode = $listing->getLocation()->getZipCode();
     $latitude = $listing->getLatitude();
     $longitude = $listing->getLongitude();
-    $isRenting = $listing->getIsRenting();
-    $paymentFrequency = $listing->getPaymentFrequency();
     $bedrooms = $listing->getBedrooms();
     $bathrooms = $listing->getBathrooms();
+    $squareFeet = $listing->getSquareFeet();
     $squareFeet = $listing->getSquareFeet();
     $timeStamp = $listing->getTimeStamp();
     $status = $listing->getStatus();
 
-    $query = "INSERT INTO listings (listingName, ownerId, price, address, city, state, zipcode, ";
-    $query = $query . "latitude, longitude, isRenting, paymentFrequency, bedrooms, bathrooms,  ";
-    $query = $query . "squareFeet, dateTimePosted, status) ";
+    $query = "INSERT INTO listings (listingName, ownerId, description, rent, address, city, state, zipcode, ";
+    $query = $query . "latitude, longitude, bedrooms, bathrooms,  ";
+    $query = $query . "squareFeet, leaseType, dateTimePosted, status) ";
     $query = $query . "VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 
     $stmt = $this->databaseConnection->prepare($query);
+
     // sisssss ddisid id
     // not sure what the type of dateTimePosted should be
     $stmt->bind_param("sisssssddisidids", $name,
                                          $ownerId,
-                                         $price,
+                                         $description,
+                                         $rent,
                                          $address,
                                          $city,
                                          $state,
                                          $zipCode,
                                          $latitude,
                                          $longitude,
-                                         $isRenting,
-                                         $paymentFrequency,
                                          $bedrooms,
                                          $bathrooms,
                                          $squareFeet,
+                                         $leaseType,
                                          $timeStamp,
                                          $status);
-
     $stmt->execute();
     $stmt->close();
 
@@ -445,6 +527,28 @@ class DatabaseManager {
       $stmt->close();
     }
     
+  }
+
+  /**
+   * Get images for a listing
+   * 
+   * @param int $listingId
+   * @return string[]
+   */
+  public function getImagesFromListingId($listingId) {
+    $query = "SELECT * 
+    FROM images  
+    WHERE images.listingId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $listingId);
+    $result = $stmt->execute();
+
+    foreach ($stmt->get_result() as $row) {
+      $return[] = $row['link'];
+    }
+
+    return $return;
   }
 
   /**
@@ -470,9 +574,11 @@ class DatabaseManager {
     }
     elseif ($account instanceof LandlordAccount) {
       $type = 'Landlord';
+      $this->saveOwnerInfo($account);
     }
     else {
       $type = 'Agent';
+      $this->saveOwnerInfo($account);
     }
 
     $firstName = $account->getFirstName();
@@ -490,6 +596,23 @@ class DatabaseManager {
                                $password,
                                $email,
                                $type);
+    $result = $stmt->execute();
+    $stmt->close();
+    return $result;
+  }
+
+  /**
+   * Save an account to the database after sign-up
+   *
+   * @param OwnerAccount $account
+   */
+  public function saveOwnerInfo($account) {
+    $phoneNumber = $account->getPhoneNumber();
+    $userId = $account->getUserId();
+
+    $query = "INSERT INTO owners (userId, phoneNumber) VALUES (?,?)";
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("ds", $userId, $phoneNumber);
     $result = $stmt->execute();
     $stmt->close();
     return $result;
