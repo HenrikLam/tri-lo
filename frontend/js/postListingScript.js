@@ -179,10 +179,12 @@ function checkAmen() {
       document.getElementById("amen" + i + "t").style.borderColor = "";
       document.getElementById("amen" + i + "d").placeholder = "";
       document.getElementById("amen" + i + "d").style.borderColor = "";
-      amenities[amenityTs[i]] = amenityDs[i];
-      return true;
     }
   }
+  for (var i = 0; i < newAmen; i++) {
+    amenities[amenityTs[i]] = amenityDs[i];
+  }
+  return true;
 }
 
 function setListingName() {
