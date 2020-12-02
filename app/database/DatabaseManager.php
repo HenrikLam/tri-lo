@@ -325,7 +325,19 @@ class DatabaseManager {
    * @return Report[]
    */
   public function getReportsFromListing($listingId) {
+    $query = "SELECT * 
+    FROM reports  
+    WHERE reports.listingId=?";
 
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $listingId);
+    $result = $stmt->execute();
+
+    foreach ($stmt->get_result() as $row) {
+      $return[] = new Report($row['userId'], $row['listingId'], $row['reasonForReport']);
+    }
+
+    return $return;
   }
 
   /**
@@ -445,6 +457,28 @@ class DatabaseManager {
       $stmt->close();
     }
     
+  }
+
+  /**
+   * Get images for a listing
+   * 
+   * @param int $listingId
+   * @return string[]
+   */
+  public function getImagesFromListingId($listingId) {
+    $query = "SELECT * 
+    FROM images  
+    WHERE images.listingId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $listingId);
+    $result = $stmt->execute();
+
+    foreach ($stmt->get_result() as $row) {
+      $return[] = $row['link'];
+    }
+
+    return $return;
   }
 
   /**
