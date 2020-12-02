@@ -73,33 +73,33 @@ function setDescription() {
 }
 
 function isNumeric(input) {
-  var pattern = /^[0-9\s]+$/i;
-  if (!input.match(pattern)){
-    return false;
+  var pattern = /^[0-9\s]+$/;
+  if (pattern.test(input)){
+    return true;
   }
-  return true;
+  return false;
 }
-function isAlpha(input){
-  var pattern = /^[a-zA-Z\s]+$/i;
-  if (!input.match(pattern)){
-    return false;
+function isValidName(input){
+  var pattern = /^[a-zA-Z-\s]+$/;
+  if (pattern.test(input)){
+    return true;
   }
-  return true;
+  return false;
 }
 function isAlphaNumeric(input){
   var pattern = /^[a-zA-Z0-9\s]+$/i;
-  if (!input.match(pattern)){
-    return false;
+  if (pattern.test(input)){
+    return true;
   }
-  return true;
+  return false;
 }
 function isValidPhoneNumber(phoneNoInput){
   // make sure phone number is in XXX-XXX-XXXX format
   var pattern = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-  if(!phoneNoInput.match(pattern)){
-    return false;
+  if(pattern.test(phoneNoInput)){
+    return true;
   }
-  return true;
+  return false;
 }
 function isValidEmail(emailInput){
   var pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
@@ -109,7 +109,7 @@ function isValidEmail(emailInput){
   return false;
 }
 function isValidRent(priceInput){
-    var pattern = /^$[0-9]+(\.[0-9][0-9]?)?+$/;
+    var pattern = /^[$]?[0-9]{1,3}(?:,?[0-9]{3})*(?:\.[0-9]{2})?$/;
     if (pattern.test(priceInput)){
         return true;
     }
@@ -123,30 +123,30 @@ function isValidAddress(addressInput){
     return false;
 }
 function isValidCityState(cityStateInput){
-    var pattern = /^[a-zA-Z-\s]+$/;
-    if (pattern.test(cityStateInput)){
-        return true;
-    }
-    return false;
+  var pattern = /^[a-zA-Z-\s]+$/;
+  if (pattern.test(cityStateInput)){
+    return true;
+  }
+  return false;
 }
-function isValidLongLat(longLatInput){
-  var pattern = /^[a-zA-Z0-9.\s]+$/;
-  if (pattern.test(longLatInput)){
-      return true;
+function isValidZipcode(zipcodeInput){
+  var pattern = /^\d{5}(?:[-\s]\d{4})?$/;
+  if (pattern.test(zipcodeInput)){
+    return true;
   }
   return false;
 }
 function isPrecisionOne(input){
-  var pattern = /^[0-9]+(\.[0-9]?)?+$/;
+  var pattern = /^[0-9]+(\.[5])?$/;
   if (pattern.test(input)){
-      return true;
+    return true;
   }
   return false;
 }
 
 function checkLandlordName(){
   landlordName = document.getElementById("lldname").value;
-  if (!isAlpha(landlordName) || landlordName == ""){
+  if (!isValidName(landlordName) || landlordName == ""){
       document.getElementById("checklldname").innerHTML="Please enter a name.";
       return false;
   } else {
