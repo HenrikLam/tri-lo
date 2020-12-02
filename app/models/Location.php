@@ -13,25 +13,19 @@ class Location {
   /** @var string */
   private $zipcode;
 
-  public function __construct() {
-    $input = func_get_args();
+  public function __construct($address, $city, $state, $zipcode) {
+    $this->address = $address;
+    $this->city = $city;
+    $this->state = $state;
+    $this->zipcode = $zipcode;
+  }
 
-    if (func_num_args() != 1) {
-      $input = [
-        "address" => $input[0],
-        "city" => $input[1],
-        "state" => $input[2],
-        "zip" => $input[3]
-      ];
-    }
-    else {
-      $input = $input[0];
-    }
-
-    $this->addressLine = $input["address"] ?? null;
-    $this->city = $input["city"] ?? null;
-    $this->state = $input["state"] ?? null;
-    $this->zipcode = $input["zip"] ?? null;
+  public static function listConstructor($data) {
+    return new Location($data['address'] ?? null,
+      $data['city'] ?? null,
+      $data['state'] ?? null,
+      $data['zipcode'] ?? null
+    );
   }
 
   public function getAddress() {
