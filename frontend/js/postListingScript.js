@@ -298,8 +298,8 @@ function checkLandlordName(){
   }
 }
 function checkPhoneNumber(){
-  phoneNoInput = document.getElementById("phoneno").value;
-  if (!isValidPhoneNumber(phoneNoInput) || phoneNoInput == ""){
+  phoneNo = document.getElementById("phoneno").value;
+  if (!isValidPhoneNumber(phoneNo) || phoneNo == ""){
     document.getElementById("checkphoneno").innerHTML="Please enter a valid phone number.";
     return false;
   } else {
@@ -308,8 +308,8 @@ function checkPhoneNumber(){
   }
 }
 function checkEmail(){
-  emailInput = document.getElementById("lemail").value;
-  if (!isValidEmail(emailInput)){
+  email = document.getElementById("lemail").value;
+  if (!isValidEmail(email)){
     document.getElementById("checklemail").innerHTML="Please enter a valid email.";
     return false;
   } else {
@@ -318,8 +318,8 @@ function checkEmail(){
   }
 }
 function checkRent(){
-  rentInput = document.getElementById("rent").value;
-  if (!isValidRent(rentInput) || rentInput == ""){
+  rent = document.getElementById("rent").value;
+  if (!isValidRent(rent) || rent == ""){
       document.getElementById("checkrent").innerHTML="Please enter a number.";
       return false;
   } else {
