@@ -18,7 +18,7 @@
     return;
   }
   if (!isset($_POST['collectionId'])) {
-    echo 'Error: no collectionId provided!';
+    echo 'Error: no sessionId provided!';
     return;
   }
 

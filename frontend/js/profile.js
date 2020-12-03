@@ -34,7 +34,7 @@ function getInfo(funct){
     var xhr = new XMLHttpRequest();
     //retrieve sessionId from cookie
 
-    xhr.open('POST', 'php/users/echoUserInfo.php', true);
+    xhr.open('POST', 'echoUserInfo.php', true);
     xhr.onerror = function() {
         console.log('Request Error...');
     }
@@ -77,7 +77,7 @@ function changePassword(){
             var xhr = new XMLHttpRequest();
             //retrieve sessionId from cookie
 
-            xhr.open('POST', 'php/users/changePassword.php', true);
+            xhr.open('POST', 'changePassword.php', true);
             xhr.onerror = function() {
                 console.log('Request Error...');
             }
