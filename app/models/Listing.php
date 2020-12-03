@@ -42,7 +42,7 @@ class Listing {
       $data['listingName'], 
       $data['location'],
       $data['owner'],
-      $data['description']
+      $data['description'],
       null,
       $data['rent'],
       $data['squareFeet'],

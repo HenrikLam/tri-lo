@@ -6,12 +6,13 @@ use app\models\OwnerAccount;
 
 class AgentAccount extends OwnerAccount {
 
-  public function __construct($firstName, $lastName, $username, $password, $email) {
+  public function __construct($firstName, $lastName, $username, $password, $email, $phoneNumber) {
     $this->firstName = $firstName;
     $this->lastName = $lastName;
     $this->username = $username;
     $this->password = $password;
     $this->email = $email;
+    $this->phoneNumber = $phoneNumber;
   }
 
   public static function listConstructor($data) {
@@ -19,7 +20,8 @@ class AgentAccount extends OwnerAccount {
       $data['lastName'],
       $data['username'],
       $data['password'],
-      $data['email']
+      $data['email'],
+      $data['phoneNumber']
       );
   }
 
