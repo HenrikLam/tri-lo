@@ -3,6 +3,8 @@ var lln;
 var attype;
 var usernameInput;
 var emailInput;
+var phonenumber = "";
+var pnBool = true;
 var passwordInput;
 var cpasswordInput;
 var checkAll;
@@ -19,10 +21,7 @@ function setSignupEventListeners(){
     document.getElementById("clienta").addEventListener("click", kekC);
     document.getElementById("llda").addEventListener("click", kekL);
     document.getElementById("agenta").addEventListener("click", kekA);
-}
-
-function redirectToLogin(){
-    window.location.replace("login.html");
+    document.getElementById("enterphone").addEventListener("change", checkpn);
 }
 
 // to be implemented later
@@ -38,6 +37,9 @@ function signupAccount(e){
         var params = "firstName=" + ffn + "&lastName=" + lln +
                      "&username=" + usernameInput + "&email=" + emailInput + 
                      "&password=" + passwordInput + "&accountType="+ attype;
+        if (!(phonenumber.length == 0)) {
+            params += ("&phoneNumber=" + phonenumber);
+        }
         // OPEN- type, url/file, async
         xhr.open('POST', 'signup.php', true);
         xhr.onerror = function() {
@@ -71,22 +73,76 @@ function setLLN() {
 function kekC() {
     changeBooton("clienta");
     attype = "Client";
+
+    phonenumber = "";
+    document.getElementById("enterphone").innerHTML = "";
 }
 
 function kekL() {
     changeBooton("llda");
     attype = "Landlord";
+    addpn();
 }
 function kekA() {
     changeBooton("agenta");
     attype = "Agent";
+    addpn();
+}
+
+function addpn() {
+    document.getElementById("enterphone").innerHTML = "";
+
+    var labelp = document.createElement("label");
+    var labelptext = document.createTextNode("Phone Number");
+    labelp.appendChild(labelptext);
+
+    var inputp = document.createElement("input");
+    inputp.type = "text";
+    inputp.classList.add("form-control");
+    inputp.classList.add("mb-2");
+    inputp.id = "phoneno";
+    inputp.placeholder = "(xxx)-xxx-xxxx";
+
+    //<div style="font-size: 12px; color: gray; width: 100%;" id="passwordReq">Must be at least 8 characters, at least 1 number, 1 lowercase, 1 uppercase</div>
+    var divp = document.createElement("div");
+    divp.id = "pnReq";
+    divp.style.fontSize = "12px";
+    divp.style.color = "gray";
+    divp.style.width = "100%";
+    var divptext = document.createTextNode("Please enter a valid phone number");
+    divp.appendChild(divptext);
+
+    document.getElementById("enterphone").appendChild(labelp);
+    document.getElementById("enterphone").appendChild(inputp);
+    document.getElementById("enterphone").appendChild(divp);
+}
+
+function checkpn(e) {
+    var pattern = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
+    if (e.target && e.target.nodeName == "INPUT") {
+        if (e.target.value.match(pattern)) {
+            phonenumber = e.target.value;
+            document.getElementById("pnReq").style.color = "gray";
+            pnBool = true;
+        }
+        else {
+            document.getElementById("pnReq").style.color = "red";
+            pnBool = false;
+        }
+    }
 }
 
 function changeBooton(value) {
     switch(String(value)) {
-        case "clienta": document.getElementById("atype").innerHTML = "Client "; break;
-        case "llda" : document.getElementById("atype").innerHTML = "Landlord "; break;
-        case "agenta" : document.getElementById("atype").innerHTML = "Agent "; break;
+        case "clienta": 
+            document.getElementById("atype").innerHTML = "Client ";
+            break;
+        case "llda":
+            document.getElementById("atype").innerHTML = "Landlord ";
+            break;
+        case "agenta":
+            document.getElementById("atype").innerHTML = "Agent ";
+            break;
     }
 }
 
@@ -175,6 +231,9 @@ function checkEverything() {
     }
     if (document.getElementById("lname").value == ""){
         console.log("no last name either");
+        checkAll = false;
+    }
+    if (!pnBool) {
         checkAll = false;
     }
 }
