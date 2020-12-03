@@ -101,7 +101,7 @@ class DatabaseManager {
 
     // Create the listing
     $lis = Listing::listConstructor($row);
-    $lis->setId($row['listingId']);
+    $lis->setListingId($row['listingId']);
     $lis->setAmenities($this->getAmenitiesFromListingId($row['listingId']));
 
     return $lis;
@@ -354,11 +354,11 @@ class DatabaseManager {
     }
 
     $listings = getListingsFromCollectionId($collectionId);
-    $collection = new Collection($row['collectionName'], $row['ownerId'], $);
+    $collection = new Collection($row['collectionName'], $row['ownerId'], $listings);
     $collection->setCollectionId($collectionId);
     return $collection;
-    }
-  }
+   }
+  
 
   /**
    * Get the Listings for a collection
@@ -405,7 +405,7 @@ class DatabaseManager {
 
     $collections = [];
     foreach ($stmt->get_result() as $row) {
-      $listings = $this->getListingsFromCollectionId($row['collectionId'])
+      $listings = $this->getListingsFromCollectionId($row['collectionId']);
       $collection = new Collection($row['collectionName'], $userId, $listings);
       $collection->setCollectionId($row['collectionId']);
       $return[] = $collection;
@@ -480,7 +480,7 @@ class DatabaseManager {
 
     $collections = [];
     foreach ($stmt->get_result() as $row) {
-      $listings = $this->getListingsFromCollectionId($row['collectionId'])
+      $listings = $this->getListingsFromCollectionId($row['collectionId']);
       $collection = new Collection($row['collectionName'], $userId, $listings);
       $collection->setCollectionId($row['collectionId']);
       $return[] = $collection;
@@ -589,7 +589,7 @@ class DatabaseManager {
     $bedrooms = $listing->getBedrooms();
     $bathrooms = $listing->getBathrooms();
     $squareFeet = $listing->getSquareFeet();
-    $timeStamp = $listing->getDateTimePosted();
+    $dateTimePosted = $listing->getDateTimePosted();
     $leaseType = $listing->getLeaseType();
     $status = $listing->getStatus();
 
@@ -619,7 +619,8 @@ class DatabaseManager {
                                          $status);
     $stmt->execute();
 
-    if (!$stmt->error == '') {
+    if (!($stmt->error == '')) {
+      echo($stmt->error);
       $stmt->close();
       return false;
     }
@@ -628,14 +629,15 @@ class DatabaseManager {
 
     $stmt->close();
 
-    if (!is_null($filters)) {
+    $amenities = $listing->getAmenities();
+    if (!is_null($amenities)) {
       // add amenities to listingAmenities
-      foreach ($filters as $key => $value) {
+      foreach ($amenities as $key => $value) {
         // for each filter, add a tuple to the table
-        $query = "INSERT INTO listingAmenities (listingId, amenity, amenityValue) VALUES (?,?,?)";
+        $query = "INSERT INTO listingamenities (listingId, amenity, amenityValue) VALUES (?,?,?)";
         // not sure how to get the listingId since we fill that out automatically
         $stmt = $this->databaseConnection->prepare($query);
-        $statement->bind_param("dss", $listingId, $key, $value);
+        $stmt->bind_param("dss", $listingId, $key, $value);
         $stmt->execute();
 
         if (!$stmt->error == '') {
@@ -745,16 +747,30 @@ class DatabaseManager {
   /**
    * Save a collection/bookmark a user has created
    *
-   * @param UserAccount $user
    * @param Collection $collection
+   * @param UserAccount $user
    */
-  public function saveCollection($user, $collection) {
+  public function saveCollection($collection, $user) {
     $name = $collection->getName();
     $ownerID = $user->getOwnerId();
 
     $query = "INSERT INTO collections (collectionName, ownerId) VALUES (?,?)";
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("sd", $name, $ownerId);
+    $stmt->execute();
+    $stmt->close();
+  }
+
+  /**
+   * Save a collection/bookmark a user has created
+   *
+   * @param int $collectionId
+   * @param int $listingId
+   */
+  public function saveListingToCollection($collectionId, $listingId) {
+    $query = "INSERT INTO collectionListings (collectionId, listingId) VALUES (?,?)";
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("dd", $collectionId, $listingId);
     $stmt->execute();
     $stmt->close();
   }

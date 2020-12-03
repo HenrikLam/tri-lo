@@ -13,6 +13,9 @@ var bedrooms;
 var bathrooms;
 var leaseType;
 
+var houseNoods;
+var numNoods;
+
 var checkAll = true;
 
 var amenityTs = [];
@@ -49,23 +52,39 @@ function setCreateListingEventListeners(){
 function saveListing(e){
     e.preventDefault();
     checkEverything();
+
+    houseNoods = new FormData();
+
+    numNoods = document.getElementById("housenoods").files.length;
+    for (var index = 0; index < numNoods; index++) {
+      houseNoods.append("files[]", document.getElementById("housenoods").files[index]);
+    }
     if (!checkAll) {
         console.log("missing or incorrect information in fields");
     }
     else {
         var xhr = new XMLHttpRequest();
-        var params = "listingName=" + listingName + "&address=" + address + "&city=" + city + 
-                     "&state=" + state + "&zipcode=" + zipcode + "&landlordName=" + landlordName + 
-                     "&phoneNo=" + phoneNo + "&email=" + email + "&description=" + description +
-                     "&rent=" + rent + "&squareFeet=" + squareFeet + "&bathrooms=" + bathrooms +
-                     "&bedrooms=" + bedrooms + "&leaseType=" + leaseType + "&status=ACTIVE" +
-                     "&amenities=" +JSON.stringify(amenities);
+        houseNoods.append("listingName", listingName);
+        houseNoods.append("address", address);
+        houseNoods.append("city", city);
+        houseNoods.append("state", state);
+        houseNoods.append("zipcode", zipcode);
+        houseNoods.append("landlordName", landlordName);
+        houseNoods.append("phoneNo", phoneNo);
+        houseNoods.append("email", email);
+        houseNoods.append("description", description);
+        houseNoods.append("rent", rent);
+        houseNoods.append("squareFeet", squareFeet);
+        houseNoods.append("bathrooms", bathrooms);
+        houseNoods.append("bedrooms", bedrooms);
+        houseNoods.append("leaseType", leaseType);
+        houseNoods.append("status", "ACTIVE");
+        houseNoods.append("amenities", JSON.stringify(amenities));
         // OPEN- type, url/file, async
-        xhr.open('POST', 'post_listing.php', true);
+        xhr.open('POST', 'php/listings/postListing.php', true);
         xhr.onerror = function() {
             console.log('Request Error...');
         }
-        xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
         //xhr.onprogress can be used to show loading screen
         //can also use xhr.onerror for error
@@ -78,7 +97,7 @@ function saveListing(e){
                 console.log("error");
             }
         }
-        xhr.send(params);
+        xhr.send(houseNoods);
     }
 }
 
@@ -279,8 +298,8 @@ function checkLandlordName(){
   }
 }
 function checkPhoneNumber(){
-  phoneNoInput = document.getElementById("phoneno").value;
-  if (!isValidPhoneNumber(phoneNoInput) || phoneNoInput == ""){
+  phoneNo = document.getElementById("phoneno").value;
+  if (!isValidPhoneNumber(phoneNo) || phoneNo == ""){
     document.getElementById("checkphoneno").innerHTML="Please enter a valid phone number.";
     return false;
   } else {
@@ -289,8 +308,8 @@ function checkPhoneNumber(){
   }
 }
 function checkEmail(){
-  emailInput = document.getElementById("lemail").value;
-  if (!isValidEmail(emailInput)){
+  email = document.getElementById("lemail").value;
+  if (!isValidEmail(email)){
     document.getElementById("checklemail").innerHTML="Please enter a valid email.";
     return false;
   } else {
@@ -299,8 +318,8 @@ function checkEmail(){
   }
 }
 function checkRent(){
-  rentInput = document.getElementById("rent").value;
-  if (!isValidRent(rentInput) || rentInput == ""){
+  rent = document.getElementById("rent").value;
+  if (!isValidRent(rent) || rent == ""){
       document.getElementById("checkrent").innerHTML="Please enter a number.";
       return false;
   } else {
