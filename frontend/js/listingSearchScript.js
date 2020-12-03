@@ -27,8 +27,8 @@ function setActivePrice2(e) {
   document.getElementById("price0500").classList = "dropdown-item";
   document.getElementById("price5001000").classList = "dropdown-item";
   document.getElementById("pricecustom").classList = "dropdown-item";
-  if (e.target && e.target.nodeName == "A") {
-    e.target.classList.add("active");
+  if (e.target && e.target.nodeName == "INPUT") {
+    e.target.parentElement.classList.add("active");
   }
 }
 
