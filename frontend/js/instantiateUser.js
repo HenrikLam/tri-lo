@@ -20,7 +20,7 @@ function getUsername(funct){
     var xhr = new XMLHttpRequest();
     //retrieve sessionId from cookie
 
-    xhr.open('POST', 'getUsername.php', true);
+    xhr.open('POST', 'php/users/getUsername.php', true);
     xhr.onerror = function() {
         console.log('Request Error...');
     }
@@ -92,7 +92,7 @@ function logout(){
     var xhr = new XMLHttpRequest();
     //retrieve sessionId from cookie
 
-    xhr.open('POST', 'logOut.php', true);
+    xhr.open('POST', 'php/users/logOut.php', true);
     xhr.onerror = function() {
         console.log('Request Error...');
     }

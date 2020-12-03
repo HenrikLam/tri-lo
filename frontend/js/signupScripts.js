@@ -41,7 +41,7 @@ function signupAccount(e){
             params += ("&phoneNumber=" + phonenumber);
         }
         // OPEN- type, url/file, async
-        xhr.open('POST', 'signup.php', true);
+        xhr.open('POST', 'php/users/signup.php', true);
         xhr.onerror = function() {
             console.log('Request Error...');
         }
