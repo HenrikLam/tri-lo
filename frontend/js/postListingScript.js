@@ -81,7 +81,7 @@ function saveListing(e){
         houseNoods.append("status", "ACTIVE");
         houseNoods.append("amenities", JSON.stringify(amenities));
         // OPEN- type, url/file, async
-        xhr.open('POST', 'post_listing.php', true);
+        xhr.open('POST', 'php/listings/postListing.php', true);
         xhr.onerror = function() {
             console.log('Request Error...');
         }
