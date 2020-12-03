@@ -45,7 +45,7 @@
   if (!$error) {
     // get user from username
     $ownerInfo = $manager->getUserInfoFromSessionId($_COOKIE['sessionID']);
-    $owner = \app\models\UserAccount::listConstructor($ownerInfo);
+    $owner = $manager->getUserInfoFromUserId($ownerInfo['userId']);
 
     // make the Listing object
     $listingName = $_POST['listingName'];
