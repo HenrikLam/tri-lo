@@ -171,11 +171,11 @@ function addButton() {
 
 function setAmenity(e) {
   if (e.target && e.target.nodeName == "INPUT") {
-    if (e.target.id.match(/amen[0-9]{2}t/)) {
+    if (e.target.id.match(/amen[0-9]{1,2}t/)) {
       var meme = e.target.id.replace("amen", "").replace("t", "");
       amenityTs[parseInt(meme)] = e.target.value;
     }
-    if (e.target.id.match(/amen[0-9]{2}d/)) {
+    if (e.target.id.match(/amen[0-9]{1,2}d/)) {
       var meme = e.target.id.replace("amen", "").replace("d", "");
       amenityDs[parseInt(meme)] = e.target.value;
     }
