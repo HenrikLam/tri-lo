@@ -85,7 +85,6 @@ function saveListing(e){
         xhr.onerror = function() {
             console.log('Request Error...');
         }
-        xhr.setRequestHeader("Content-type", "multipart/form-data");
 
         //xhr.onprogress can be used to show loading screen
         //can also use xhr.onerror for error

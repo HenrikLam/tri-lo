@@ -354,11 +354,11 @@ class DatabaseManager {
     }
 
     $listings = getListingsFromCollectionId($collectionId);
-    $collection = new Collection($row['collectionName'], $row['ownerId'], $);
+    $collection = new Collection($row['collectionName'], $row['ownerId'], $listings);
     $collection->setCollectionId($collectionId);
     return $collection;
-    }
-  }
+   }
+  
 
   /**
    * Get the Listings for a collection
@@ -405,7 +405,7 @@ class DatabaseManager {
 
     $collections = [];
     foreach ($stmt->get_result() as $row) {
-      $listings = $this->getListingsFromCollectionId($row['collectionId'])
+      $listings = $this->getListingsFromCollectionId($row['collectionId']);
       $collection = new Collection($row['collectionName'], $userId, $listings);
       $collection->setCollectionId($row['collectionId']);
       $return[] = $collection;
@@ -480,7 +480,7 @@ class DatabaseManager {
 
     $collections = [];
     foreach ($stmt->get_result() as $row) {
-      $listings = $this->getListingsFromCollectionId($row['collectionId'])
+      $listings = $this->getListingsFromCollectionId($row['collectionId']);
       $collection = new Collection($row['collectionName'], $userId, $listings);
       $collection->setCollectionId($row['collectionId']);
       $return[] = $collection;
@@ -589,7 +589,7 @@ class DatabaseManager {
     $bedrooms = $listing->getBedrooms();
     $bathrooms = $listing->getBathrooms();
     $squareFeet = $listing->getSquareFeet();
-    $timeStamp = $listing->getDateTimePosted();
+    $dateTimePosted = $listing->getDateTimePosted();
     $leaseType = $listing->getLeaseType();
     $status = $listing->getStatus();
 
@@ -619,7 +619,8 @@ class DatabaseManager {
                                          $status);
     $stmt->execute();
 
-    if (!$stmt->error == '') {
+    if (!($stmt->error == '')) {
+      echo($stmt->error);
       $stmt->close();
       return false;
     }
