@@ -38,8 +38,8 @@
                                          // 'type' => 'Client']);
 
   // $user = $manager->getUserInfoFromUsername('poop');
-  // var_dump($manager->getSessionDataFromUserId(5));
-  $manager->changePasswordFromUsername('username', 'Password123');
+  // var_dump($manager->saveAccount(new \app\models\CLientAccount('fname', 'lname', 'aaaaaaaaa', 'Password123', 'email@email.com')));
+  // $manager->changePasswordFromUsername('username', 'Password123');
   // var_dump($manager->saveAccount($user));
 
 

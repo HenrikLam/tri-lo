@@ -415,11 +415,11 @@ class DatabaseManager {
    * @return UserAccount
    */
   public function getUserInfoFromUsername($username) {
-    $query = "SELECT * 
+    $query = "SELECT users.*, owners.phoneNumber
     FROM users 
     LEFT JOIN owners
-    ON owners.userId
-    WHERE username=?";
+    ON owners.userId = users.userId
+    WHERE users.username=?";
 
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("s", $username);
@@ -444,9 +444,11 @@ class DatabaseManager {
    * @return UserAccount
    */
   public function getUserInfoFromUserId($userId) {
-    $query = "SELECT * 
-    FROM users 
-    WHERE userId=?";
+    $query = "SELECT users.*, owners.phoneNumber
+    FROM users
+    LEFT JOIN owners
+    ON owners.userId = users.userId
+    WHERE users.userId=?";
 
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("d", $userId);
@@ -473,7 +475,7 @@ class DatabaseManager {
   public function saveListing($listing) {
     $listingName = $listing->getListingName();
     $description = $listing->getDescription();
-    $ownerId = $lsting->getOwner()->getUserId();
+    $ownerId = $listing->getOwner()->getUserId();
     $rent = $listing->getRent();
     $address = $listing->getLocation()->getAddress();
     $city = $listing->getLocation()->getCity();
@@ -519,6 +521,8 @@ class DatabaseManager {
       return false;
     }
 
+    $listingId = $this->databaseConnection->insert_id;
+
     $stmt->close();
 
     if (!is_null($filters)) {
@@ -540,7 +544,7 @@ class DatabaseManager {
       }
     }
 
-    return true;    
+    return $listingId;    
   }
 
   /**
@@ -611,8 +615,9 @@ class DatabaseManager {
                                $email,
                                $type);
     $result = $stmt->execute();
+    $userId = $this->databaseConnection->insert_id;
     $stmt->close();
-    return $result;
+    return $userId;
   }
 
   /**
@@ -980,7 +985,6 @@ class DatabaseManager {
     $result = $stmt->execute();
 
     $row = $stmt->get_result()->fetch_assoc();
-
     return $row['sessionId'];
   }
 

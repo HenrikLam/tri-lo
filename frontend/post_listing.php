@@ -4,20 +4,17 @@
 
   $manager = \app\database\DatabaseManager::getInstance();
   
-  // saveListing
-  
   $error = false;
-  $username = '';
-  if (!isset($_POST['username'])){
-      echo 'Error: no username provided!\n';
-      $error = true;
+  if (!isset($_COOKIE['sessionID'])){
+    echo 'Error: no sessionId provided!';
+    $error = true;
   }
   if (!isset($_POST['listingName'])){
-    echo 'Error: no listing name provided!\n';
+    echo 'Error: no listing name provided!';
     $error = true;
   }
   if (!isset($_POST['description'])){
-    echo 'Error: no description provided!\n';
+    echo 'Error: no description provided!';
     $error = true;
   }
   if (!isset($_POST['rent'])){
@@ -25,29 +22,30 @@
     $error = true;
   }
   if (!isset($_POST['squareFeet'])){
-    echo 'Error: no area (square feet) provided!\n';
+    echo 'Error: no area (square feet) provided!';
     $error = true;
   }
   if (!isset($_POST['bedrooms'])){
-    echo 'Error: no bedroom count provided!\n';
+    echo 'Error: no bedroom count provided!';
     $error = true;
   }
   if (!isset($_POST['bathrooms'])){
-    echo 'Error: no bathroom count provided!\n';
+    echo 'Error: no bathroom count provided!';
     $error = true;
   }
   if (!isset($_POST['leaseType'])){
-    echo 'Error: no lease type provided!\n';
+    echo 'Error: no lease type provided!';
     $error = true;
   }
   if (!isset($_POST['status'])){
-    echo 'Error: no status provided!\n';
+    echo 'Error: no status provided!';
     $error = true;
   }
 
   if (!$error) {
     // get user from username
-    $owner = $manager->getUserInfoFromUsername($_POST['username']);
+    $ownerInfo = $manager->getUserInfoFromSessionId($_COOKIE['sessionID']);
+    $owner = \app\models\UserAccount::listConstructor($ownerInfo);
 
     // make the Listing object
     $listingName = $_POST['listingName'];
@@ -69,12 +67,11 @@
 	  // get JSON results from this request
     $link = "http://api.positionstack.com/v1/forward?access_key=" . $apiKey . "&query=" . $address . "&output=json";
 
-    var_dump($link);
     $geo = file_get_contents($link);
     $geo = json_decode($geo, true); // convert the JSON to an array
 
     // if the results are valid and is in the united states
-    if (isset($geo) && isset($geo['data']) && isset($geo['data'][0]) && $geo['data'][0]['country_code'] == 'USA"') {
+    if (isset($geo) && isset($geo['data']) && isset($geo['data'][0]) && $geo['data'][0]['country_code'] == 'USA') {
       $latitude = $geo['data'][0]['latitude']; // Latitude
       $longitude = $geo['data'][0]['longitude']; // Longitude
     }
@@ -101,8 +98,11 @@
       "dateTimePosted" => $dateTimePosted,
       "status" => $status
     ];
+
+    $amenities = json_decode($_POST['amenities']);
     
     $listing = \app\models\Listing::listConstructor($data);
+    $listing->setAmenities($amenities);
 
     if ($manager->saveListing($listing)) {
       echo 'Listing added..';
@@ -111,14 +111,6 @@
       echo 'Error: ';
     }
   }
-
-  // create location object
-  // create listing object
-
-  // create location and ownerAccount
-  // get ownerId
-  // get longitude latitude of location
-  
       
 ?>
       

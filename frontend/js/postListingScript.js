@@ -58,7 +58,8 @@ function saveListing(e){
                      "&state=" + state + "&zipcode=" + zipcode + "&landlordName=" + landlordName + 
                      "&phoneNo=" + phoneNo + "&email=" + email + "&description=" + description +
                      "&rent=" + rent + "&squareFeet=" + squareFeet + "&bathrooms=" + bathrooms +
-                     "&bedrooms=" + bedrooms + "&leaseType=" + leaseType + "&status=ACTIVE";
+                     "&bedrooms=" + bedrooms + "&leaseType=" + leaseType + "&status=ACTIVE" +
+                     "&amenities=" +JSON.stringify(amenities);
         // OPEN- type, url/file, async
         xhr.open('POST', 'post_listing.php', true);
         xhr.onerror = function() {
@@ -78,24 +79,6 @@ function saveListing(e){
             }
         }
         xhr.send(params);
-
-        //new xmlhttprequest to a different file
-        var xhr2 = new XMLHttpRequest();
-        xhr2.open('POST', 'listing_amen.php', true);
-        xhr2.onerror = function() {
-          console.log('Request Error...');
-        }
-        xhr2.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-
-        xhr2.onload = function() {
-          if(this.status = 200) {
-            console.log(this.responseText);
-          }
-          else {
-            console.log("error");
-          }
-        }
-        xhr2.send(JSON.stringify(amenities));
     }
 }
 
@@ -326,8 +309,8 @@ function checkRent(){
   }
 }
 function checkAddress(){
-  addressInput = document.getElementById("addr").value;
-  if (!isValidAddress(addressInput) || addressInput == ""){
+  address = document.getElementById("addr").value;
+  if (!isValidAddress(address) || address == ""){
     document.getElementById("checkaddr").innerHTML="Please enter a valid address.";
     return false;
   } else {

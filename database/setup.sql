@@ -113,6 +113,7 @@ CREATE TABLE listingAmenities (
   listingId int(10) unsigned NOT NULL,
   amenity varchar(500) NOT NULL,
   amenityValue varchar(500) NOT NULL,
+  PRIMARY KEY (amenity),
   FOREIGN KEY (listingId) REFERENCES listings(listingId)
 );
 
