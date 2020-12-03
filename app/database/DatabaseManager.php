@@ -415,7 +415,7 @@ class DatabaseManager {
    * @return UserAccount
    */
   public function getUserInfoFromUsername($username) {
-    $query = "SELECT * 
+    $query = "SELECT users.*, owners.phoneNumber
     FROM users 
     LEFT JOIN owners
     ON owners.userId = users.userId
@@ -444,7 +444,7 @@ class DatabaseManager {
    * @return UserAccount
    */
   public function getUserInfoFromUserId($userId) {
-    $query = "SELECT * 
+    $query = "SELECT users.*, owners.phoneNumber
     FROM users
     LEFT JOIN owners
     ON owners.userId = users.userId
@@ -985,7 +985,6 @@ class DatabaseManager {
     $result = $stmt->execute();
 
     $row = $stmt->get_result()->fetch_assoc();
-
     return $row['sessionId'];
   }
 
