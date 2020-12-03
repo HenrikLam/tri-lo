@@ -1,12 +1,11 @@
 <?php
-    function getUserInfo($sessionId){
-        require dirname(__FILE__) . '\..\vendor\autoload.php';
-        $manager = \app\database\DatabaseManager::getInstance();
+	require dirname(__FILE__) . '\..\vendor\autoload.php';
 
-        if (isset($_POST['sessionID'])){
-            $result = $manager->getUserInfoFromSessionId($_POST['sessionID']);
-            return $result;
-        }
-        return NULL;
+    function getUserInfo($sessionId){
+        var_dump($sessionId);
+        $manager = \app\database\DatabaseManager::getInstance();
+        $result = $manager->getUserInfoFromSessionId($sessionId);
+        
+        return $result;
     }
 ?>

@@ -5,7 +5,7 @@
   $manager = \app\database\DatabaseManager::getInstance();
   
   $error = false;
-  if (!isset($_COOKIE['sessionId'])){
+  if (!isset($_COOKIE['sessionID'])){
     echo 'Error: no sessionId provided!';
     $error = true;
   }
@@ -98,8 +98,11 @@
       "dateTimePosted" => $dateTimePosted,
       "status" => $status
     ];
+
+    $amenities = json_decode($_POST['amenities']);
     
     $listing = \app\models\Listing::listConstructor($data);
+    $listing->setAmenities($amenities);
 
     if ($manager->saveListing($listing)) {
       echo 'Listing added..';
