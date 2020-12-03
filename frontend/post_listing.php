@@ -104,7 +104,8 @@
     $listing = \app\models\Listing::listConstructor($data);
     $listing->setAmenities($amenities);
 
-    if ($manager->saveListing($listing)) {
+    $listingId = $manager->saveListing($listing);
+    if ($listingId) {
       echo 'Listing added..';
     } 
     else {

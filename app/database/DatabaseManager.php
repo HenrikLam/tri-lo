@@ -629,14 +629,15 @@ class DatabaseManager {
 
     $stmt->close();
 
-    if (!is_null($filters)) {
+    $amenities = $listing->getAmenities();
+    if (!is_null($amenities)) {
       // add amenities to listingAmenities
-      foreach ($filters as $key => $value) {
+      foreach ($amenities as $key => $value) {
         // for each filter, add a tuple to the table
-        $query = "INSERT INTO listingAmenities (listingId, amenity, amenityValue) VALUES (?,?,?)";
+        $query = "INSERT INTO listingamenities (listingId, amenity, amenityValue) VALUES (?,?,?)";
         // not sure how to get the listingId since we fill that out automatically
         $stmt = $this->databaseConnection->prepare($query);
-        $statement->bind_param("dss", $listingId, $key, $value);
+        $stmt->bind_param("dss", $listingId, $key, $value);
         $stmt->execute();
 
         if (!$stmt->error == '') {
