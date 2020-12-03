@@ -21,7 +21,7 @@ function accLogIn(){
 
     var xhr = new XMLHttpRequest();
     var params = "&username=" + username + "&password=" + password;
-    xhr.open('POST', 'login.php', true);
+    xhr.open('POST', 'php/users/login.php', true);
     xhr.onerror = function() {
         console.log('Request Error...');
     }
