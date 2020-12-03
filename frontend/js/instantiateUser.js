@@ -37,7 +37,7 @@ function getUsername(funct){
             return "Error";
         }
     }
-
+    console.log('SessionID:' + sessionID);
     xhr.send("&sessionID=" + sessionID);
 }
 function checkSessionID(string){
