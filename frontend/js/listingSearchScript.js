@@ -6,6 +6,11 @@ function setListingSearchEventListeners(){
   document.getElementById("dmenubed").addEventListener("click", setActiveBed);
   document.getElementById("dmenusort").addEventListener("click", setActiveSort);
   document.getElementById("house1").addEventListener("click", empac);
+  document.getElementById("customC").addEventListener("click", remain);
+}
+
+function remain(e) {
+  e.stopPropagation();
 }
 
 function empac() {
