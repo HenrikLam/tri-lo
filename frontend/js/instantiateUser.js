@@ -72,7 +72,7 @@ function login(){
 function isLoggedIn(){
     var decodedCookie = decodeURIComponent(document.cookie);
     var cookieSplit = decodedCookie.split(';');
-    if (sessionID = cookieSplit.find(checkSessionID).substr("sessionID=".length +1)) {
+    if (sessionID = cookieSplit.find(checkSessionID).substr("sessionID=".length)) {
         return true;
     }
     return false;
