@@ -20,6 +20,7 @@ function setActivePrice(e) {
   if (e.target && e.target.nodeName == "A") {
     e.target.classList.add("active");
   }
+  e.stopPropagation();
 }
 
 function setActivePrice2(e) {
@@ -30,6 +31,7 @@ function setActivePrice2(e) {
   if (e.target && e.target.nodeName == "INPUT") {
     e.target.parentElement.classList.add("active");
   }
+  e.stopPropagation();
 }
 
 function setActiveBath(e) {
@@ -42,6 +44,7 @@ function setActiveBath(e) {
   if(e.target && e.target.nodeName == "A") {
     e.target.classList.add("active");
   }
+  e.stopPropagation();
 }
 
 function setActiveBed(e) {
@@ -54,6 +57,7 @@ function setActiveBed(e) {
   if(e.target && e.target.nodeName == "A") {
     e.target.classList.add("active");
   }
+  e.stopPropagation();
 }
 
 function setActiveSort(e) {
@@ -66,6 +70,7 @@ function setActiveSort(e) {
   if(e.target && e.target.nodeName == "A") {
     e.target.classList.add("active");
   }
+  e.stopPropagation();
 }
 
 function onClickListing(listing) {
