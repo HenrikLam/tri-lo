@@ -6,7 +6,6 @@ use app\models\Locatioon;
 
 class Listing {
   private $listingName;
-  private $listingId
   private $location;
   private $owner;
   private $description;
@@ -58,10 +57,6 @@ class Listing {
 
   public function getListingName() {
     return $this->listingName;
-  }
-
-  public function getListingName() {
-    return $this->listingId;
   }
 
   public function getLocation() {
@@ -118,10 +113,6 @@ class Listing {
 
   public function setListingName($listingName) {
     $this->listingName = $listingName;
-  }
-
-  public function setListingName($listingId) {
-    $this->listingId = $listingId;
   }
 
   public function setLocation($location) {

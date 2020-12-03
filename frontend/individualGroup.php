@@ -47,7 +47,7 @@
     return;
   }
   if (!isset($_POST['groupId'])){
-    echo 'Error: no groupId provided!';
+    echo 'Error: no sessionId provided!';
     return;
   }
 

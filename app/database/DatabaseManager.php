@@ -101,7 +101,7 @@ class DatabaseManager {
 
     // Create the listing
     $lis = Listing::listConstructor($row);
-    $lis->setListingId($row['listingId']);
+    $lis->setId($row['listingId']);
     $lis->setAmenities($this->getAmenitiesFromListingId($row['listingId']));
 
     return $lis;
@@ -747,30 +747,16 @@ class DatabaseManager {
   /**
    * Save a collection/bookmark a user has created
    *
-   * @param Collection $collection
    * @param UserAccount $user
+   * @param Collection $collection
    */
-  public function saveCollection($collection, $user) {
+  public function saveCollection($user, $collection) {
     $name = $collection->getName();
     $ownerID = $user->getOwnerId();
 
     $query = "INSERT INTO collections (collectionName, ownerId) VALUES (?,?)";
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("sd", $name, $ownerId);
-    $stmt->execute();
-    $stmt->close();
-  }
-
-  /**
-   * Save a collection/bookmark a user has created
-   *
-   * @param int $collectionId
-   * @param int $listingId
-   */
-  public function saveListingToCollection($collectionId, $listingId) {
-    $query = "INSERT INTO collectionListings (collectionId, listingId) VALUES (?,?)";
-    $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("dd", $collectionId, $listingId);
     $stmt->execute();
     $stmt->close();
   }
