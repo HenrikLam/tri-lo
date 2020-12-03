@@ -589,7 +589,7 @@ class DatabaseManager {
     $bedrooms = $listing->getBedrooms();
     $bathrooms = $listing->getBathrooms();
     $squareFeet = $listing->getSquareFeet();
-    $timeStamp = $listing->getDateTimePosted();
+    $dateTimePosted = $listing->getDateTimePosted();
     $leaseType = $listing->getLeaseType();
     $status = $listing->getStatus();
 
@@ -619,7 +619,8 @@ class DatabaseManager {
                                          $status);
     $stmt->execute();
 
-    if (!$stmt->error == '') {
+    if (!($stmt->error == '')) {
+      echo($stmt->error);
       $stmt->close();
       return false;
     }
