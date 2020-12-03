@@ -9,6 +9,7 @@ class Collection {
   private $name;
   private $ownerId;
   private $listings;
+  private $collectionId;
 
   public function __construct($name, $ownerId, $listings) {
     $this->name = $name;
@@ -28,6 +29,10 @@ class Collection {
     return $this->listings;
   }
 
+  public function getCollectionId() {
+    return $this->collectionId;
+  }
+
   public function setName($name) {
     $this->name = $name;
   }
@@ -38,6 +43,10 @@ class Collection {
 
   public function setListings($listings) {
     $this->listings = $listings;
+  }
+
+  public function setListings($listings) {
+    $this->collectionId = $collectionId;
   }
 
   public function addListing($listing) {
