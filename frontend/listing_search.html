@@ -116,12 +116,12 @@
         <button type="button" class="btn dropdown-toggle font-weight-light dropdown-toggle-split bg-dark" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="margin-left: 10px; color: white; border: 1px black; font-size: 17px; padding: 10px;">Price
           <span class="sr-only">Toggle Dropdown</span>
         </button>
-        <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Any</a>
-        <a class="dropdown-item" href="#">$0-$500</a>
-        <a class="dropdown-item" href="#">$500-$1000</a>
+        <div class="dropdown-menu" id="dmenuprice">
+        <a class="dropdown-item" href="#" id = "priceany">Any</a>
+        <a class="dropdown-item" href="#" id = "price0500">$0-$500</a>
+        <a class="dropdown-item" href="#" id = "price5001000">$500-$1000</a>
         <!--need to add class names to input types or maybe not, idk in order to get values-->
-        <a class="dropdown-item" href="#"><input type ="text" placeholder="$" style="width:45%">-<input type ="text" placeholder="$" style="width:50%"></a>
+        <a class="dropdown-item" href="#" id = "pricecustom"><input type ="text" placeholder="$" style="width:45%">-<input type ="text" placeholder="$" style="width:50%"></a>
         </div>
         </div>
 
@@ -132,23 +132,23 @@
         <div class="dropdown-menu">
           <div class = "container-fluid">
             Bedrooms
-            <div class="btn-group">
-              <a class="dropdown-item bg-light border rounded" href="#">Any</a>
-              <a class="dropdown-item bg-light border rounded" href="#">1+</a>
-              <a class="dropdown-item bg-light border rounded" href="#">2+</a>
-              <a class="dropdown-item bg-light border rounded" href="#">3+</a>
-              <a class="dropdown-item bg-light border rounded" href="#">4+</a>
+            <div class="btn-group" id = "dmenubed">
+              <a class="dropdown-item border rounded" href="#" id = "bedany">Any</a>
+              <a class="dropdown-item border rounded" href="#" id = "bed1">1+</a>
+              <a class="dropdown-item border rounded" href="#" id = "bed2">2+</a>
+              <a class="dropdown-item border rounded" href="#" id = "bed3">3+</a>
+              <a class="dropdown-item border rounded" href="#" id = "bed4">4+</a>
             </div>
           </div>
           </br>
           <div class = "container-fluid">
             Bathrooms
-            <div class="btn-group">
-              <a class="dropdown-item bg-light border rounded" href="#">Any</a>
-              <a class="dropdown-item bg-light border rounded" href="#">1+</a>
-              <a class="dropdown-item bg-light border rounded" href="#">2+</a>
-              <a class="dropdown-item bg-light border rounded" href="#">3+</a>
-              <a class="dropdown-item bg-light border rounded" href="#">4+</a>
+            <div class="btn-group" id = "dmenubath">
+              <a class="dropdown-item border rounded" href="#" id = "bathany">Any</a>
+              <a class="dropdown-item border rounded" href="#" id = "bath1">1+</a>
+              <a class="dropdown-item border rounded" href="#" id = "bath2">2+</a>
+              <a class="dropdown-item border rounded" href="#" id = "bath3">3+</a>
+              <a class="dropdown-item border rounded" href="#" id = "bath4">4+</a>
             </div>
           </div>
           <!--need to add class names to input types or maybe not, idk in order to get values-->
@@ -175,12 +175,12 @@
         <button type="button" class="btn dropdown-toggle dropdown-toggle-split bg-light font-weight-normal border" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="color: gray; border: 1px black; font-size: 17px; padding: 4px;">Sort by&nbsp;
           <span class="sr-only">Toggle Dropdown</span>
         </button>
-        <div class="dropdown-menu">
-        <a class="dropdown-item" href="#">Price (lowest to highest)</a>
-        <a class="dropdown-item" href="#">Price (highest to lowest)</a>
-        <a class="dropdown-item" href="#">Newest</a>
-        <a class="dropdown-item" href="#">Oldest</a>
-        <a class="dropdown-item" href="#">Square Feet</a>
+        <div class="dropdown-menu" id= "dmenusort">
+        <a class="dropdown-item" href="#" id="sortplh">Price (lowest to highest)</a>
+        <a class="dropdown-item" href="#" id="sortphl">Price (highest to lowest)</a>
+        <a class="dropdown-item" href="#" id = "sortnew">Newest</a>
+        <a class="dropdown-item" href="#" id = "sortold">Oldest</a>
+        <a class="dropdown-item" href="#" id = "sortsqft">Square Feet</a>
         </div>
       </div>
       <br>
