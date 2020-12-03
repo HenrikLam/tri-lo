@@ -523,8 +523,6 @@ class DatabaseManager {
 
     $listingId = $this->databaseConnection->insert_id;
 
-    var_dump($listingId);
-
     $stmt->close();
 
     if (!is_null($filters)) {
