@@ -146,7 +146,6 @@ function changeBooton(value) {
     }
 }
 
-
 function isValidUsername(usernameInput){
     var pattern = /^[a-z0-9]+$/i;
     if (usernameInput.length < 4 || usernameInput.length > 12 || usernameInput != usernameInput.match(pattern)){
