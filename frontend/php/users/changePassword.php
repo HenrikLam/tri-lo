@@ -1,5 +1,5 @@
 <?php
-    require dirname(__FILE__) . '\..\vendor\autoload.php';
+    require dirname(__FILE__) . '\..\..\..\vendor\autoload.php';
     $manager = \app\database\DatabaseManager::getInstance();
 
     if (isset($_POST['username']) && isset($_POST['password']) && isset($_POST['newPassword'])){

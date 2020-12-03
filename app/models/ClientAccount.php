@@ -21,7 +21,7 @@ class ClientAccount extends UserAccount {
       $data['username'],
       $data['password'],
       $data['email'],
-      $data['userId']
+      $data['userId'] ?? null
       );
   }
 

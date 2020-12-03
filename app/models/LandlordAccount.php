@@ -23,7 +23,7 @@ class LandlordAccount extends OwnerAccount {
   		$data['username'],
   		$data['password'],
       $data['email'],
-      $data['userId'],
+      $data['userId'] ?? null,
       $data['phoneNumber']
   		);
   }
