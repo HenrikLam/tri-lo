@@ -349,6 +349,7 @@ function checkLeaseType(){
 }
 
 function checkEverything() {
+  checkkAll = true;
   if (lname == "") {
     console.log("Listing name cannot be empty");
     checkAll = false;
