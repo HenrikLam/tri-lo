@@ -5,6 +5,11 @@ function setListingSearchEventListeners(){
   document.getElementById("dmenubath").addEventListener("click", setActiveBath);
   document.getElementById("dmenubed").addEventListener("click", setActiveBed);
   document.getElementById("dmenusort").addEventListener("click", setActiveSort);
+  document.getElementById("house1").addEventListener("click", empac);
+}
+
+function empac() {
+  window.location.replace("exlistpage.html");
 }
 
 function setActivePrice(e) {
