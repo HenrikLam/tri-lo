@@ -36,9 +36,6 @@ function setCreateListingEventListeners(){
   document.getElementById("city").addEventListener("change", checkCity);
   document.getElementById("state").addEventListener("change", checkState);
   document.getElementById("zipc").addEventListener("change", checkZipcode);
-  document.getElementById("lldname").addEventListener("change", checkLandlordName);
-  document.getElementById("phoneno").addEventListener("change", checkPhoneNumber);
-  document.getElementById("lemail").addEventListener("change", checkEmail);
   document.getElementById("descr").addEventListener("change", setDescription);
   document.getElementById("rent").addEventListener("change", checkRent);
   document.getElementById("sfeet").addEventListener("change", checkSquareFeet);
@@ -69,9 +66,6 @@ function saveListing(e){
         houseNoods.append("city", city);
         houseNoods.append("state", state);
         houseNoods.append("zipcode", zipcode);
-        houseNoods.append("landlordName", landlordName);
-        houseNoods.append("phoneNo", phoneNo);
-        houseNoods.append("email", email);
         houseNoods.append("description", description);
         houseNoods.append("rent", rent);
         houseNoods.append("squareFeet", squareFeet);
@@ -223,31 +217,10 @@ function isNumeric(input) {
   }
   return false;
 }
-function isValidName(input){
-  var pattern = /^[a-zA-Z-\s]+$/;
-  if (pattern.test(input)){
-    return true;
-  }
-  return false;
-}
 function isAlphaNumeric(input){
   var pattern = /^[a-zA-Z0-9\s]+$/i;
   if (pattern.test(input)){
     return true;
-  }
-  return false;
-}
-function isValidPhoneNumber(phoneNoInput){
-  var pattern = /^\(?([0-9]{3})\)?[-. ]?([0-9]{3})[-. ]?([0-9]{4})$/;
-  if(pattern.test(phoneNoInput)){
-    return true;
-  }
-  return false;
-}
-function isValidEmail(emailInput){
-  var pattern = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)$/;
-  if (pattern.test(emailInput)){
-      return true;
   }
   return false;
 }
@@ -287,36 +260,6 @@ function isValidBathroom(input){
   return false;
 }
 
-function checkLandlordName(){
-  landlordName = document.getElementById("lldname").value;
-  if (!isValidName(landlordName) || landlordName == ""){
-    document.getElementById("checklldname").innerHTML="Please enter a name.";
-    return false;
-  } else {
-    document.getElementById("checklldname").innerHTML="";
-    return true;
-  }
-}
-function checkPhoneNumber(){
-  phoneNo = document.getElementById("phoneno").value;
-  if (!isValidPhoneNumber(phoneNo) || phoneNo == ""){
-    document.getElementById("checkphoneno").innerHTML="Please enter a valid phone number.";
-    return false;
-  } else {
-    document.getElementById("checkphoneno").innerHTML="";
-    return true;
-  }
-}
-function checkEmail(){
-  email = document.getElementById("lemail").value;
-  if (!isValidEmail(email)){
-    document.getElementById("checklemail").innerHTML="Please enter a valid email.";
-    return false;
-  } else {
-    document.getElementById("checklemail").innerHTML="";
-    return true;
-  }
-}
 function checkRent(){
   rent = document.getElementById("rent").value;
   if (!isValidRent(rent) || rent == ""){
@@ -409,6 +352,7 @@ function checkLeaseType(){
 }
 
 function checkEverything() {
+  checkkAll = true;
   if (lname == "") {
     console.log("Listing name cannot be empty");
     checkAll = false;
@@ -423,15 +367,6 @@ function checkEverything() {
     checkAll = false;
   }
   if (!checkZipcode()) {
-    checkAll = false;
-  }
-  if (!checkLandlordName()) {
-    checkAll = false;
-  }
-  if (!checkPhoneNumber()) {
-    checkAll = false;
-  }
-  if (!checkEmail()) {
     checkAll = false;
   }
   if (!checkRent()) {
