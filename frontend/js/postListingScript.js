@@ -90,8 +90,8 @@ function saveListing(e){
 function addButton() {
   //need to set ids by doing .id on the input elements.
   // ie; srinput1.id = "id";
-  if (newAmen == 10) {
-    document.getElementById("buttonWarning").innerHTML = "Cannot add more than 10 listings on this page."
+  if (newAmen == 100) {
+    document.getElementById("buttonWarning").innerHTML = "Cannot add more than 100 listings on this page."
     document.getElementById("buttonWarning").style.color = "red";
     document.getElementById("buttonWarning").style.marginBottom = "15px";
     return;
@@ -151,11 +151,11 @@ function addButton() {
 
 function setAmenity(e) {
   if (e.target && e.target.nodeName == "INPUT") {
-    if (e.target.id.match(/amen[0-9]t/)) {
+    if (e.target.id.match(/amen[0-9]{2}t/)) {
       var meme = e.target.id.replace("amen", "").replace("t", "");
       amenityTs[parseInt(meme)] = e.target.value;
     }
-    if (e.target.id.match(/amen[0-9]d/)) {
+    if (e.target.id.match(/amen[0-9]{2}d/)) {
       var meme = e.target.id.replace("amen", "").replace("d", "");
       amenityDs[parseInt(meme)] = e.target.value;
     }

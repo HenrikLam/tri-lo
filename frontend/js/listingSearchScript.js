@@ -1,17 +1,76 @@
+
 function setListingSearchEventListeners(){
-  var elements = document.getElementsByClassName("dropdown-item bg-light border rounded");
-  console.log(elements.length);
+  document.getElementById("dmenuprice").addEventListener("click", setActivePrice);
+  document.getElementById("dmenuprice").addEventListener("change", setActivePrice2);
+  document.getElementById("dmenubath").addEventListener("click", setActiveBath);
+  document.getElementById("dmenubed").addEventListener("click", setActiveBed);
+  document.getElementById("dmenusort").addEventListener("click", setActiveSort);
+  document.getElementById("house1").addEventListener("click", empac);
+}
 
-  Array.from(elements).forEach(function(element) {
-    element.addEventListener('click', function() {element.style.backgroundColor = "#2196F3"});
-  });
+function empac() {
+  window.location.replace("exlistpage.html");
+}
 
-  var listings = document.getElementsByClassName("btn bg-light border");
-  console.log(listings.length);
+function setActivePrice(e) {
+  document.getElementById("priceany").classList = "dropdown-item";
+  document.getElementById("price0500").classList = "dropdown-item";
+  document.getElementById("price5001000").classList = "dropdown-item";
+  document.getElementById("pricecustom").classList = "dropdown-item";
+  if (e.target && e.target.nodeName == "A") {
+    e.target.classList.add("active");
+  }
+  e.stopPropagation();
+}
 
-  Array.from(listings).forEach(function(listing) {
-    element.addEventListener('click', function() {});
-  });
+function setActivePrice2(e) {
+  document.getElementById("priceany").classList = "dropdown-item";
+  document.getElementById("price0500").classList = "dropdown-item";
+  document.getElementById("price5001000").classList = "dropdown-item";
+  document.getElementById("pricecustom").classList = "dropdown-item";
+  if (e.target && e.target.nodeName == "INPUT") {
+    e.target.parentElement.classList.add("active");
+  }
+  e.stopPropagation();
+}
+
+function setActiveBath(e) {
+  document.getElementById("bathany").classList.remove("active");
+  document.getElementById("bath1").classList.remove("active");
+  document.getElementById("bath2").classList.remove("active");
+  document.getElementById("bath3").classList.remove("active");
+  document.getElementById("bath4").classList.remove("active");
+
+  if(e.target && e.target.nodeName == "A") {
+    e.target.classList.add("active");
+  }
+  e.stopPropagation();
+}
+
+function setActiveBed(e) {
+  document.getElementById("bedany").classList.remove("active");
+  document.getElementById("bed1").classList.remove("active");
+  document.getElementById("bed2").classList.remove("active");
+  document.getElementById("bed3").classList.remove("active");
+  document.getElementById("bed4").classList.remove("active");
+
+  if(e.target && e.target.nodeName == "A") {
+    e.target.classList.add("active");
+  }
+  e.stopPropagation();
+}
+
+function setActiveSort(e) {
+  document.getElementById("sortplh").classList.remove("active");
+  document.getElementById("sortphl").classList.remove("active");
+  document.getElementById("sortnew").classList.remove("active");
+  document.getElementById("sortold").classList.remove("active");
+  document.getElementById("sortsqft").classList.remove("active");
+
+  if(e.target && e.target.nodeName == "A") {
+    e.target.classList.add("active");
+  }
+  e.stopPropagation();
 }
 
 function onClickListing(listing) {

@@ -67,6 +67,29 @@ class DatabaseManager {
   }
 
   /**
+   * Get the groups a user is invited to
+   *
+   * @param string $userId The user id of the owner
+   * @return Group[]
+   */
+  public function getInvitedGroupsFromUserId($userId){
+     $query = "SELECT * 
+    FROM groupinvitations
+    WHERE groupinvitations.invitedId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $userId);
+    $result = $stmt->execute();
+
+    $return = [];
+    foreach ($stmt->get_result() as $row) {
+      $return[] = $this->getGroupFromGroupId($row['groupId']);
+    }
+
+    return $return;
+  }
+
+  /**
    * Generate a Listing object from a row of the database
    * @param array $row
    * @return Listing
@@ -309,6 +332,63 @@ class DatabaseManager {
   }
 
   /**
+   * Get a Collection objects from its id
+   *
+   * @param int $collectionId
+   * @return Collection
+   */
+  public function getCollectionFromCollectionId($collectionId) {
+    $query = "SELECT * 
+    FROM collections  
+    WHERE collections.collectionId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $collectionId);
+    $result = $stmt->execute();
+
+  
+    $row = $stmt->get_result()->fetch_assoc();
+
+    if ($row == null) {
+      return null;
+    }
+
+    $listings = getListingsFromCollectionId($collectionId);
+    $collection = new Collection($row['collectionName'], $row['ownerId'], $);
+    $collection->setCollectionId($collectionId);
+    return $collection;
+    }
+  }
+
+  /**
+   * Get the Listings for a collection
+   *
+   * @param int $collectionId
+   * @return Listing[]
+   */
+  public function getListingsFromCollectionId($collectionId) {
+    $query = "SELECT * 
+    FROM collections  
+    INNER JOIN collectionListings as cl
+    ON collections.collectionId = cl.collectionId
+    INNER JOIN listings 
+    ON listings.listingId=cl.listingId 
+    WHERE collections.collectionId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $collectionId);
+    $result = $stmt->execute();
+
+    $listings = [];
+    foreach ($stmt->get_result() as $row) {
+      // Append listing
+      $listings[] = $this->constructListingFromRow($row);
+    }
+
+    return $listings;
+  }
+
+  /**
    * Get the Collection objects (bookmarks) associated with a user
    *
    * @param int $userId The user id of the owner
@@ -316,13 +396,8 @@ class DatabaseManager {
    */
   public function getCollectionsFromUserId($userId) {
     $query = "SELECT * 
-    FROM collections  
-    INNER JOIN collectionListings as cl
-    ON collections.collectionId = cl.collectionId
-    INNER JOIN listings 
-    ON listings.listingId=cl.listingId 
-    WHERE collections.ownerID=?
-    ORDER BY collections.collectionId";
+    FROM collections
+    WHERE collections.ownerID=?";
 
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("d", $userId);
@@ -330,20 +405,58 @@ class DatabaseManager {
 
     $collections = [];
     foreach ($stmt->get_result() as $row) {
-      if (!isset($collections[$row['collectionName']])) {
-        $collections[$row['collectionName']] = [];
-      }
-
-      // Append listing
-      $collections[$row['collectionName']][] = $this->constructListingFromRow($row);
-    }
-
-    $return = [];
-    foreach ($collections as $name => $listings) {
-      $return[] = new Collection($name, $userId, $listings);
+      $listings = $this->getListingsFromCollectionId($row['collectionId'])
+      $collection = new Collection($row['collectionName'], $userId, $listings);
+      $collection->setCollectionId($row['collectionId']);
+      $return[] = $collection;
     }
 
     return $return;
+  }
+
+  /**
+   * Remove a listing from a collection
+   *
+   * @param int $collectionId
+   * @param int $listingId
+   */
+  public function removeListingFromCollection($collectionId, $listingId) {
+    $query = "DELETE FROM collectionListings 
+    WHERE collectionId=? and listingId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("sd", $cname, $userId);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Remove all listings from a collection
+   *
+   * @param int $collectionId
+   */
+  public function removeAllListingsFromCollection($collectionId) {
+    $query = "DELETE FROM collectionListings 
+    WHERE collectionId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("sd", $cname, $userId);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Remove all listings from a collection
+   *
+   * @param int $collectionId
+   */
+  public function deleteColelction($collectionId) {
+    $this->removeAllListingsFromCollection();
+
+    $query = "DELETE FROM collection 
+    WHERE collectionId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("sd", $cname, $userId);
+    $result = $stmt->execute();
   }
 
   /**
@@ -358,11 +471,8 @@ class DatabaseManager {
     $cname = "%{$cname}%";
     $query = "SELECT * 
     FROM collections  
-    INNER JOIN collectionListings as cl
-    ON collections.collectionId = cl.collectionId AND collections.collectionName LIKE ?
-    INNER JOIN listings 
-    ON listings.listingId=cl.listingId
-    WHERE collections.ownerID=?";
+    WHERE collections.collectionName LIKE ?
+    AND collections.ownerID=?";
 
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("sd", $cname, $userId);
@@ -370,17 +480,10 @@ class DatabaseManager {
 
     $collections = [];
     foreach ($stmt->get_result() as $row) {
-      if (!isset($collections[$row['collectionName']])) {
-        $collections[$row['collectionName']] = [];
-      }
-
-      // Append listing
-      $collections[$row['collectionName']][] = $this->constructListingFromRow($row);
-    }
-
-    $return = [];
-    foreach ($collections as $name => $listings) {
-      $return[] = new Collection($name, $userId, $listings);
+      $listings = $this->getListingsFromCollectionId($row['collectionId'])
+      $collection = new Collection($row['collectionName'], $userId, $listings);
+      $collection->setCollectionId($row['collectionId']);
+      $return[] = $collection;
     }
 
     return $return;
@@ -592,11 +695,9 @@ class DatabaseManager {
     }
     elseif ($account instanceof LandlordAccount) {
       $type = 'Landlord';
-      $this->saveOwnerInfo($account);
     }
     else {
       $type = 'Agent';
-      $this->saveOwnerInfo($account);
     }
 
     $firstName = $account->getFirstName();
@@ -617,6 +718,10 @@ class DatabaseManager {
     $result = $stmt->execute();
     $userId = $this->databaseConnection->insert_id;
     $stmt->close();
+
+    if ($type != 'Client') {
+      $this->saveOwnerInfo($account, $userId);
+    }
     return $userId;
   }
 
@@ -624,10 +729,10 @@ class DatabaseManager {
    * Save an account to the database after sign-up
    *
    * @param OwnerAccount $account
+   * @param int $userId
    */
-  public function saveOwnerInfo($account) {
+  public function saveOwnerInfo($account, $userId) {
     $phoneNumber = $account->getPhoneNumber();
-    $userId = $account->getUserId();
 
     $query = "INSERT INTO owners (userId, phoneNumber) VALUES (?,?)";
     $stmt = $this->databaseConnection->prepare($query);
@@ -717,10 +822,37 @@ class DatabaseManager {
   }
 
   /**
+   * See if user exists in a group
+   *
+   * @param int $groupId
+   * @return ClientAccount[]
+   */
+  public function doesUserExistInGroup($userId) {
+    $query = "SELECT memberId as id
+    FROM groupMembers
+    WHERE groupMembers.memberId=?
+
+    UNION
+
+    SELECT invitedId as id 
+    FROM groupInvitations
+    WHERE groupInvitations.invitedId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("ds", $userId, $userId);
+    $result = $stmt->execute();
+
+    $return = [];
+    $num = $stmt->get_result()->num_rows;
+
+    return $num > 0;
+  }
+
+  /**
    * Get invited members to a group
    *
    * @param int $groupId
-   * @return CLientAccount[]
+   * @return ClientAccount[]
    */
   public function getInvitedMembersFromGroupId($groupId) {
     $query = "SELECT * 
