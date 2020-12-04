@@ -4,25 +4,48 @@
 
   $manager = \app\database\DatabaseManager::getInstance();
   
-  function someFunctionCall($files) {
-    // look at every file in $_FILES
-  }
+  function downloadAndGetPaths() {
+    if ($_POST['type'] == 'listing') {
+      $basePath = dirname(__FILE__) . '\..\..\..\images\listings\\' . $_POST['listingId'] . "\\";
+      $links = [];
+      for ($index = 0; $index < $_FILES['files'].length(); $index++) {
+        $fileName = $_FILES['files']['name'][$index];
+        $path = $basePath . $fileName;
 
-  // Check if the image upload is for listings or users
-  $basePath = '../images/users/' . $_POST['userId'];
-  if (is_set($_POST['listingId'])) {
-    $basePath = '../images/listings/' . $_POST['listingId'];
+        if(move_uploaded_file($_FILES['files']['tmp_name'][$index], $path)){
+          $link = '..\images\listings\\' . $_POST['listingId'] . "\\" . $fileName;
+          echo($link);
+        }
+
+        array_push($links, $link);
+      }
+
+      return $links;
+    }
+    else {
+      $basePath = dirname(__FILE__) . '\..\..\..\images\users\\' . $_POST['userId'] . "\\";
+      $fileName = $_FILES['file']['name'];
+      $path = $basePath . $fileName;
+
+      $link = '..\images\users\\' . $_POST['userId'] . "\\" . $fileName;
+      
+      if(move_uploaded_file($_FILES['file']['tmp_name'], $path)){
+        $link = '..\images\users\\' . $_POST['userId'] . "\\" . $fileName;
+        echo($link);
+      }
+      return $link;
+    }
   }
 
   // Download the images, and get the path into $images
-  $images = someFunctionCall();
+  $paths = downloadAndGetPaths();
 
   // update database
-  if (is_set($_POST['listingId'])) {
-    $manager->uploadImagesFromListingId($_POST['listingId'], $images);
+  if ($_POST['type'] == 'listing') {
+    $manager->uploadImagesFromListingId($_POST['listingId'], $basePath);
   }
   else {
-    $manager->uploadProfilePictureFromUserId($_POST['userId'], $images[0]);
+    $manager->uploadProfilePictureFromUserId(intval($_POST['userId']), $paths);
   }
       
 ?>
