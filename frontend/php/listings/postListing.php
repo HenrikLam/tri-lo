@@ -106,7 +106,7 @@
 
     $listingId = $manager->saveListing($listing);
     if ($listingId) {
-      echo 'Listing added..';
+      echo $listingId;
     } 
     else {
       echo 'Error: ';

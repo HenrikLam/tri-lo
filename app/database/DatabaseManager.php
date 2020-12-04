@@ -675,6 +675,82 @@ class DatabaseManager {
   }
 
   /**
+   * Upload image for a listing
+   * 
+   * @param int $listingId
+   * @param string $link
+   */
+  public function uploadImageFromListingId($listingId, $link) {
+    $query = "INSERT INTO images (listingId, link)
+    VALUES (?, ?)";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("ds", $listingId, $link);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Get images for a listing
+   * 
+   * @param int $listingId
+   * @return string[]
+   */
+  public function uploadImagesFromListingId($listingId, $images) {
+    foreach ($images as $image) {
+      $this->uploadImageFromListingId($listingId, $image);
+    }
+  }
+
+  /**
+   * Get image for profile picture
+   * 
+   * @param int $listingId
+   * @return string[]
+   */
+  public function getImageFromUserId($userId) {
+    $query = "SELECT * 
+    FROM profile  
+    WHERE userId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $listingId);
+    $result = $stmt->execute();
+
+    $row = $stmt->get_result()->fetch_assoc();
+
+    return $row['link'] ?? null;
+  }
+
+  /**
+   * Set profile picture
+   * 
+   * @param int $userId
+   */
+  public function removeProfilePictureFromUserId($userId) {
+    $query = "DELETE FROM profile WHERE userId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $userId);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Set profile picture
+   * 
+   * @param int $userId
+   * @param string $link
+   */
+  public function uploadProfilePictureFromUserId($userId, $link) {
+    $this->removeProfilePictureFromUserId($userId);
+
+    $query = "INSERT INTO profile VALUES (?,?)";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("ds", $userId, $link);
+    $result = $stmt->execute();
+  }
+
+  /**
    * Save a listing to the database (pending listings/not verified yet)
    *
    * @param Listing $listing
