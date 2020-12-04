@@ -35,6 +35,7 @@ function getProfilePicture(func){
 }
 
 function setProfilePicture(link){
+    console.log(link);
     document.getElementById("profilePicture").src = link;
 }
 

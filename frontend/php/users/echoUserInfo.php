@@ -3,7 +3,7 @@
 
     if (isset($_POST['sessionID'])){
         $result = getUserInfo($_POST['sessionID']);
-        echo $result['firstName'].' '.$result['lastName'].';'.$result['username'].';'.$result['email'];
+        echo $result['userId'].';'.$result['firstName'].' '.$result['lastName'].';'.$result['username'].';'.$result['email'];
     } else {
         echo 'No sessionID provided!';
     }

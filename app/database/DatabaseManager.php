@@ -720,7 +720,6 @@ class DatabaseManager {
     $result = $stmt->execute();
 
     $row = $stmt->get_result()->fetch_assoc();
-
     return $row['link'] ?? null;
   }
 
