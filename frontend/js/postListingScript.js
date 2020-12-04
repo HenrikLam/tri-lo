@@ -9,6 +9,7 @@ var squareFeet;
 var bedrooms;
 var bathrooms;
 var leaseType;
+var listingId;
 
 var houseNoods;
 var numNoods;

@@ -667,11 +667,89 @@ class DatabaseManager {
     $stmt->bind_param("d", $listingId);
     $result = $stmt->execute();
 
+    $return = [];
+
     foreach ($stmt->get_result() as $row) {
       $return[] = $row['link'];
     }
 
     return $return;
+  }
+
+  /**
+   * Upload image for a listing
+   * 
+   * @param int $listingId
+   * @param string $link
+   */
+  public function uploadImageFromListingId($listingId, $link) {
+    $query = "INSERT INTO images (listingId, link)
+    VALUES (?, ?)";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("ds", $listingId, $link);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Get images for a listing
+   * 
+   * @param int $listingId
+   * @return string[]
+   */
+  public function uploadImagesFromListingId($listingId, $images) {
+    foreach ($images as $image) {
+      $this->uploadImageFromListingId($listingId, $image);
+    }
+  }
+
+  /**
+   * Get image for profile picture
+   * 
+   * @param string $username
+   */
+  public function getImageFromUsername($username) {
+    $query = "SELECT * 
+    FROM profile  
+    LEFT JOIN users
+    ON users.username=?
+    WHERE profile.userId=users.userId";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("s", $username);
+    $result = $stmt->execute();
+
+    $row = $stmt->get_result()->fetch_assoc();
+    return $row['link'] ?? null;
+  }
+
+  /**
+   * Set profile picture
+   * 
+   * @param int $userId
+   */
+  public function removeProfilePictureFromUserId($userId) {
+    $query = "DELETE FROM profile WHERE userId=?";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("d", $userId);
+    $result = $stmt->execute();
+  }
+
+  /**
+   * Set profile picture
+   * 
+   * @param int $userId
+   * @param string $link
+   */
+  public function uploadProfilePictureFromUserId($userId, $link) {
+    $this->removeProfilePictureFromUserId($userId);
+
+    $query = "INSERT INTO profile VALUES (?,?)";
+
+    $stmt = $this->databaseConnection->prepare($query);
+    $stmt->bind_param("ds", $userId, $link);
+    $result = $stmt->execute();
   }
 
   /**
