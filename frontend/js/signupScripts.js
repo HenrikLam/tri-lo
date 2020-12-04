@@ -53,6 +53,7 @@ function signupAccount(e){
         //200 ok, 403 forbidden, 404 not found
             if (this.status=200) {
                 console.log(this.responseText);
+                redirectToLogin();
             }
             else {
                 console.log("error boi");
