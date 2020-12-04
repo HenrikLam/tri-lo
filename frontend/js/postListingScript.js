@@ -56,6 +56,10 @@ function saveListing(e){
 
     houseNoods = new FormData();
 
+    numNoods = document.getElementById("housenoods").files.length;
+    for (var index = 0; index < numNoods; index++) {
+      houseNoods.append("files[]", document.getElementById("housenoods").files[index]);
+    }
     if (!checkAll) {
         console.log("missing or incorrect information in fields");
     }
@@ -89,8 +93,6 @@ function saveListing(e){
         // 200 ok, 403 forbidden, 404 not found
             if (this.status=200) {
                 console.log(this.responseText);
-                listingId = this.responseText;
-                saveImages(e);
             }
             else {
                 console.log("error");
@@ -98,38 +100,6 @@ function saveListing(e){
         }
         xhr.send(houseNoods);
     }
-}
-
-function saveImages(e){
-    e.preventDefault();
-    houseNoods = new FormData();
-
-    numNoods = document.getElementById("housenoods").files.length;
-    for (var index = 0; index < numNoods; index++) {
-      houseNoods.append("files[]", document.getElementById("housenoods").files[index]);
-    }
-
-    var xhr = new XMLHttpRequest();
-    houseNoods.append("listingId", listingId);
-
-    // OPEN- type, url/file, async
-    xhr.open('POST', 'php/images/imageUpload.php', true);
-    xhr.onerror = function() {
-        console.log('Request Error...');
-    }
-
-    //xhr.onprogress can be used to show loading screen
-    //can also use xhr.onerror for error
-    xhr.onload= function() {
-    // 200 ok, 403 forbidden, 404 not found
-        if (this.status=200) {
-            console.log(this.responseText);
-        }
-        else {
-            console.log("error");
-        }
-    }
-    xhr.send(houseNoods);
 }
 
 // .createElement can create a html object
