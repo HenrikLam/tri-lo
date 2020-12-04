@@ -745,7 +745,7 @@ class DatabaseManager {
   public function uploadProfilePictureFromUserId($userId, $link) {
     $this->removeProfilePictureFromUserId($userId);
 
-    $query = "INSERT INTO profile VALUES (?,?)";
+    $query = "INSERT INTO profile (userId, link) VALUES (?,?)";
 
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("ds", $userId, $link);
