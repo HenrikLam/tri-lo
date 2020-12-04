@@ -8,6 +8,17 @@ function setListingSearchEventListeners(){
   document.getElementById("dmenusort").addEventListener("click", setActiveSort);
   document.getElementById("house1").addEventListener("click", empac);
   document.getElementById("customC").addEventListener("click", remain);
+  document.getElementById("sDogC").addEventListener("click",remain);
+  document.getElementById("lDogC").addEventListener("click",remain);
+  document.getElementById("catC").addEventListener("click",remain);
+  document.getElementById("parkingC").addEventListener("click",remain);
+  document.getElementById("washerC").addEventListener("click",remain);
+  document.getElementById("dryerC").addEventListener("click",remain);
+  document.getElementById("dishWasherC").addEventListener("click",remain);
+  document.getElementById("centralHeatingC").addEventListener("click",remain);
+  document.getElementById("forcedAirHeatingC").addEventListener("click",remain);
+  document.getElementById("gasHeatingC").addEventListener("click",remain);
+  document.getElementById("inUnitCoolingC").addEventListener("click",remain);
   document.getElementById("searchbar").addEventListener("submit", searchFunc);
 }
 
