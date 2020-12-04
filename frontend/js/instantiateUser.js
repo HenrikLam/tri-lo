@@ -6,21 +6,46 @@ function tryLogIn(){
     login();
 }
 
-function changeProfileButton(pfp, username){
+function changeProfileButton(pfp){
     document.getElementById("profileNavButton").innerHTML = "<img src =\"" + pfp + "\" class = \"rounded-circle\" style = \"height:40px; width:40px\"> " + username;
 }
 
 function setUsername(usr){
     console.log("setting username:" + usr);
     username = usr;
-    changeProfileButton("sisman.png", usr);
 }
+
+// function getProfilePicture(func){
+//     var xhr = new XMLHttpRequest();
+//     //retrieve sessionId from cookie
+
+//     xhr.open('POST', 'php/images/getImages.php', true);
+//     xhr.onerror = function() {
+//         console.log('Request Error...');
+//     }
+//     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+//     //xhr.onprogress can be used to show loading screen
+//     //can also use xhr.onerror for error
+//     xhr.onload= function() {
+//         //200 ok, 403 forbidden, 404 not found
+//         if (this.status=200) {
+//             return func(this.responseText);
+//         }
+//         else {
+//             return "Error";
+//         }
+//     }
+
+//     xhr.send("&type=user&id=" + username);
+// }
+
 function getUsername(funct){
 
     var xhr = new XMLHttpRequest();
     //retrieve sessionId from cookie
 
-    xhr.open('POST', 'php/users/getUsername.php', true);
+    xhr.open('POST', 'php/users/getUsername.php', false);
     xhr.onerror = function() {
         console.log('Request Error...');
     }
@@ -66,6 +91,7 @@ function login(){
         document.getElementById("bookmarkedBtn").addEventListener("click", redirectToBookmarked);
         document.getElementById("logoutButton").addEventListener("click", logout);
         getUsername(setUsername);
+        getProfilePicture(changeProfileButton);
     }
 }
 

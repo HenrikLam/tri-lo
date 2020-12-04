@@ -2,15 +2,42 @@
 // Username: "SIS-man"
 // Profile Picture: "sisman.png"
 var username;
+var userId;
 
 function setUsernameField(usr){
     console.log("setting username field");
     document.getElementById("usernameField").innerHTML = usr;
 }
 
-function getProfilePicture(){
-    return "sisman.png";
+function getProfilePicture(func){
+    var xhr = new XMLHttpRequest();
+    //retrieve sessionId from cookie
+
+    xhr.open('POST', 'php/images/getImages.php', true);
+    xhr.onerror = function() {
+        console.log('Request Error...');
+    }
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    //xhr.onprogress can be used to show loading screen
+    //can also use xhr.onerror for error
+    xhr.onload= function() {
+        //200 ok, 403 forbidden, 404 not found
+        if (this.status=200) {
+            return func(this.responseText);
+        }
+        else {
+            return "Error";
+        }
+    }
+
+    xhr.send("&type=user&id=" + username);
 }
+
+function setProfilePicture(link){
+    document.getElementById("profilePicture").src = link;
+}
+
 function setNameField(name){
     console.log("name:" + name);
     document.getElementById("nameField").innerHTML = name;
@@ -18,9 +45,12 @@ function setNameField(name){
 
 function setFields(info){
     var infoSplit = info.split(";");
-    var name = infoSplit[0];
-    username = infoSplit[1];
-    var email = infoSplit[2];
+    userId = infoSplit[0];
+    var name = infoSplit[1];
+    username = infoSplit[2];
+    var email = infoSplit[3];
+
+    console.log("got fields");
 
     setNameField(name);
     setUsernameField(username);
@@ -34,7 +64,7 @@ function getInfo(funct){
     var xhr = new XMLHttpRequest();
     //retrieve sessionId from cookie
 
-    xhr.open('POST', 'php/users/echoUserInfo.php', true);
+    xhr.open('POST', 'php/users/echoUserInfo.php', false);
     xhr.onerror = function() {
         console.log('Request Error...');
     }
@@ -117,5 +147,6 @@ function changePassword(){
 
 function doOnLoad(){
     getInfo(setFields);
+    getProfilePicture(setProfilePicture);
     document.getElementById("changePwBtn").addEventListener("click", changePassword);
 }

@@ -4,21 +4,29 @@
   
   $manager = \app\database\DatabaseManager::getInstance();
 
-  function user($id) use ($manager) {
-    return $manager->getImageFromUserId($id);
+  function user($id) {
+    global $manager;
+    $link = $manager->getImageFromUsername($id);
+
+    if (!isset($link)) {
+      $link = "sisman.png";
+    }
+
+    return $link;
   }
 
-  function listing($id) use ($manager) {
-    return $manager->getImagesFromListingId($id);
+  function listing($id) {
+    global $manager;
+    return json_decode($manager->getImagesFromListingId($id));
   }
 
   // fetch image(s) for user or listing
   $imageType = $_POST['type'];
 
   // listing or userId
-  $id = $_POST['type'];
+  $id = $_POST['id'];
 
-  $return = $imageType($id);
+  echo $imageType($id);
       
 ?>
       

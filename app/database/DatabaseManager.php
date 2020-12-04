@@ -667,6 +667,8 @@ class DatabaseManager {
     $stmt->bind_param("d", $listingId);
     $result = $stmt->execute();
 
+    $return = [];
+
     foreach ($stmt->get_result() as $row) {
       $return[] = $row['link'];
     }
@@ -704,16 +706,17 @@ class DatabaseManager {
   /**
    * Get image for profile picture
    * 
-   * @param int $listingId
-   * @return string[]
+   * @param string $username
    */
-  public function getImageFromUserId($userId) {
+  public function getImageFromUsername($username) {
     $query = "SELECT * 
     FROM profile  
-    WHERE userId=?";
+    LEFT JOIN users
+    ON users.username=?
+    WHERE profile.userId=users.userId";
 
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("d", $listingId);
+    $stmt->bind_param("s", $username);
     $result = $stmt->execute();
 
     $row = $stmt->get_result()->fetch_assoc();
