@@ -1,3 +1,4 @@
+var address;
 
 function setListingSearchEventListeners(){
   document.getElementById("dmenuprice").addEventListener("click", setActivePrice);
@@ -7,6 +8,34 @@ function setListingSearchEventListeners(){
   document.getElementById("dmenusort").addEventListener("click", setActiveSort);
   document.getElementById("house1").addEventListener("click", empac);
   document.getElementById("customC").addEventListener("click", remain);
+  document.getElementById("searchbar").addEventListener("submit", searchFunc);
+}
+
+function searchFunc(e) {
+  e.preventDefault();
+  address = document.getElementById("search").value;
+  
+  var xhr = new XMLHttpRequest();
+  var params = "address=" + address;
+  // OPEN- type, url/file, async
+  xhr.open('POST', 'smth.php', true);
+  xhr.onerror = function() {
+      console.log('Request Error...');
+  }
+  xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+  //xhr.onprogress can be used to show loading screen
+  //can also use xhr.onerror for error
+  xhr.onload= function() {
+  //200 ok, 403 forbidden, 404 not found
+      if (this.status=200) {
+          console.log(this.responseText);
+      }
+      else {
+          console.log("error boi");
+      }
+  }
+  xhr.send(params);
 }
 
 function remain(e) {
