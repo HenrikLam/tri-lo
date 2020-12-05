@@ -115,11 +115,11 @@
           <span class="sr-only">Toggle Dropdown</span>
         </button>
         <div class="dropdown-menu" id="dmenuprice">
-          <a class="dropdown-item" href="#" id = "priceany">Any</a>
+          <a class="dropdown-item active" href="#" id = "priceany">Any</a>
           <a class="dropdown-item" href="#" id = "price0500">$0-$500</a>
           <a class="dropdown-item" href="#" id = "price5001000">$500-$1000</a>
           <!--need to add class names to input types or maybe not, idk in order to get values-->
-          <a class="dropdown-item" href="#" id = "pricecustom"><input type ="text" placeholder="$" style="width:45%">-<input type ="text" placeholder="$" style="width:50%"></a>
+          <a class="dropdown-item" href="#" id = "pricecustom"><input type ="number" placeholder="$" style="width:45%" id="customMin">-<input type ="number" placeholder="$" style="width:50%" id="customMax"></a>
         </div>
       </div>
 
@@ -131,7 +131,7 @@
           <div class = "container-fluid">
             Bedrooms
             <div class="btn-group" id = "dmenubed">
-              <a class="dropdown-item border rounded" href="#" id = "bedany">Any</a>
+              <a class="dropdown-item border rounded active" href="#" id = "bedany">Any</a>
               <a class="dropdown-item border rounded" href="#" id = "bed1">1+</a>
               <a class="dropdown-item border rounded" href="#" id = "bed2">2+</a>
               <a class="dropdown-item border rounded" href="#" id = "bed3">3+</a>
@@ -142,7 +142,7 @@
           <div class = "container-fluid">
             Bathrooms
             <div class="btn-group" id = "dmenubath">
-              <a class="dropdown-item border rounded" href="#" id = "bathany">Any</a>
+              <a class="dropdown-item border rounded active" href="#" id = "bathany">Any</a>
               <a class="dropdown-item border rounded" href="#" id = "bath1">1+</a>
               <a class="dropdown-item border rounded" href="#" id = "bath2">2+</a>
               <a class="dropdown-item border rounded" href="#" id = "bath3">3+</a>
@@ -194,9 +194,9 @@
               <div class="container" style="margin-left: 2%;">
                 <div class="lead" style="margin-bottom: 1%;">Bedroom : Bathroom</div>
                 <div class="form-group row" aria-labelledby="2to1" style="margin-left: 2%;">
-                  <div class="custom-control custom-checkbox" id ="customC">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">2 Bedrooms : 1 Bathroom</label>
+                  <div class="custom-control custom-checkbox" id ="bedToBathC">
+                    <input type="checkbox" class="custom-control-input" id="bedToBath">
+                    <label class="custom-control-label" for="bedToBath">2 Bedrooms : 1 Bathroom</label>
                   </div>
                 </div>
               </div>
