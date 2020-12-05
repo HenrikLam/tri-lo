@@ -14,12 +14,14 @@ function setListingSearchEventListeners(){
   document.getElementById("dmenusort").addEventListener("click", setActiveSort);
   document.getElementById("house1").addEventListener("click", empac);
   document.getElementById("customC").addEventListener("click", remain);
-  document.getElementById("searchbar").addEventListener("submit", searchFunc);
+  document.getElementById("trySearch").addEventListener("click", searchFunc);
 }
 
 function searchFunc(e) {
   e.preventDefault();
   address = document.getElementById("search").value;
+
+  console.log(address);
   
   if (address == "") {
     return;
@@ -28,7 +30,7 @@ function searchFunc(e) {
   var xhr = new XMLHttpRequest();
   var params = "address=" + address;
   // OPEN- type, url/file, async
-  xhr.open('POST', 'smth.php', true);
+  xhr.open('POST', 'php/listings/listingSearch.php', true);
   xhr.onerror = function() {
       console.log('Request Error...');
   }

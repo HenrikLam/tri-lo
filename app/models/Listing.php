@@ -184,6 +184,26 @@ class Listing {
     unset($this->amenities[$amenity]);
   }
 
+  public function toArray() {
+    $loc = $this->location->toArray();
+
+    return array_merge($loc,
+      ['listingName' => $this->listingName, 
+      'listingId' => $this->listingId,
+      'owner' => $this->owner,
+      'description' => $this->description,
+      'amenities' => $this->amenities,
+      'rent' => $this->rent,
+      'squareFeet' => $this->squareFeet,
+      'longitude' => $this->longitude,
+      'latitude' => $this->latitude,
+      'bedrooms' => $this->bedrooms,
+      'bathrooms' => $this->bathrooms,
+      'leaseType' => $this->leaseType,
+      'dateTimePosted' => $this->dateTimePosted,
+      'status' => $this->status]);
+  }
+
 }
 
 ?>
