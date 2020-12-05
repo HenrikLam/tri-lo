@@ -35,7 +35,7 @@
                                       $_POST['radius'] ?? 5,
                                       $filters);
     
-    $return = json_encode($listings)
+    $return = json_encode($listings);
 
     $pageSize = 20;
     $numPages = count($listings) % $pageSize;
