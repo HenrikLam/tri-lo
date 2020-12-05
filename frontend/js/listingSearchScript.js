@@ -42,19 +42,15 @@ function searchFunc(e) {
   paramDict["address"] = address;
   var minPrice;
   var maxPrice;
-  console.log(address);
+
   var priceArr = getActivePrice();
   minPrice = priceArr[0];
   maxPrice = priceArr[1];
   paramDict["minPrice"] = minPrice;
   paramDict["maxPrice"] = maxPrice;
 
-  console.log("minPrice: " + minPrice);
-  console.log("maxPrice: " + maxPrice);
   var minBath = getActiveBath();
   var minBed = getActiveBed();
-  console.log("minBath: " + minBath);
-  console.log("minBed: " + minBed);
   paramDict["minBath"] = minBath;
   paramDict["maxBed"] = minBed;
 
@@ -69,20 +65,16 @@ function searchFunc(e) {
   paramDict["sqFtMin"] = sqFtMin;
   paramDict["sqFtMax"] = sqFtMax;
 
-  console.log("sqFtMin: "+sqFtMin);
-  console.log("sqFtMax: "+sqFtMax);
   var bedToBath = false;
   if ($("#bedToBath").is(":checked")){
     bedToBath = true;
   }
-  console.log("bedToBath: "+ bedToBath);
   paramDict["bedToBath"] = bedToBath;
 
   var sDogs = false;
   if ($("#sDogs").is(":checked")){
     sDogs = true;
   }
-  console.log("sDogs: "+ sDogs);
   paramDict["smallDogs"] = sDogs;
 
   var lDogs = false;
