@@ -8,6 +8,7 @@ var pnBool = true;
 var passwordInput;
 var cpasswordInput;
 var checkAll;
+var yes;
 
 function setSignupEventListeners(){
     document.getElementById("login2").addEventListener("click", redirectToLogin);
@@ -53,7 +54,9 @@ function signupAccount(e){
         //200 ok, 403 forbidden, 404 not found
             if (this.status=200) {
                 console.log(this.responseText);
-                redirectToLogin();
+                if (this.responseText.substr(0,12) == "User added..") {
+                    redirectToLogin();
+                }
             }
             else {
                 console.log("error boi");

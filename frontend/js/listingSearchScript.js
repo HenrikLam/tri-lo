@@ -1,4 +1,10 @@
 var address;
+var priceamen = "priceany";
+var priceleft;
+var priceright;
+var bedamen = "bedany";
+var bathamen = "bathany";
+var sortamen = "sortnew";
 
 function setListingSearchEventListeners(){
   document.getElementById("dmenuprice").addEventListener("click", setActivePrice);
@@ -15,6 +21,10 @@ function searchFunc(e) {
   e.preventDefault();
   address = document.getElementById("search").value;
   
+  if (address == "") {
+    return;
+  }
+
   var xhr = new XMLHttpRequest();
   var params = "address=" + address;
   // OPEN- type, url/file, async
@@ -53,6 +63,7 @@ function setActivePrice(e) {
   document.getElementById("pricecustom").classList = "dropdown-item";
   if (e.target && e.target.nodeName == "A") {
     e.target.classList.add("active");
+    priceamen = e.target.id;
   }
   e.stopPropagation();
 }
@@ -64,6 +75,9 @@ function setActivePrice2(e) {
   document.getElementById("pricecustom").classList = "dropdown-item";
   if (e.target && e.target.nodeName == "INPUT") {
     e.target.parentElement.classList.add("active");
+    priceamen = "pricecustom";
+    priceleft = document.getElementById("leftp").value;
+    priceright = document.getElementById("rightp").value;
   }
   e.stopPropagation();
 }
@@ -77,6 +91,7 @@ function setActiveBath(e) {
 
   if(e.target && e.target.nodeName == "A") {
     e.target.classList.add("active");
+    bathamen = e.target.id;
   }
   e.stopPropagation();
 }
@@ -90,6 +105,7 @@ function setActiveBed(e) {
 
   if(e.target && e.target.nodeName == "A") {
     e.target.classList.add("active");
+    bedamen = e.target.id;
   }
   e.stopPropagation();
 }
@@ -103,6 +119,7 @@ function setActiveSort(e) {
 
   if(e.target && e.target.nodeName == "A") {
     e.target.classList.add("active");
+    sortamen = e.target.id;
   }
   e.stopPropagation();
 }
