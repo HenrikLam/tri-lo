@@ -7,6 +7,7 @@ var bathamen = "bathany";
 var sortamen = "sortnew";
 
 function setListingSearchEventListeners(){
+  checkURL();
   document.getElementById("dmenuprice").addEventListener("click", setActivePrice);
   document.getElementById("dmenuprice").addEventListener("change", setActivePrice2);
   document.getElementById("dmenubath").addEventListener("click", setActiveBath);
@@ -28,7 +29,7 @@ function searchFunc(e) {
   var xhr = new XMLHttpRequest();
   var params = "address=" + address;
   // OPEN- type, url/file, async
-  xhr.open('POST', 'smth.php', true);
+  xhr.open('POST', 'listingSearch.php', true);
   xhr.onerror = function() {
       console.log('Request Error...');
   }
@@ -46,6 +47,11 @@ function searchFunc(e) {
       }
   }
   xhr.send(params);
+}
+
+function checkURL() {
+  document.getElementById("search").value = window.location.search.substring(8);
+  searchFunc();
 }
 
 function remain(e) {
