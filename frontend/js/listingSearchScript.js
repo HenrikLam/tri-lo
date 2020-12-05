@@ -19,7 +19,7 @@ function setListingSearchEventListeners(){
   document.getElementById("dmenusort").addEventListener("click", setActiveSort);
   document.getElementById("house1").addEventListener("click", empac);
   document.getElementById("customC").addEventListener("click", remain);
-  document.getElementById("searchbar").addEventListener("submit", searchFunc);
+  document.getElementById("searchbar").addEventListener("submit", searchFunc, false);
   document.getElementById("whichpage").addEventListener("click", pageClick);
 }
 
