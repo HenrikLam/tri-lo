@@ -96,7 +96,7 @@ class DatabaseManager {
    */
   private function constructListingFromRow($row){
     // Generate associated objects for the listing
-    $row['location'] = new Location($row);
+    $row['location'] = Location::listConstructor($row);
     $row['owner'] = $this->getUserInfoFromUserId($row['ownerId']);
 
     // Create the listing
@@ -212,33 +212,38 @@ class DatabaseManager {
    * @param array $filters Filter specifications for the query
    * @return Listing[] of previous/closed listings
    */
-  public function getListingsFromSearch(Location $latitude, $longitude, $pageNum, $radius, $filters) {
+  public function getListingsFromSearch($latitude, $longitude, $radius, $filters) {
     //$page_size = 20?
     // get listing ids of listings that are within the radius
-    $baseQuery = "SELECT * 
-    FROM listings 
-    WHERE (
+    $query = "SELECT * 
+    FROM listings " .
+    $this->getQueryStringByAmenities($filters)
+    . "WHERE (
         3959 * acos (
-          cos ( radians( ? [fromLatitude] ) )
-          * cos( radians( lis.ycoord ) )
-          * cos( radians( lis.xcoord ) - radians( ? [fromLongitude] ) )
-          + sin ( radians( ? [fromLatitude] ) )
-          * sin( radians( lis.ycoord ) )
+          cos ( radians( ? ) )
+          * cos( radians( latitude ) )
+          * cos( radians( longitude ) - radians( ? ) )
+          + sin ( radians( ? ) )
+          * sin( radians( latitude ) )
           )
       ) < $radius
     AND status = 'ACTIVE'";
 
     $basicFeatures = $this->getQueryStringByBasicFeatures($filters);
-    $baseQuery = $filterQuery . $basicFeatures;
+    $query = $query . $basicFeatures;
 
-    $filterQuery = $this->getQueryStringByAmenities($filters);
-    $query = $filterQuery . " INTERSECT " . $baseQuery;
+    // $filterQuery = $this->getQueryStringByAmenities($filters);
+    // $query = $baseQuery . " INTERSECT " . $filterQuery;
 
     // ORDER BY $ordering
     // LIMIT $pageNum * $pageSize, $pageSize + 1 (page size + 1 for page indexing)
-    
+    var_dump($query);
+
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("fff", $latitude, $longitude, $latitude);
+    if (!$stmt) {
+      echo $this->databaseConnection->error;
+    }
+    $stmt->bind_param("ddd", $latitude, $longitude, $latitude);
     $result = $stmt->execute();
 
     $return = [];
@@ -296,7 +301,8 @@ class DatabaseManager {
    */
   private function getQueryStringByAmenities($filters/*, $listingId*/) {
     // get the unique listing ids that satisfy the filters 
-    $query = "SELECT DISTINCT listingId 
+    $query = "INNER JOIN
+              (SELECT DISTINCT listingId 
               FROM listingAmenities 
               WHERE ";
     $count = 0;
@@ -305,11 +311,15 @@ class DatabaseManager {
       if ($count > 0 ) {
         $query = $query . " AND ";
       }
-      $query = $query . "lower(amenity) = lower(" . $key . ") AND lower(amenityValue) = lower(" . $value . ")";
+      $query = $query . "lower(amenity) LIKE lower(%" . $key . "%) AND lower(amenityValue) LIKE lower(%" . $value . "%)";
       $count += 1;
     }
-
-    return $query;
+    if ($count > 0) {
+      return $query . ") as filtered ON listings.listingId = filtered.listingId";
+    }
+    else {
+      return "";
+    }
   }
 
   /**
