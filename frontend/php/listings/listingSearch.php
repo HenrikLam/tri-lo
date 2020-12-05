@@ -1,7 +1,10 @@
 <?php
     require dirname(__FILE__) . '\..\..\..\vendor\autoload.php';
 
-    var_dump($_POST);
+    function  makeArray($lis) {
+        return $lis->toArray();
+    }
+
     $address = $_POST['address'];
     $address = urlencode($address);
     $apiKey = '3b8323bef47e78589a5fa98a2b7ab522'; // PositionStack API key.
@@ -24,21 +27,53 @@
         return;
     }
 
-
     $filters = [];//$_POST['amenities']; // explode this if necessary
+
+    if (!strpos($_POST['bedtype'], 'any')) {
+        $filters['bedrooms'] = $_POST['bedtype'];
+    }
+    if (!strpos($_POST['bathtype'], 'any')) {
+        $filters['bathrooms'] = $_POST['bathrooms'];
+    }
+
+    $sortBy = $_POST['sorttype'];
+
+    if ($sortBy == "sortnew") {
+        $sortBy = "listingId DESC";
+    }
+    elseif ($sortBy == "sortold") {
+        $sortBy = "listingId";
+    }
+    elseif ($sortBy == "sortplh") {
+        $sortBy = "CAST(rent AS INT)";
+    }
+    elseif ($sortBy == "sortphl") {
+        $sortBy = "CAST(rent AS INT) DESC";
+    }
+    elseif ($sortBy == "sortsqft") {
+        $sortBy = "CAST(squareFeet AS INT) DESC";
+    }
 
     $manager = \app\database\DatabaseManager::getInstance();
 
     $listings = $manager->getListingsFromSearch($latitude,
                                       $longitude,
-                                      /*$_POST['pageNum'], */
+                                      $sortBy,
                                       $_POST['radius'] ?? 5,
                                       $filters);
-    
-    $return = json_encode($listings)
+    $count = count($listings);
 
-    $pageSize = 20;
-    $numPages = count($listings) % $pageSize;
+    $pageNum = intval($_POST['pagenum']);
+    $startOffset = ($pageNum - 1) * 10;
+    $endOffset = min($startOffset + 10, count($listings));
+
+    $listings = array_splice($listings, $startOffset, $endOffset);
+    $listings = array_map('makeArray', $listings);
+
+    $listings['pageCount'] = count($listings);
+    $listings['fullCount'] = $count;
+
+    $return = json_encode($listings);
 
     echo $return;
 ?>
