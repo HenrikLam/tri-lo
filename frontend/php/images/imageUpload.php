@@ -7,6 +7,9 @@
   function downloadAndGetPaths() {
     if ($_POST['type'] == 'listing') {
       $basePath = dirname(__FILE__) . '\..\..\..\images\listings\\' . $_POST['listingId'] . "\\";
+      if (!is_dir($basePath)) {
+        mkdir($basePath);
+      }
       $links = [];
       for ($index = 0; $index < $_FILES['files'].length(); $index++) {
         $fileName = $_FILES['files']['name'][$index];
@@ -23,11 +26,10 @@
       return $links;
     }
     else {
-      $basePath = dirname(__FILE__) . '\..\..\..\images\users\\' . $_POST['userId'];
+      $basePath = dirname(__FILE__) . '\..\..\..\images\users\\' . $_POST['userId'] . "\\";
       if (!is_dir($basePath)) {
         mkdir($basePath);
       }
-      $basePath = $basePath . "\\";
       $fileName = $_FILES['file']['name'];
       $path = $basePath . $fileName;
 

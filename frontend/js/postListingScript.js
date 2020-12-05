@@ -58,6 +58,7 @@ function saveListing(e){
     }
     else {
         var xhr = new XMLHttpRequest();
+        houseNoods = new FormData();
         houseNoods.append("listingName", listingName);
         houseNoods.append("address", address);
         houseNoods.append("city", city);
