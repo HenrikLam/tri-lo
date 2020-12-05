@@ -207,12 +207,12 @@ class DatabaseManager {
    *
    * @param float $latitude
    * @param float $longitude
-   * @param int $pageNum The offset for the query
+   * @param string $sortBy
    * @param int $radius The distance from the location we are looking
    * @param array $filters Filter specifications for the query
    * @return Listing[] of previous/closed listings
    */
-  public function getListingsFromSearch($latitude, $longitude, $radius, $filters) {
+  public function getListingsFromSearch($latitude, $longitude, $sortBy, $radius, $filters) {
     //$page_size = 20?
     // get listing ids of listings that are within the radius
     $query = "SELECT * 
@@ -227,7 +227,8 @@ class DatabaseManager {
           * sin( radians( latitude ) )
           )
       ) < $radius
-    AND status = 'ACTIVE'";
+    AND status = 'ACTIVE'
+    ORDER BY $sortBy";
 
     $basicFeatures = $this->getQueryStringByBasicFeatures($filters);
     $query = $query . $basicFeatures;
@@ -237,7 +238,6 @@ class DatabaseManager {
 
     // ORDER BY $ordering
     // LIMIT $pageNum * $pageSize, $pageSize + 1 (page size + 1 for page indexing)
-    var_dump($query);
 
     $stmt = $this->databaseConnection->prepare($query);
     if (!$stmt) {

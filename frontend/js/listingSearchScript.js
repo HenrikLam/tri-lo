@@ -34,11 +34,11 @@ function searchFunc(e) {
   }
 
   var xhr = new XMLHttpRequest();
-  var params = "address=" + address + "&pricetype=" + priceamen;
+  var params = "address=" + address;
   if (priceamen == "pricecustom") {
-    params += ("&priceleft=" + priceleft + "&priceright=" + priceright);
+    params += ("&startingPrice=" + priceleft + "&endingPrice=" + priceright);
   }
-  params += (+ "&bedtype=" + bedamen
+  params += ("&bedtype=" + bedamen
              + "&bathtype=" + bathamen + "&sorttype=" + sortamen + "&pagenum=" + pagenum
              + "&pageprev=" + pageprev + "&pagenext=" + pagenext);
   //still not sure how to use pagenum here as of yet

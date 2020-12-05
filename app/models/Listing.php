@@ -190,7 +190,7 @@ class Listing {
     return array_merge($loc,
       ['listingName' => $this->listingName, 
       'listingId' => $this->listingId,
-      'owner' => $this->owner,
+      'owner' => $this->owner->toArray(),
       'description' => $this->description,
       'amenities' => $this->amenities,
       'rent' => $this->rent,
