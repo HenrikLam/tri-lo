@@ -61,6 +61,10 @@
                                       $sortBy,
                                       $_POST['radius'] ?? 5,
                                       $filters);
+<<<<<<< HEAD
+    
+    $return = json_encode($listings);
+=======
     $count = count($listings);
 
     $pageNum = intval($_POST['pagenum']);
@@ -72,6 +76,7 @@
 
     $listings['pageCount'] = count($listings);
     $listings['fullCount'] = $count;
+>>>>>>> origin/master
 
     $return = json_encode($listings);
 

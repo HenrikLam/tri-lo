@@ -119,8 +119,12 @@
           <a class="dropdown-item" href="#" id = "price0500">$0-$500</a>
           <a class="dropdown-item" href="#" id = "price5001000">$500-$1000</a>
           <!--need to add class names to input types or maybe not, idk in order to get values-->
+<<<<<<< HEAD
+          <a class="dropdown-item" href="#" id = "pricecustom"><input type ="number" placeholder="$" style="width:45%" id="customMin">-<input type ="number" placeholder="$" style="width:50%" id="customMax"></a>
+=======
           <a class="dropdown-item" href="#" id = "pricecustom"><input type ="text" placeholder="$" style="width:45%" id = "leftp">-<input type ="text" placeholder="$" style="width:50%"
             id = "rightp"></a>
+>>>>>>> origin/master
         </div>
       </div>
 
@@ -161,39 +165,112 @@
           </button>
           <div class="dropdown-menu" aria-labelledby="otherAmenBtn" style="width:300%; ">
             <form class="px-10 py-3">
-              <div class="form-group row">
-                <label for="sqFtRange" class="col-sm-3 col-form-label" style="margin-left: 2%;"> Square Feet</label>
-                <form class="form-group" aria-labelledby="sqFtRange">
-                  <select class="custom-select" style="width: 20%; margin-right: 2%;" id="sqFtMin">
-                    <option selected value="Any">Any</option>
-                    <option value="500">500</option>
-                    <option value="1000">1000</option>
-                    <option value="1500">1500</option>
-                    <option value="2000">2000</option>
-                    <option value="3000">3000</option>
-                    <option value="4000">4000</option>
-                    <option value="5000">5000</option>
-                  </select>
-                  <div>
-                    &minus;
-                  </div>
-                  <select class="custom-select" style="width: 20%; margin-left: 2%;" id="sqFtMax">
-                    <option selected value="Any">Any</option>
-                    <option value="500">500</option>
-                    <option value="1000">1000</option>
-                    <option value="1500">1500</option>
-                    <option value="2000">2000</option>
-                    <option value="3000">3000</option>
-                    <option value="4000">4000</option>
-                    <option value="5000">5000</option>
-                  </select>
-                </form>
+              <div class="container" style="margin-left: 2%;">
+                <div class="lead" style="margin-bottom: 1%;">Size</div>
+                <div class="form-group row">
+                  <label for="sqFtRange" class="col-sm-3 col-form-label" style="margin-left: 2%;"> Square Feet</label>
+                  <form class="form-group" aria-labelledby="sqFtRange">
+                    <select class="custom-select" style="width: 20%; margin-right: 2%;" id="sqFtMin">
+                      <option selected value="Any">Any</option>
+                      <option value="500">500</option>
+                      <option value="1000">1000</option>
+                      <option value="1500">1500</option>
+                      <option value="2000">2000</option>
+                      <option value="3000">3000</option>
+                      <option value="4000">4000</option>
+                      <option value="5000">5000</option>
+                    </select>
+                    <div>
+                      &minus;
+                    </div>
+                    <select class="custom-select" style="width: 20%; margin-left: 2%;" id="sqFtMax">
+                      <option selected value="Any">Any</option>
+                      <option value="500">500</option>
+                      <option value="1000">1000</option>
+                      <option value="1500">1500</option>
+                      <option value="2000">2000</option>
+                      <option value="3000">3000</option>
+                      <option value="4000">4000</option>
+                      <option value="5000">5000</option>
+                    </select>
+                  </form>
+                </div>
               </div>
               <div class="container" style="margin-left: 2%;">
-                <div class="form-group row" aria-labelledby="2to1">
-                  <div class="custom-control custom-checkbox" id ="customC">
-                    <input type="checkbox" class="custom-control-input" id="customCheck1">
-                    <label class="custom-control-label" for="customCheck1">2 Bedrooms : 1 Bathroom</label>
+                <div class="lead" style="margin-bottom: 1%;">Bedroom : Bathroom</div>
+                <div class="form-group row" aria-labelledby="2to1" style="margin-left: 2%;">
+                  <div class="custom-control custom-checkbox" id ="bedToBathC">
+                    <input type="checkbox" class="custom-control-input" id="bedToBath">
+                    <label class="custom-control-label" for="bedToBath">2 Bedrooms : 1 Bathroom</label>
+                  </div>
+                </div>
+              </div>
+              <div class="container" style="margin-left: 2%;">
+                <div class="lead" style="margin-bottom: 1%;">Pets</div>
+                <div class="form-group row" aria-labelledby="2to1" style="margin-left: 2%;">
+                  <div class="custom-control custom-checkbox" id ="sDogC" style="margin-right: 2%;">
+                    <input type="checkbox" class="custom-control-input" id="sDogs">
+                    <label class="custom-control-label" for="sDogs">Small Dogs</label>
+                  </div>
+                  <div class="custom-control custom-checkbox" id ="lDogC" style="margin-right: 2%;">
+                    <input type="checkbox" class="custom-control-input" id="lDogs">
+                    <label class="custom-control-label" for="lDogs">Large Dogs</label>
+                  </div>
+                  <div class="custom-control custom-checkbox" id ="catC">
+                    <input type="checkbox" class="custom-control-input" id="cats">
+                    <label class="custom-control-label" for="cats">Cats</label>
+                  </div>
+                </div>
+              </div>
+              <div class="container" style="margin-left: 2%;">
+                <div class="lead" style="margin-bottom: 1%;">Parking</div>
+                <div class="form-group row" aria-labelledby="2to1" style="margin-left: 2%;">
+                  <div class="custom-control custom-checkbox" id ="parkingC">
+                    <input type="checkbox" class="custom-control-input" id="parking">
+                    <label class="custom-control-label" for="parking">Has Parking</label>
+                  </div>
+                </div>
+              </div>
+              <div class="container" style="margin-left: 2%;">
+                <div class="lead" style="margin-bottom: 1%;">Appliance</div>
+                  <div class="form-group row" aria-labelledby="2to1" style="margin-left: 2%;">
+                    <div class="custom-control custom-checkbox" id ="washerC" style="margin-right: 2%;">
+                      <input type="checkbox" class="custom-control-input" id="washer">
+                      <label class="custom-control-label" for="washer">Washing Machine</label>
+                    </div>
+                    <div class="custom-control custom-checkbox" id ="dryerC" style="margin-right: 2%;">
+                      <input type="checkbox" class="custom-control-input" id="dryer">
+                      <label class="custom-control-label" for="dryer">Dryer</label>
+                    </div>
+                    <div class="custom-control custom-checkbox" id ="dishWasherC" style="margin-right: 2%;">
+                      <input type="checkbox" class="custom-control-input" id="dishWasher">
+                      <label class="custom-control-label" for="dishWasher">Dishwasher</label>
+                    </div>
+                  </div>
+              </div>
+              <div class="container" style="margin-left: 2%;">
+                <div class="lead" style="margin-bottom: 1%;">Heating</div>
+                <div class="form-group row" aria-labelledby="2to1" style="margin-left: 2%;">
+                  <div class="custom-control custom-checkbox" id ="centralHeatingC" style="margin-right: 2%;">
+                    <input type="checkbox" class="custom-control-input" id="centralHeating">
+                    <label class="custom-control-label" for="centralHeating">Central</label>
+                  </div>
+                  <div class="custom-control custom-checkbox" id ="forcedAirHeatingC" style="margin-right: 2%;">
+                    <input type="checkbox" class="custom-control-input" id="forcedAirHeating">
+                    <label class="custom-control-label" for="forcedAirHeating">Forced Air</label>
+                  </div>
+                  <div class="custom-control custom-checkbox" id ="gasHeatingC" style="margin-right: 2%;">
+                    <input type="checkbox" class="custom-control-input" id="gasHeating">
+                    <label class="custom-control-label" for="gasHeating">Gas</label>
+                  </div>
+                </div>
+              </div>
+              <div class="container" style="margin-left: 2%;">
+                <div class="lead" style="margin-bottom: 1%;">Cooling</div>
+                <div class="form-group row" aria-labelledby="2to1" style="margin-left: 2%;">
+                  <div class="custom-control custom-checkbox" id ="inUnitCoolingC" style="margin-right: 2%;">
+                    <input type="checkbox" class="custom-control-input" id="inUnitCooling">
+                    <label class="custom-control-label" for="inUnitCooling">In Unit</label>
                   </div>
                 </div>
               </div>

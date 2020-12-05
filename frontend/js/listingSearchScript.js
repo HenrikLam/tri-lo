@@ -18,29 +18,145 @@ function setListingSearchEventListeners(){
   document.getElementById("dmenubed").addEventListener("click", setActiveBed);
   document.getElementById("dmenusort").addEventListener("click", setActiveSort);
   document.getElementById("house1").addEventListener("click", empac);
-  document.getElementById("customC").addEventListener("click", remain);
+  document.getElementById("bedToBathC").addEventListener("click", remain);
+  document.getElementById("sDogC").addEventListener("click",remain);
+  document.getElementById("lDogC").addEventListener("click",remain);
+  document.getElementById("catC").addEventListener("click",remain);
+  document.getElementById("parkingC").addEventListener("click",remain);
+  document.getElementById("washerC").addEventListener("click",remain);
+  document.getElementById("dryerC").addEventListener("click",remain);
+  document.getElementById("dishWasherC").addEventListener("click",remain);
+  document.getElementById("centralHeatingC").addEventListener("click",remain);
+  document.getElementById("forcedAirHeatingC").addEventListener("click",remain);
+  document.getElementById("gasHeatingC").addEventListener("click",remain);
+  document.getElementById("inUnitCoolingC").addEventListener("click",remain);
   document.getElementById("searchbar").addEventListener("submit", searchFunc, false);
   document.getElementById("whichpage").addEventListener("click", pageClick);
 }
 
 function searchFunc(e) {
   e.preventDefault();
-  address = document.getElementById("search").value;
+  var paramDict = {};
 
+  address = document.getElementById("search").value;
+  paramDict["address"] = address;
+  var minPrice;
+  var maxPrice;
   console.log(address);
+  var priceArr = getActivePrice();
+  minPrice = priceArr[0];
+  maxPrice = priceArr[1];
+  paramDict["minPrice"] = minPrice;
+  paramDict["maxPrice"] = maxPrice;
+
+  console.log("minPrice: " + minPrice);
+  console.log("maxPrice: " + maxPrice);
+  var minBath = getActiveBath();
+  var minBed = getActiveBed();
+  console.log("minBath: " + minBath);
+  console.log("minBed: " + minBed);
+  paramDict["minBath"] = minBath;
+  paramDict["maxBed"] = minBed;
+
+  var sqFtMin = $("#sqFtMin").find("option:selected").text();
+  if (sqFtMin == "Any"){
+    sqFtMin = 0;
+  }
+  var sqFtMax = $("#sqFtMax").find("option:selected").text();
+  if (sqFtMax == "Any"){
+    sqFtMax = 99999999999;
+  }
+  paramDict["sqFtMin"] = sqFtMin;
+  paramDict["sqFtMax"] = sqFtMax;
+
+  console.log("sqFtMin: "+sqFtMin);
+  console.log("sqFtMax: "+sqFtMax);
+  var bedToBath = false;
+  if ($("#bedToBath").is(":checked")){
+    bedToBath = true;
+  }
+  console.log("bedToBath: "+ bedToBath);
+  paramDict["bedToBath"] = bedToBath;
+
+  var sDogs = false;
+  if ($("#sDogs").is(":checked")){
+    sDogs = true;
+  }
+  console.log("sDogs: "+ sDogs);
+  paramDict["smallDogs"] = sDogs;
+
+  var lDogs = false;
+  if ($("#lDogs").is(":checked")){
+    lDogs = true;
+  }
+  paramDict["largeDogs"] = lDogs;
+
+  var cats = false;
+  if ($("#cats").is(":checked")){
+    cats = true;
+  }
+  paramDict["cats"] = cats;
+
+  var parking = false;
+  if ($("#parking").is(":checked")){
+    parking = true;
+  }
+  paramDict["parking"] = parking;
+
+  var washer = false;
+  if ($("#washer").is(":checked")){
+    washer = true;
+  }
+  paramDict["washer"] = washer;
+
+  var dryer = false;
+  if ($("#dryer").is(":checked")){
+    dryer = true;
+  }
+  paramDict["dryer"] = dryer;
+
+  var dishwasher = false;
+  if ($("#dishWasher").is(":checked")){
+    dishwasher = true;
+  }
+  paramDict["dishwasher"] = dishwasher;
+
+  var centralHeating = false;
+  if ($("#centralHeating").is(":checked")){
+    centralHeating = true;
+  }
+  paramDict["centralHeating"] = centralHeating;
+
+  var forcedAirHeating = false;
+  if ($("#forcedAirHeating").is(":checked")){
+    forcedAirHeating = true;
+  }
+  paramDict["forcedAirHeating"] = forcedAirHeating;
+
+  var gasHeating = false;
+  if ($("#gasHeating").is(":checked")){
+    gasHeating = true;
+  }
+  paramDict["gasHeating"] = gasHeating;
+
+  var inUnitCooling = false;
+  if ($("#inUnitCooling").is(":checked")){
+    inUnitCooling = true;
+  }
+  paramDict["inUnitCooling"] = inUnitCooling;
+
+  paramDict["pageNum"] = pagenum;
+
+  var params = JSON.stringify(paramDict);
+  console.log("paramDict: " + params);
+  var xhr = new XMLHttpRequest();
   
   if (address == "") {
     return;
   }
 
   var xhr = new XMLHttpRequest();
-  var params = "address=" + address;
-  if (priceamen == "pricecustom") {
-    params += ("&startingPrice=" + priceleft + "&endingPrice=" + priceright);
-  }
-  params += ("&bedtype=" + bedamen
-             + "&bathtype=" + bathamen + "&sorttype=" + sortamen + "&pagenum=" + pagenum
-             + "&pageprev=" + pageprev + "&pagenext=" + pagenext);
+
   //still not sure how to use pagenum here as of yet
   // OPEN- type, url/file, async
   xhr.open('POST', 'php/listings/listingSearch.php', true);
@@ -60,7 +176,7 @@ function searchFunc(e) {
           console.log("error boi");
       }
   }
-  xhr.send(params);
+  xhr.send("&params="+params);
 }
 
 function checkURL() {
@@ -107,6 +223,19 @@ function setActivePrice2(e) {
   }
 }
 
+function getActivePrice(){
+  if (document.getElementById("priceany").classList.contains("active")){
+    return [0,99999999999];
+  }
+  if (document.getElementById("price0500").classList.contains("active")){
+    return [0,500];
+  }
+  if (document.getElementById("price5001000").classList.contains("active")){
+    return [500,1000];
+  }
+  return [document.getElementById("customMin").value, document.getElementById("customMax").value];
+}
+
 function setActiveBath(e) {
   document.getElementById("bathany").classList.remove("active");
   document.getElementById("bath1").classList.remove("active");
@@ -122,6 +251,25 @@ function setActiveBath(e) {
   }
 }
 
+function getActiveBath(){
+  if (document.getElementById("bathany").classList.contains("active")){
+    return 0;
+  }
+  if (document.getElementById("bath1").classList.contains("active")){
+    return 1;
+  }
+  if (document.getElementById("bath2").classList.contains("active")){
+    return 2;
+  }
+  if (document.getElementById("bath3").classList.contains("active")){
+    return 3;
+  }
+  if (document.getElementById("bath4").classList.contains("active")){
+    return 4;
+  }
+  return 0;
+}
+
 function setActiveBed(e) {
   document.getElementById("bedany").classList.remove("active");
   document.getElementById("bed1").classList.remove("active");
@@ -135,6 +283,25 @@ function setActiveBed(e) {
     e.stopPropagation();
     searchFunc(memeEvent);
   }
+}
+
+function getActiveBed(){
+  if (document.getElementById("bedany").classList.contains("active")){
+    return 0;
+  }
+  if (document.getElementById("bed1").classList.contains("active")){
+    return 1;
+  }
+  if (document.getElementById("bed2").classList.contains("active")){
+    return 2;
+  }
+  if (document.getElementById("bed3").classList.contains("active")){
+    return 3;
+  }
+  if (document.getElementById("bed4").classList.contains("active")){
+    return 4;
+  }
+  return 0;
 }
 
 function setActiveSort(e) {
