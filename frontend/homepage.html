@@ -92,9 +92,13 @@
       <div class="jumbotron jumbotron-fluid text-center">
         <img src="homeScreen.png" alt ="sis-man on the clock" style="width:100%;">
         <div class="centered">Tri-lo</div>
-        <form class="form-inline">
+        <form class="form-inline" onsubmit="location.href = 'listing_search.html?search=' + document.getElementById('searchInput').value; return false;">
           <div class="input-group">
+<<<<<<< HEAD
             <input type="text" class="form-control" size="50" placeholder="Address, Neighborhood, City, or ZipCode" required id="searchInput">
+=======
+            <input type="text" class="form-control" size="50" placeholder="Address, Neighborhood, City, or ZipCode" id="searchInput">
+>>>>>>> origin/master
             <div class="input-group-btn">
               <button type="button" class="btn btn-dark" id="search" style="font-size: 2pt;"><i class="material-icons"> search </i></button>
             </div>
