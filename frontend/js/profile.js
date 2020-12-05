@@ -39,36 +39,37 @@ function uploadProfilePicture(func){
 
     numImages = document.getElementById("pictureUpload").files.length;
     if (numImages == 0) {
-        console.log("Please select an image first");
+        document.getElementById("picReq").innerHTML = "Please select an image first";
         return "Error";
     }
+    else {
+        data = new FormData();
+        var pfp = document.getElementById("pictureUpload").files[0];
+        data.append('file', pfp);
+        data.append('type', 'user');
+        data.append('userId', userId);
 
-    data = new FormData();
-    var pfp = document.getElementById("pictureUpload").files[0];
-    data.append('file', pfp);
-    data.append('type', 'user');
-    data.append('userId', userId);
+        xhr.open('POST', 'php/images/imageUpload.php', true);
+        xhr.onerror = function() {
+            console.log('Request Error...');
+        }
 
-    xhr.open('POST', 'php/images/imageUpload.php', true);
-    xhr.onerror = function() {
-        console.log('Request Error...');
-    }
-
-    //xhr.onprogress can be used to show loading screen
-    //can also use xhr.onerror for error
-    xhr.onload = function() {
+        //xhr.onprogress can be used to show loading screen
+        //can also use xhr.onerror for error
+        xhr.onload = function() {
         //200 ok, 403 forbidden, 404 not found
-        if (this.status=200) {
-            console.log(this.responseText);
-            setProfilePicture(this.responseText);
-            document.getElementById("profileNavButton").innerHTML = "<img src =\"" + this.responseText + "\" class = \"rounded-circle\" style = \"height:40px; width:40px\"> " + username;
+            if (this.status=200) {
+                console.log(this.responseText);
+                setProfilePicture(this.responseText);
+                document.getElementById("profileNavButton").innerHTML = "<img src =\"" + this.responseText + "\" class = \"rounded-circle\" style = \"height:40px; width:40px\"> " + username;
+            }
+            else {
+                return "Error";
+            }
         }
-        else {
-            return "Error";
-        }
-    }
 
-    xhr.send(data);
+        xhr.send(data);
+    }
 }
 
 function setProfilePicture(link){

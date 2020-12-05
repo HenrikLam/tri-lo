@@ -7,13 +7,16 @@
   function downloadAndGetPaths() {
     if ($_POST['type'] == 'listing') {
       $basePath = dirname(__FILE__) . '\..\..\..\images\listings\\' . $_POST['listingId'] . "\\";
+      if (!is_dir($basePath)) {
+        mkdir($basePath);
+      }
       $links = [];
       for ($index = 0; $index < $_FILES['files'].length(); $index++) {
         $fileName = $_FILES['files']['name'][$index];
         $path = $basePath . $fileName;
+        $link = '..\images\listings\\' . $_POST['listingId'] . "\\" . $fileName;
 
         if(move_uploaded_file($_FILES['files']['tmp_name'][$index], $path)){
-          $link = '..\images\listings\\' . $_POST['listingId'] . "\\" . $fileName;
           echo($link);
         }
 
@@ -24,13 +27,15 @@
     }
     else {
       $basePath = dirname(__FILE__) . '\..\..\..\images\users\\' . $_POST['userId'] . "\\";
+      if (!is_dir($basePath)) {
+        mkdir($basePath);
+      }
       $fileName = $_FILES['file']['name'];
       $path = $basePath . $fileName;
 
       $link = '..\images\users\\' . $_POST['userId'] . "\\" . $fileName;
       
       if(move_uploaded_file($_FILES['file']['tmp_name'], $path)){
-        $link = '..\images\users\\' . $_POST['userId'] . "\\" . $fileName;
         echo($link);
       }
       return $link;

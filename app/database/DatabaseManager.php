@@ -714,7 +714,7 @@ class DatabaseManager {
   }
 
   /**
-   * Get image for profile picture
+   * Get path for profile picture
    * 
    * @param string $username
    */
@@ -734,7 +734,7 @@ class DatabaseManager {
   }
 
   /**
-   * Set profile picture
+   * Delete profile picture for a given user
    * 
    * @param int $userId
    */
