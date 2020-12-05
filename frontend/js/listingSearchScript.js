@@ -35,7 +35,8 @@ function searchFunc(e) {
 
   var xhr = new XMLHttpRequest();
   var params = "address=" + address + "&pricetype=" + priceamen + "&bedtype=" + bedamen
-             + "&bathtype=" + bathamen + "&sorttype=" + sortamen;
+             + "&bathtype=" + bathamen + "&sorttype=" + sortamen + "&pagenum=" + pagenum
+             + "&pageprev=" + pageprev + "&pagenext=" + pagenext;
 
   //still not sure how to use pagenum here as of yet
   // OPEN- type, url/file, async
