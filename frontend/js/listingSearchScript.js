@@ -8,6 +8,7 @@ var sortamen = "sortnew";
 var pagenum = "1";
 var pageprev = false;
 var pagenext = false;
+var memeEvent = document.createEvent("MouseEvent");
 
 function setListingSearchEventListeners(){
   checkURL();
@@ -62,7 +63,8 @@ function checkURL() {
   const urlParams = new URLSearchParams(window.location.search);
   const myParam = urlParams.get("search");
   document.getElementById("search").value = myParam;
-  searchFunc(document.createEvent("MouseEvent"));
+
+  searchFunc(memeEvent);
 }
 
 function remain(e) {
@@ -81,8 +83,9 @@ function setActivePrice(e) {
   if (e.target && e.target.nodeName == "A") {
     e.target.classList.add("active");
     priceamen = e.target.id;
+    e.stopPropagation();
+    searchFunc(memeEvent);
   }
-  e.stopPropagation();
 }
 
 function setActivePrice2(e) {
@@ -95,8 +98,9 @@ function setActivePrice2(e) {
     priceamen = "pricecustom";
     priceleft = document.getElementById("leftp").value;
     priceright = document.getElementById("rightp").value;
+    e.stopPropagation();
+    searchFunc(memeEvent);
   }
-  e.stopPropagation();
 }
 
 function setActiveBath(e) {
@@ -109,8 +113,9 @@ function setActiveBath(e) {
   if(e.target && e.target.nodeName == "A") {
     e.target.classList.add("active");
     bathamen = e.target.id;
+    e.stopPropagation();
+    searchFunc(memeEvent);
   }
-  e.stopPropagation();
 }
 
 function setActiveBed(e) {
@@ -123,8 +128,9 @@ function setActiveBed(e) {
   if(e.target && e.target.nodeName == "A") {
     e.target.classList.add("active");
     bedamen = e.target.id;
+    e.stopPropagation();
+    searchFunc(memeEvent);
   }
-  e.stopPropagation();
 }
 
 function setActiveSort(e) {
@@ -137,8 +143,9 @@ function setActiveSort(e) {
   if(e.target && e.target.nodeName == "A") {
     e.target.classList.add("active");
     sortamen = e.target.id;
+    e.stopPropagation();
+    searchFunc(memeEvent);
   }
-  e.stopPropagation();
 }
 
 function pageClick(e) {
@@ -149,7 +156,7 @@ function pageClick(e) {
       document.getElementById("page2").parentElement.classList.remove("active");
       document.getElementById("page3").parentElement.classList.remove("active");
       e.target.parentElement.classList.add("active");
-      searchFunc();
+      searchFunc(memeEvent);
     }
     else {
       if (e.target.id.substring(4) == "prev") {
@@ -162,7 +169,7 @@ function pageClick(e) {
         pagenext = true;
         //smth here to use pagenum and +1 and calculate shit
       }
-      searchFunc();
+      searchFunc(memeEvent);
     }
   }
 }
