@@ -28,7 +28,7 @@ for (var i = 0; i < newAmen; i++) {
 var amenities;
 
 function setCreateListingEventListeners(){
-  document.getElementById("clbutt").addEventListener("click", saveListing);
+  document.getElementById("clbutt").addEventListener("click", save);
   document.getElementById("lname").addEventListener("change",setListingName);
   document.getElementById("addr").addEventListener("change", checkAddress);
   document.getElementById("city").addEventListener("change", checkCity);
@@ -44,16 +44,15 @@ function setCreateListingEventListeners(){
   document.getElementById("addBootonBox").addEventListener("change", setAmenity);
 }
 
+function save(e) {
+  saveListing(e);
+  saveImages();
+}
+
 function saveListing(e){
     e.preventDefault();
     checkEverything();
 
-    houseNoods = new FormData();
-
-    numNoods = document.getElementById("housenoods").files.length;
-    for (var index = 0; index < numNoods; index++) {
-      houseNoods.append("files[]", document.getElementById("housenoods").files[index]);
-    }
     if (!checkAll) {
         console.log("missing or incorrect information in fields");
     }
@@ -91,6 +90,37 @@ function saveListing(e){
         }
         xhr.send(houseNoods);
     }
+}
+
+function saveImages() {
+  var xhr = new XMLHttpRequest();
+
+  data = new FormData();
+  numPics = document.getElementById("housenoods").files.length;
+  for (var index = 0; index < numPics; index++) {
+    data.append("files[]", document.getElementById("housenoods").files[index]);
+  }
+  data.append('type', 'listing');
+  data.append('listingId', listingId);
+
+  xhr.open('POST', 'php/images/imageUpload.php', true);
+  xhr.onerror = function() {
+      console.log('Request Error...');
+  }
+
+  //xhr.onprogress can be used to show loading screen
+  //can also use xhr.onerror for error
+  xhr.onload = function() {
+    //200 ok, 403 forbidden, 404 not found
+    if (this.status=200) {
+      console.log(this.responseText);
+    }
+    else {
+      return "Error";
+    }
+  }
+
+  xhr.send(data);
 }
 
 // .createElement can create a html object

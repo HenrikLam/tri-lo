@@ -23,7 +23,11 @@
       return $links;
     }
     else {
-      $basePath = dirname(__FILE__) . '\..\..\..\images\users\\' . $_POST['userId'] . "\\";
+      $basePath = dirname(__FILE__) . '\..\..\..\images\users\\' . $_POST['userId'];
+      if (!is_dir($basePath)) {
+        mkdir($basePath);
+      }
+      $basePath = $basePath . "\\";
       $fileName = $_FILES['file']['name'];
       $path = $basePath . $fileName;
 
