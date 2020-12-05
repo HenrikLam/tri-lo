@@ -154,7 +154,7 @@ FIELDS TERMINATED BY ','
 LINES TERMINATED BY '\n' (listingId,address,city,state,zipcode,latitude,longitude,rent,bathrooms,bedrooms,squareFeet,@isRenting,leaseType,status,ownerId,dateTimePosted,listingName);
 
 LOAD DATA INFILE '..\\..\\htdocs\\tri-lo\\database\\amenities.csv' INTO TABLE listingAmenities
-FIELDS TERMINATED BY ','
+FIELDS TERMINATED BY ';'
 LINES TERMINATED BY '\n' (listingId, amenity, amenityValue);
 
 LOAD DATA INFILE '..\\..\\htdocs\\tri-lo\\database\\states.csv' INTO TABLE states
