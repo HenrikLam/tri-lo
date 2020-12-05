@@ -5,6 +5,9 @@ var priceright;
 var bedamen = "bedany";
 var bathamen = "bathany";
 var sortamen = "sortnew";
+var pagenum = "1";
+var pageprev = false;
+var pagenext = false;
 
 function setListingSearchEventListeners(){
   checkURL();
@@ -15,7 +18,8 @@ function setListingSearchEventListeners(){
   document.getElementById("dmenusort").addEventListener("click", setActiveSort);
   document.getElementById("house1").addEventListener("click", empac);
   document.getElementById("customC").addEventListener("click", remain);
-  document.getElementById("trySearch").addEventListener("click", searchFunc);
+  document.getElementById("searchbar").addEventListener("submit", searchFunc);
+  document.getElementById("whichpage").addEventListener("click", pageClick);
 }
 
 function searchFunc(e) {
@@ -29,7 +33,10 @@ function searchFunc(e) {
   }
 
   var xhr = new XMLHttpRequest();
-  var params = "address=" + address;
+  var params = "address=" + address + "&pricetype=" + priceamen + "&bedtype=" + bedamen
+             + "&bathtype=" + bathamen + "&sorttype=" + sortamen;
+
+  //still not sure how to use pagenum here as of yet
   // OPEN- type, url/file, async
   xhr.open('POST', 'php/listings/listingSearch.php', true);
   xhr.onerror = function() {
@@ -52,8 +59,10 @@ function searchFunc(e) {
 }
 
 function checkURL() {
-  document.getElementById("search").value = window.location.search.substring(8);
-  searchFunc();
+  const urlParams = new URLSearchParams(window.location.search);
+  const myParam = urlParams.get("search");
+  document.getElementById("search").value = myParam;
+  searchFunc(document.createEvent("MouseEvent"));
 }
 
 function remain(e) {
@@ -132,7 +141,28 @@ function setActiveSort(e) {
   e.stopPropagation();
 }
 
-function onClickListing(listing) {
-  
-  // document.getElementById("profileNavButton").innerHTML = "<img src =\"" + pfp + "\" class = \"rounded-circle\" style = \"height:40px; width:40px\"> " + username;
+function pageClick(e) {
+  if (e.target && e.target.nodeName == "A") {
+    if (e.target.id.match(/page[0-9]{1}$/)) {
+      pagenum = document.getElementById(e.target.id).innerHTML;
+      document.getElementById("page1").parentElement.classList.remove("active");
+      document.getElementById("page2").parentElement.classList.remove("active");
+      document.getElementById("page3").parentElement.classList.remove("active");
+      e.target.parentElement.classList.add("active");
+      searchFunc();
+    }
+    else {
+      if (e.target.id.substring(4) == "prev") {
+        console.log("prev");
+        pageprev = true;
+        //something here to use pagenum and -1 and calculate shit
+      }
+      else {
+        console.log("next");
+        pagenext = true;
+        //smth here to use pagenum and +1 and calculate shit
+      }
+      searchFunc();
+    }
+  }
 }
