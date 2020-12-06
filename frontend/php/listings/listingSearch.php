@@ -29,7 +29,7 @@
 
     $filters = json_decode($_POST['amenities'], true); // explode this if necessary
 
-    $sortBy = $_POST['sortType'];
+    $sortBy = $_POST['sortType'] ?? 'sortnew';
 
     if ($sortBy == "sortnew") {
         $sortBy = "listings.listingId DESC";
