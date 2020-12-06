@@ -221,13 +221,12 @@ class DatabaseManager {
     // get listing ids of listings that are within the radius
     $basicFeatures = $this->getQueryStringByBasicFeatures($filters);
 
-    $query = "SELECT * 
-    FROM listings 
-    INNER JOIN 
-    (SELECT * FROM images GROUP BY listingId) as image 
-    ON listings.listingId = image.listingId " .
+    $query = "(SELECT *
+    FROM listings INNER JOIN " . 
+    "(SELECT listingId, link FROM images GROUP BY listingId) AS imgs ON imgs.listingId = listings.listingId " . 
+    "WHERE " .
     $this->getQueryStringByAmenities($filters)
-    . "WHERE (
+    . " (
         3959 * acos (
           cos ( radians( ? ) )
           * cos( radians( latitude ) )
@@ -236,8 +235,8 @@ class DatabaseManager {
           * sin( radians( latitude ) )
           )
       ) < $radius
-    AND status = 'ACTIVE'" . $basicFeatures .
-    " ORDER BY $sortBy";
+    AND status = 'ACTIVE'" . $basicFeatures . 
+    ") ORDER BY $sortBy;";
 
     // var_dump($query);
     // $filterQuery = $this->getQueryStringByAmenities($filters);
@@ -318,8 +317,7 @@ class DatabaseManager {
    */
   private function getQueryStringByAmenities($filters/*, $listingId*/) {
     // get the unique listing ids that satisfy the filters 
-    $query = "INNER JOIN
-              (SELECT DISTINCT listingId 
+    $query = "listings.listingId IN (SELECT listingId 
               FROM listingAmenities 
               WHERE ";
     $count = 0;
@@ -332,7 +330,7 @@ class DatabaseManager {
       $count += 1;
     }
     if ($count > 0) {
-      return $query . ") as filtered ON listings.listingId = filtered.listingId ";
+      return $query . ") AND ";
     }
     else {
       return "";
@@ -894,7 +892,10 @@ class DatabaseManager {
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("dds", $userId, $listingId, $reason);
     $stmt->execute();
+    $reportId = $this->databaseConnection->insert_id;
     $stmt->close();
+
+    return $reportId;
   }
 
   /**
