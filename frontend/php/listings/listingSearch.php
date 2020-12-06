@@ -29,6 +29,8 @@
 
     $filters = json_decode($_POST['amenities'], true); // explode this if necessary
 
+    // var_dump($_POST);
+
     $sortBy = $_POST['sortType'] ?? 'sortnew';
 
     if ($sortBy == "sortnew") {

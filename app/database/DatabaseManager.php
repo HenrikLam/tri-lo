@@ -215,6 +215,8 @@ class DatabaseManager {
   public function getListingsFromSearch($latitude, $longitude, $sortBy, $radius, $filters) {
     //$page_size = 20?
     // get listing ids of listings that are within the radius
+    $basicFeatures = $this->getQueryStringByBasicFeatures($filters);
+
     $query = "SELECT * 
     FROM listings 
     INNER JOIN 
@@ -230,12 +232,10 @@ class DatabaseManager {
           * sin( radians( latitude ) )
           )
       ) < $radius
-    AND status = 'ACTIVE'
-    ORDER BY $sortBy";
+    AND status = 'ACTIVE'" . $basicFeatures .
+    " ORDER BY $sortBy";
 
-    $basicFeatures = $this->getQueryStringByBasicFeatures($filters);
-    $query = $query . $basicFeatures;
-
+    // var_dump($query);
     // $filterQuery = $this->getQueryStringByAmenities($filters);
     // $query = $baseQuery . " INTERSECT " . $filterQuery;
 
@@ -266,39 +266,39 @@ class DatabaseManager {
    * @param array $filters Filter specifications for the query
    * @return string
    */
-  private function getQueryStringByBasicFeatures($filters) {
+  private function getQueryStringByBasicFeatures(&$filters) {
     $query = "";
 
     // add check for price range
     if (isset($filters['startingPrice'])) {
-      $query = $query . "AND price >= " . $filters['startingPrice'] .
-                                "AND price <= " . $filters['endingPrice'];
+      $query = $query . " AND CAST(listings.rent AS INT) >= " . $filters['startingPrice'] .
+                                " AND CAST(listings.rent AS INT) <= " . $filters['endingPrice'];
       unset($filters['startingPrice']);
       unset($filters['endingPrice']);
     }
 
     // add check for rooms and squareFeet
     if (isset($filters['bedrooms'])) {
-      $query = $query . "AND bedrooms >= " . $filters['bedrooms'];
+      $query = $query . " AND CAST(listings.bedrooms AS INT) >= " . $filters['bedrooms'];
       unset($filters['bedrooms']);
     }
 
     // add check for rooms and squareFeet
     if (isset($filters['bathrooms'])) {
-      $query = $query . "AND bathrooms >= " . $filters['bathrooms'];
+      $query = $query . " AND CAST(listings.bathrooms AS INT) >= " . $filters['bathrooms'];
       unset($filters['bathrooms']);
     }
 
     // add check for rooms ratio
     if (isset($filters['bedToBath'])) {
-      $query = $query . "AND bedrooms >= bathrooms * 2";
+      $query = $query . " AND CAST(listings.bedtooms AS INT) >= CAST(listings.bathrooms AS INT) * 2";
       unset($filters['bedToBath']);
     }
 
     // add check for rooms and squareFeet
     if (isset($filters['startingSquareFeet'])) {
-      $query = $query . "AND squareFeet >= " . $filters['startingSquareFeet'] .
-                        "AND squareFeet <= " . $filters['endingSquareFeet'];
+      $query = $query . " AND CAST(listings.squareFeet AS INT) >= " . $filters['startingSquareFeet'] .
+                        " AND CAST(listings.squareFeet AS INT) <= " . $filters['endingSquareFeet'];
       unset($filters['startingSquareFeet']);
       unset($filters['endingSquareFeet']);
     }

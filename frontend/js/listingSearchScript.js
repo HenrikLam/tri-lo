@@ -4,7 +4,7 @@ var pagenum = 1;
 var pageprev = false;
 var pagenext = false;
 var memeEvent = document.createEvent("MouseEvent");
-var minPrice;
+var minPrice = null;
 var maxPrice;
 var minBed;
 var minBath;
@@ -43,6 +43,7 @@ function setListingSearchEventListeners(){
 
 function searchFunc(e) {
   e.preventDefault();
+  
   checkFilters();
   var paramDict = getAmenities();
 
@@ -55,23 +56,6 @@ function searchFunc(e) {
   houseNoods.append("address", address);
   houseNoods.append("sortType", sortamen);
   houseNoods.append("pageNum", pagenum);
-
-  if (minPrice != null)
-    houseNoods.append("startingPrice", minPrice);
-  if (maxPrice != null)
-    houseNoods.append("endingPrice", maxPrice);
-
-  if (minBed != null)
-    houseNoods.append("bedrooms", minBed);
-  if (minBath != null)
-    houseNoods.append("bathrooms", minBath);
-
-  if (sqFtMin != null)
-    houseNoods.append("startingSquareFeet", sqFtMin);
-  if (sqFtMax != null)
-    houseNoods.append("endingSquareFeet", sqFtMax);
-  if (bedToBath)
-    houseNoods.append("bedToBath", bedToBath);
 
   houseNoods.append("amenities", JSON.stringify(paramDict));
 
@@ -171,6 +155,34 @@ function checkURL() {
   searchFunc(memeEvent);
 }
 
+function setActivePrice(e) {
+  document.getElementById("priceany").classList = "dropdown-item";
+  document.getElementById("price0500").classList = "dropdown-item";
+  document.getElementById("price5001000").classList = "dropdown-item";
+  document.getElementById("pricecustom").classList = "dropdown-item";
+  if (e.target && e.target.nodeName == "A") {
+    e.target.classList.add("active");
+    priceamen = e.target.id;
+    e.stopPropagation();
+    searchFunc(memeEvent);
+  }
+}
+
+function setActivePrice2(e) {
+  document.getElementById("priceany").classList = "dropdown-item";
+  document.getElementById("price0500").classList = "dropdown-item";
+  document.getElementById("price5001000").classList = "dropdown-item";
+  document.getElementById("pricecustom").classList = "dropdown-item";
+  if (e.target && e.target.nodeName == "INPUT") {
+    e.target.parentElement.classList.add("active");
+    priceamen = "pricecustom";
+    priceleft = document.getElementById("leftp").value;
+    priceright = document.getElementById("rightp").value;
+    e.stopPropagation();
+    searchFunc(memeEvent);
+  }
+}
+
 function remain(e) {
   e.stopPropagation();
   searchFunc(memeEvent);
@@ -193,6 +205,21 @@ function getActivePrice(){
   return [document.getElementById("customMin").value, document.getElementById("customMax").value];
 }
 
+function setActiveBath(e) {
+  document.getElementById("bathany").classList.remove("active");
+  document.getElementById("bath1").classList.remove("active");
+  document.getElementById("bath2").classList.remove("active");
+  document.getElementById("bath3").classList.remove("active");
+  document.getElementById("bath4").classList.remove("active");
+
+  if(e.target && e.target.nodeName == "A") {
+    e.target.classList.add("active");
+    bathamen = e.target.id;
+    e.stopPropagation();
+    searchFunc(memeEvent);
+  }
+}
+
 function getActiveBath(){
   if (document.getElementById("bathany").classList.contains("active")){
     return null;
@@ -210,6 +237,21 @@ function getActiveBath(){
     return 4;
   }
   return null;
+}
+
+function setActiveBed(e) {
+  document.getElementById("bedany").classList.remove("active");
+  document.getElementById("bed1").classList.remove("active");
+  document.getElementById("bed2").classList.remove("active");
+  document.getElementById("bed3").classList.remove("active");
+  document.getElementById("bed4").classList.remove("active");
+
+  if(e.target && e.target.nodeName == "A") {
+    e.target.classList.add("active");
+    bedamen = e.target.id;
+    e.stopPropagation();
+    searchFunc(memeEvent);
+  }
 }
 
 function getActiveBed(){
@@ -235,6 +277,7 @@ function checkFilters() {
   address = document.getElementById("search").value;
 
   var priceArr = getActivePrice();
+  console.log(priceArr);
   minPrice = priceArr[0];
   maxPrice = priceArr[1];
 
@@ -314,6 +357,24 @@ function getAmenities() {
   if ($("#inUnitCooling").is(":checked")){
     paramDict["cooling"] = 'in unit';
   }
+
+  if (minPrice != null)
+    paramDict["startingPrice"] = minPrice;
+  if (maxPrice != null)
+    paramDict["endingPrice"] = maxPrice;
+
+  if (minBed != null)
+    paramDict["bedrooms"] = minBed;
+  if (minBath != null)
+    paramDict["bathrooms"] = minBath;
+
+  if (sqFtMin != null)
+    paramDict["startingSquareFeet"] = sqFtMin;
+  if (sqFtMax != null)
+    paramDict["endingSquareFeet"] = sqFtMax;
+
+  if (bedToBath)
+    paramDict["bedToBath"] = bedToBath;
 
   return paramDict;
 }
@@ -426,7 +487,7 @@ function createListing(listing) {
   bedrooms.id = "bedroomnum";
   bedrooms.style.float = "left";
   bedrooms.style.marginLeft = "10px";
-  if (listing.bedrooms == null)
+  if (listing.bedrooms == null || listing.bedrooms == "")
     bedrooms.textContent = "Bedrooms: -- | ";
   else
     bedrooms.textContent = "Bedrooms: " + listing.bedrooms + " | ";
@@ -435,7 +496,7 @@ function createListing(listing) {
   bathrooms.id = "bathroomnum";
   bathrooms.style.float = "left";
   bathrooms.style.marginLeft = "4px";
-  if (listing.bathrooms == null)
+  if (listing.bathrooms == null || listing.bathrooms == "")
     bathrooms.textContent = "Bathrooms: -- | ";
   else
     bathrooms.textContent = "Bathrooms: " + listing.bathrooms + " | ";
@@ -444,7 +505,7 @@ function createListing(listing) {
   squarefeet.id = "squarefeet";
   squarefeet.style.float = "left";
   squarefeet.style.marginLeft = "4px";
-  if (listing.squareFeet == null)
+  if (listing.squareFeet == null || listing.squareFeet == "")
     squarefeet.textContent = "Square Feet: --";
   else
     squarefeet.textContent = "Square Feet: " + listing.squareFeet;
