@@ -291,7 +291,7 @@ class DatabaseManager {
 
     // add check for rooms ratio
     if (isset($filters['bedToBath'])) {
-      $query = $query . " AND CAST(listings.bedtooms AS INT) >= CAST(listings.bathrooms AS INT) * 2";
+      $query = $query . " AND CAST(listings.bedrooms AS INT) >= CAST(listings.bathrooms AS INT) * 2";
       unset($filters['bedToBath']);
     }
 
