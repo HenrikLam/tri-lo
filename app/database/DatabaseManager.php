@@ -892,7 +892,10 @@ class DatabaseManager {
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("dds", $userId, $listingId, $reason);
     $stmt->execute();
+    $reportId = $this->databaseConnection->insert_id;
     $stmt->close();
+
+    return $reportId;
   }
 
   /**

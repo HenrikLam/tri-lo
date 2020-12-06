@@ -1,7 +1,8 @@
 var data;
+var listingid;
 function initMeme() {
 	const urlParams = new URLSearchParams(window.location.search);
-  	var listingid = urlParams.get("listingid");
+  	listingid = urlParams.get("listingid");
   	var xhr = new XMLHttpRequest();
   	var params = "listingId=" + listingid;
   	xhr.open('POST', 'php/listings/individualListing.php', true);
@@ -46,4 +47,36 @@ function display() {
 	document.getElementById("im2").src = data['imageLink'];
 	document.getElementById("img1").src = data['imageLink'];
 	document.getElementById("img2").src = data['imageLink'];
+}
+
+function setListingEventListeners(){
+	document.getElementById("submitReason").addEventListener("click", sendReport);
+}
+
+function sendReport() {
+	var reason = document.getElementById("reason").value;
+	if (reason == ""){
+			document.getElementById("reasonReq").innerHTML = "Reason field cannot be empty!";
+	}
+
+	var xhr = new XMLHttpRequest();
+	var params = "&reason=" + reason + "&listingId=" + listingid;
+	xhr.open('POST', 'php/listings/reportListing.php', true);
+	xhr.onerror = function() {
+			console.log('Request Error...');
+	}
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+	//xhr.onprogress can be used to show loading screen
+	//can also use xhr.onerror for error
+	xhr.onload= function() {
+		//200 ok, 403 forbidden, 404 not found
+		if (this.status=200) {
+			console.log(this.responseText);
+			$("#myModal").modal("hide");
+		}
+		else {
+			console.log("Error");
+		}
+	}
+	xhr.send(params);
 }
