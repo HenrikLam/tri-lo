@@ -1,18 +1,16 @@
-var numGroups;
 var numInvited;
-var groups;
 var invited;
 
 function doOnLoad(){
-    getGroups();
+    getInvites();
     // document.getElementById("leaveBtn").addEventListener("click",leaveGroup);
 }
 
-function getGroups() {
+function getInvites() {
     var xhr = new XMLHttpRequest();
     //retrieve sessionId from cookie
 
-    xhr.open('POST', 'php/groups/allGroups.php', true);
+    xhr.open('POST', 'php/groups/allInvites.php', true);
     xhr.onerror = function() {
         console.log('Request Error...');
     }
@@ -27,11 +25,9 @@ function getGroups() {
 
             var data = JSON.parse(this.responseText);
 
-            numGroups = data.numGroups;
             numInvited = data.numInvited;
-            groups = data.groups;
             invited = data.invited;
-            loadGroups();
+            loadInvited();
             // loadInvited();
         }
         else {
@@ -42,16 +38,16 @@ function getGroups() {
     xhr.send("");
 }
 
-function loadGroups() {
-    for (var i = 0; i < numGroups; i++) {
-        loadGroupMembers(groups[i]);
+function loadInvited() {
+    for (var i = 0; i < numInvited; i++) {
+        loadInviteMembers(invited[i]);
     }
 }
 
-function loadGroupMembers(groupObj){
+function loadInviteMembers(inviteObj){
     var full = document.createElement("div");
     full.classList.add("col-md-9");
-    full.id = "group" + groupObj.groupId;
+    full.id = "group" + inviteObj.groupId;
 
     var group = document.createElement("div");
     group.style.paddingTop = "2%";
@@ -59,23 +55,23 @@ function loadGroupMembers(groupObj){
     group.classList.add("jumbotron-fluid");
 
     var title = document.createElement("div");
-    title.textContent = groupObj.name;
+    title.textContent = inviteObj.name;
     title.classList.add("lead");
     title.style.marginLeft = "2%";
     title.style.marginBottom = "2%";
     title.style.fontSize = "32pt";
 
     var container = document.createElement("div");
-    container.id = "group" + groupObj.groupId + "Container";
+    container.id = "group" + inviteObj.groupId + "Container";
     container.style.minHeight = "200px";
     container.classList.add("container-fluid");
 
     var ul = document.createElement("ul");
-    ul.id = "group" + groupObj.groupId + "List";
+    ul.id = "group" + inviteObj.groupId + "List";
     ul.classList.add("list-group");
 
 
-    var groupMembers = getGroupMembers(groupObj);
+    var groupMembers = getInvitedMembers(inviteObj);
     var htmlString = "";
     for (var i = 0; i < groupMembers.length; i++){
         htmlString += "<li class= \"list-group-item\"> <img src=\""+ groupMembers[i][0] +"\" style= \"float: left; height: 50px; width: 50px; margin-right: 10%;\">"+ groupMembers[i][1];
@@ -86,10 +82,10 @@ function loadGroupMembers(groupObj){
     leave.type = "button";
     leave.classList.add("btn");
     leave.classList.add("btn-danger");
-    leave.id = "leave" + groupObj.groupId;
+    leave.id = "leave" + inviteObj.groupId;
     container.style.marginLeft = "2%";
     container.style.float = "bottom";
-    leave.textContent = "Leave Group";
+    leave.textContent = "Delete Invite";
 
     ul.innerHTML = htmlString;
     container.appendChild(ul);
@@ -106,23 +102,23 @@ function kickMember(memberNumber){
     console.log(memberNumber + " got kicked! D:\n");
 }
 
-function getGroupMembers(group){
-    var members = [];
+function getInvitedMembers(invite){
+    var invited = [];
 
-    for (var i = 0; i < group.members.length; i++) {
-        var pfp = group.members[i].profilePicture;
+    for (var i = 0; i < invite.invited.length; i++) {
+        var pfp = invite.invited[i].profilePicture;
         if (pfp == null)
             pfp = "sisman.png"
 
-        var name = group.members[i].firstName + " " + group.members[i].lastName;
+        var name = invite.invited[i].firstName + " " + invite.invited[i].lastName;
 
-        if (group.members[i].userId == group.owner.userId)
+        if (invite.invited[i].userId == invite.owner.userId)
             name += " (Owner)"
 
-        members.push([pfp, name]);
+        invited.push([pfp, name]);
     }
 
-    return members;
+    return invited;
 }
 
 function leaveGroup(){

@@ -2,6 +2,9 @@
 
   require dirname(__FILE__) . '\..\..\..\vendor\autoload.php';
 
+  function makeArray($group) {
+    return $group->toArray();
+  }
   function alphaName($a, $b) {
     return strcmp($a->getName(), $b->getName());
   }
@@ -26,8 +29,14 @@
     }
   }
 
-  $pageSize = 10;
-  $numPages = count($groups) % $pageSize;
+  $groups = array_map('makeArray', $groups);
+
+  $return = [
+    'numInvited' => count($groups),
+    'invited' => $groups
+  ];
+
+  echo json_encode($return);
       
 ?>
       

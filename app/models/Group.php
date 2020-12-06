@@ -73,6 +73,27 @@ class Group {
     //$this->db_manager->addUserToGroup($group_id, $user);
   }
 
+  public function toArray() {
+    $mem = [];
+    foreach ($this->members as $member) {
+      $mem[] = $member->toArray();
+    }
+
+    $inv = [];
+    foreach ($this->invited as $invite) {
+      $inv[] = $invite->toArray();
+    }
+
+    return [
+      'members' => $mem,
+      'invited' => $inv,
+      'owner' => $this->groupOwner->toArray(),
+      'groupId' => $this->groupId,
+      'name' => $this->name,
+      'description' => $this->description
+    ];
+  }
+
 }
 
 ?>
