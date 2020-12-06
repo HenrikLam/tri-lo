@@ -47,6 +47,29 @@ function display() {
 	document.getElementById("im2").src = data['imageLink'];
 	document.getElementById("img1").src = data['imageLink'];
 	document.getElementById("img2").src = data['imageLink'];
+
+	for (var i = 0; i < data.numImages; i++) {
+		var div = document.createElement("div");
+		div.classList.add("carousel-item");
+
+		if (i == 0)
+		  div.classList.add("active");
+
+		var image = document.createElement("img");
+		image.classList.add("d-block");
+		image.classList.add("w-100");
+		image.id = "im" + i;
+		image.alt = "slide " + i;
+		image.src = data.images[i];
+
+		div.appendChild(image);
+		document.getElementById("carousel-container").appendChild(div);
+	}
+
+  	// lower buttons
+	//document.getElementById("img1").src = data.images[0];
+	//document.getElementById("img2").src = data.images[1];
+
 }
 
 function setListingEventListeners(){
