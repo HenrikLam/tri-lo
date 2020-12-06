@@ -184,23 +184,26 @@ class DatabaseManager {
    */
   public function getListingFromListingId($listingId) {
     $query = "SELECT * 
-    FROM listings 
-    WHERE listingId=?";
+    FROM listings
+    INNER JOIN 
+    (SELECT * FROM images GROUP BY listingId) as image 
+    ON listings.listingId = image.listingId
+    WHERE listings.listingId=?";
 
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("d", $listingId);
     $result = $stmt->execute();
 
-    $return = null;
+    $listing = null;
     $row = $stmt->get_result()->fetch_assoc();
 
     if ($row) {
-      echo json_encode($row);
       // Append listing
-      $return = $this->constructListingFromRow($row);
+      $listing = $this->constructListingFromRow($row);
+      $listing->setImageLink($row['link']);
     }
 
-    return $return;
+    return $listing;
   }
 
   /**

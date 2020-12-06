@@ -211,7 +211,7 @@ class Listing {
       'leaseType' => $this->leaseType,
       'dateTimePosted' => $this->dateTimePosted,
       'status' => $this->status,
-      'imageLink' => $this->imageLink]);
+      'imageLink' => trim($this->imageLink)]);
   }
 
 }
