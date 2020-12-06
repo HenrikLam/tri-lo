@@ -20,6 +20,7 @@ class Listing {
   private $leaseType;
   private $dateTimePosted;
   private $status;
+  private $imageLink;
 
   public function __construct($listingName, $location, $owner, $description, $amenities, $rent, $squareFeet, $longitude, $latitude, $bedrooms, $bathrooms, $leaseType, $dateTimePosted, $status) {
     $this->listingName = $listingName;
@@ -116,6 +117,10 @@ class Listing {
     return $this->status;
   }
 
+  public function getImageLink() {
+    return $this->imageLink;
+  }
+
   public function setListingName($listingName) {
     $this->listingName = $listingName;
   }
@@ -176,6 +181,10 @@ class Listing {
     $this->status = $status;
   }
 
+  public function setImageLink($imageLink) {
+    $this->imageLink = $imageLink;
+  }
+
   public function updateAmenity($amenity, $val) {
     $this->amenities[$amenity] = $val;
   } 
@@ -201,7 +210,8 @@ class Listing {
       'bathrooms' => $this->bathrooms,
       'leaseType' => $this->leaseType,
       'dateTimePosted' => $this->dateTimePosted,
-      'status' => $this->status]);
+      'status' => $this->status,
+      'imageLink' => $this->imageLink]);
   }
 
 }

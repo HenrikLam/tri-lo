@@ -104,7 +104,7 @@
       "status" => $status
     ];
 
-    $amenities = json_decode($_POST['amenities']);
+    $amenities = json_decode($_POST['amenities'], true);
     
     $listing = \app\models\Listing::listConstructor($data);
     $listing->setAmenities($amenities);
