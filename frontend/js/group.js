@@ -50,14 +50,15 @@ function loadGroups() {
 
 function loadGroupMembers(groupObj){
     var full = document.createElement("div");
-    full.classList.add("col-md-9");
     full.id = "group" + groupObj.groupId;
 
     var group = document.createElement("div");
     group.style.paddingTop = "2%";
     group.classList.add("jumbotron");
     group.classList.add("jumbotron-fluid");
-
+    group.style.paddingRight = "2%";
+    group.style.paddingLeft = "2%";
+    
     var title = document.createElement("div");
     title.textContent = groupObj.name;
     title.classList.add("lead");
@@ -73,6 +74,7 @@ function loadGroupMembers(groupObj){
     var ul = document.createElement("ul");
     ul.id = "group" + groupObj.groupId + "List";
     ul.classList.add("list-group");
+    ul.paddignLeft="0%";
 
 
     var groupMembers = getGroupMembers(groupObj);
@@ -87,7 +89,7 @@ function loadGroupMembers(groupObj){
     leave.classList.add("btn");
     leave.classList.add("btn-danger");
     leave.id = "leave" + groupObj.groupId;
-    container.style.marginLeft = "2%";
+    leave.style.marginTop="2%";
     container.style.float = "bottom";
     leave.textContent = "Leave Group";
 
@@ -95,8 +97,8 @@ function loadGroupMembers(groupObj){
     container.appendChild(ul);
     group.appendChild(title);
     group.appendChild(container);
+    container.appendChild(leave);
     full.appendChild(group);
-    group.appendChild(leave);
 
     document.getElementById("allGroups").appendChild(full);
     document.getElementById("allGroups").appendChild(document.createElement("br"));
