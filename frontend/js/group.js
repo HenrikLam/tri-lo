@@ -68,7 +68,6 @@ function loadGroupMembers(groupObj){
 
     var container = document.createElement("div");
     container.id = "group" + groupObj.groupId + "Container";
-    container.style.minHeight = "200px";
     container.classList.add("container-fluid");
 
     var ul = document.createElement("ul");

@@ -1,4 +1,4 @@
-var numInvited;
+ var numInvited;
 var invited;
 
 function doOnLoad(){
@@ -46,11 +46,12 @@ function loadInvited() {
 
 function loadInviteMembers(inviteObj){
     var full = document.createElement("div");
-    full.classList.add("col-md-9");
     full.id = "group" + inviteObj.groupId;
 
     var group = document.createElement("div");
     group.style.paddingTop = "2%";
+    group.style.paddingRight = "2%";
+    group.style.paddingLeft = "2%";
     group.classList.add("jumbotron");
     group.classList.add("jumbotron-fluid");
 
@@ -63,12 +64,13 @@ function loadInviteMembers(inviteObj){
 
     var container = document.createElement("div");
     container.id = "group" + inviteObj.groupId + "Container";
-    container.style.minHeight = "200px";
+    container.style.marginBottom = "2%";
     container.classList.add("container-fluid");
 
     var ul = document.createElement("ul");
     ul.id = "group" + inviteObj.groupId + "List";
     ul.classList.add("list-group");
+    ul.style.marginBottom = "2%";
 
 
     var groupMembers = getInvitedMembers(inviteObj);
@@ -83,16 +85,24 @@ function loadInviteMembers(inviteObj){
     leave.classList.add("btn");
     leave.classList.add("btn-danger");
     leave.id = "leave" + inviteObj.groupId;
-    container.style.marginLeft = "2%";
     container.style.float = "bottom";
     leave.textContent = "Delete Invite";
+
+    var accept = document.createElement("button");
+    accept.type = "button";
+    accept.classList.add("btn");
+    accept.classList.add("btn-primary");
+    accept.id = "accept" + inviteObj.groupId;
+    accept.textContent = "Accept Invite";
+    accept.style.marginRight = "1%";
 
     ul.innerHTML = htmlString;
     container.appendChild(ul);
     group.appendChild(title);
     group.appendChild(container);
     full.appendChild(group);
-    group.appendChild(leave);
+    container.appendChild(accept);
+    container.appendChild(leave);
 
     document.getElementById("allGroups").appendChild(full);
     document.getElementById("allGroups").appendChild(document.createElement("br"));
