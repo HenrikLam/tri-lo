@@ -6,18 +6,19 @@
   
   function downloadAndGetPaths() {
     if ($_POST['type'] == 'listing') {
-      $basePath = dirname(__FILE__) . '\..\..\..\images\listings\\' . $_POST['listingId'] . "\\";
+      $basePath = '..\..\..\images\listings\\' . $_POST['listingId'] . "\\";
       if (!is_dir($basePath)) {
-        mkdir($basePath);
+        mkdir($basePath, 0777, true);
       }
       $links = [];
-      for ($index = 0; $index < $_FILES['files'].length(); $index++) {
+
+      for ($index = 0; $index < count($_FILES['files']['name']); $index++) {
         $fileName = $_FILES['files']['name'][$index];
         $path = $basePath . $fileName;
         $link = '..\images\listings\\' . $_POST['listingId'] . "\\" . $fileName;
 
         if(move_uploaded_file($_FILES['files']['tmp_name'][$index], $path)){
-          echo($link);
+          // echo($link);
         }
 
         array_push($links, $link);
@@ -26,9 +27,9 @@
       return $links;
     }
     else {
-      $basePath = dirname(__FILE__) . '\..\..\..\images\users\\' . $_POST['userId'] . "\\";
+      $basePath = '..\..\..\images\users\\' . $_POST['userId'] . "\\";
       if (!is_dir($basePath)) {
-        mkdir($basePath);
+        mkdir($basePath, 0777, true);
       }
       $fileName = $_FILES['file']['name'];
       $path = $basePath . $fileName;
@@ -36,7 +37,7 @@
       $link = '..\images\users\\' . $_POST['userId'] . "\\" . $fileName;
       
       if(move_uploaded_file($_FILES['file']['tmp_name'], $path)){
-        echo($link);
+        // echo($link);
       }
       return $link;
     }
@@ -47,7 +48,7 @@
 
   // update database
   if ($_POST['type'] == 'listing') {
-    $manager->uploadImagesFromListingId($_POST['listingId'], $basePath);
+    $manager->uploadImagesFromListingId($_POST['listingId'], $paths);
   }
   else {
     $manager->uploadProfilePictureFromUserId(intval($_POST['userId']), $paths);

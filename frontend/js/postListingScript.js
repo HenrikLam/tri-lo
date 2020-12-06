@@ -46,7 +46,11 @@ function setCreateListingEventListeners(){
 
 function save(e) {
   saveListing(e);
-  saveImages();
+  console.log(listingId);
+  if (listingId != null) {
+    console.log("doing images");
+    saveImages();
+  }
 }
 
 function saveListing(e){
@@ -73,7 +77,7 @@ function saveListing(e){
         houseNoods.append("status", "ACTIVE");
         houseNoods.append("amenities", JSON.stringify(amenities));
         // OPEN- type, url/file, async
-        xhr.open('POST', 'php/listings/postListing.php', true);
+        xhr.open('POST', 'php/listings/postListing.php', false);
         xhr.onerror = function() {
             console.log('Request Error...');
         }
@@ -83,6 +87,7 @@ function saveListing(e){
         xhr.onload= function() {
         // 200 ok, 403 forbidden, 404 not found
             if (this.status=200) {
+                listingId = this.responseText.trim();
                 console.log(this.responseText);
             }
             else {
