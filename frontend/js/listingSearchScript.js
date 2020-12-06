@@ -95,6 +95,58 @@ function searchFunc(e) {
   xhr.send(houseNoods);
 }
 
+function setActivePrice(e) {
+  document.getElementById("priceany").classList = "dropdown-item";
+  document.getElementById("price0500").classList = "dropdown-item";
+  document.getElementById("price5001000").classList = "dropdown-item";
+  document.getElementById("pricecustom").classList = "dropdown-item";
+  if (e.target && e.target.nodeName == "A") {
+    e.target.classList.add("active");
+    e.stopPropagation();
+    searchFunc(memeEvent);
+  }
+}
+
+function setActivePrice2(e) {
+  document.getElementById("priceany").classList = "dropdown-item";
+  document.getElementById("price0500").classList = "dropdown-item";
+  document.getElementById("price5001000").classList = "dropdown-item";
+  document.getElementById("pricecustom").classList = "dropdown-item";
+  if (e.target && e.target.nodeName == "INPUT") {
+    e.target.parentElement.classList.add("active");
+    e.stopPropagation();
+    searchFunc(memeEvent);
+  }
+}
+
+function setActiveBath(e) {
+  document.getElementById("bathany").classList.remove("active");
+  document.getElementById("bath1").classList.remove("active");
+  document.getElementById("bath2").classList.remove("active");
+  document.getElementById("bath3").classList.remove("active");
+  document.getElementById("bath4").classList.remove("active");
+
+  if(e.target && e.target.nodeName == "A") {
+    e.target.classList.add("active");
+    e.stopPropagation();
+    searchFunc(memeEvent);
+  }
+}
+
+function setActiveBed(e) {
+  document.getElementById("bedany").classList.remove("active");
+  document.getElementById("bed1").classList.remove("active");
+  document.getElementById("bed2").classList.remove("active");
+  document.getElementById("bed3").classList.remove("active");
+  document.getElementById("bed4").classList.remove("active");
+
+  if(e.target && e.target.nodeName == "A") {
+    e.target.classList.add("active");
+    e.stopPropagation();
+    searchFunc(memeEvent);
+  }
+}
+
 function checkURL() {
   const urlParams = new URLSearchParams(window.location.search);
   const myParam = urlParams.get("search");
@@ -411,11 +463,14 @@ function createListing(listing) {
   page.classList.add("bg-light");
   page.classList.add("border");
   page.style.width = "100%";
+  page.style.marginBottom = "5px";
 
   var image = document.createElement("img");
   image.src = listing.imageLink;
   image.classList.add("rounded");
   image.classList.add("img-fluid");
+  image.style.height = "150px";
+  image.style.float = "left";
 
   var address = document.createElement("div");
   address.id = "address";
@@ -460,9 +515,12 @@ function createListing(listing) {
   timeposted.style.float = "right";
   timeposted.textContent = "Posted " + listing.dateTimePosted;
 
-  page.appendChild(address);
+  
   page.appendChild(image);
+  page.appendChild(address);
   page.appendChild(rent);
+  page.appendChild(document.createElement("br"));
+  page.appendChild(document.createElement("br"));
   page.appendChild(document.createElement("br"));
   page.appendChild(document.createElement("br"));
   page.appendChild(document.createElement("br"));
