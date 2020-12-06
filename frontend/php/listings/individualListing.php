@@ -30,7 +30,6 @@
 
   $listing = $manager->getListingFromListingId($_POST['listingId']);
 
-  echo json_encode($listing);
   // Check if we are performing a command
   if (isset($_POST['command']) && isset($_POST['param'])) {
     $command = $_POST['command'];
@@ -46,6 +45,11 @@
     $command($listing, $param, $user);
 
   }
+
+  // var_dump($listing);
+
+  $listing = json_encode($listing->toArray());
+  echo $listing;
 
   // Show the listing after command
   
