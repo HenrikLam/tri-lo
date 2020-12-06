@@ -284,10 +284,18 @@ class DatabaseManager {
       unset($filters['bathrooms']);
     }
 
+    // add check for rooms ratio
+    if (isset($filters['bedToBath'])) {
+      $query = $query . "AND bedrooms >= bathrooms * 2";
+      unset($filters['bedToBath']);
+    }
+
     // add check for rooms and squareFeet
-    if (isset($filters['squareFeet'])) {
-      $query = $query . "AND squareFeet >= " . $filters['squareFeet'];
-      unset($filters['squareFeet']);
+    if (isset($filters['startingSquareFeet'])) {
+      $query = $query . "AND squareFeet >= " . $filters['startingSquareFeet'] .
+                        "AND squareFeet <= " . $filters['endingSquareFeet'];
+      unset($filters['startingSquareFeet']);
+      unset($filters['endingSquareFeet']);
     }
 
     return $query;

@@ -9,6 +9,13 @@ var pagenum = "1";
 var pageprev = false;
 var pagenext = false;
 var memeEvent = document.createEvent("MouseEvent");
+var minPrice;
+var maxPrice;
+var minBed;
+var minBath;
+var sqFtMin;
+var sqFtMax;
+var bedToBath;
 
 function setListingSearchEventListeners(){
   checkURL();
@@ -22,6 +29,8 @@ function setListingSearchEventListeners(){
   document.getElementById("sDogC").addEventListener("click",remain);
   document.getElementById("lDogC").addEventListener("click",remain);
   document.getElementById("catC").addEventListener("click",remain);
+  document.getElementById("parkingG").addEventListener("click",remain);
+  document.getElementById("parkingO").addEventListener("click",remain);
   document.getElementById("parkingC").addEventListener("click",remain);
   document.getElementById("washerC").addEventListener("click",remain);
   document.getElementById("dryerC").addEventListener("click",remain);
@@ -36,108 +45,29 @@ function setListingSearchEventListeners(){
 
 function searchFunc(e) {
   e.preventDefault();
-  var paramDict = {};
 
-  address = document.getElementById("search").value;
-  paramDict["address"] = address;
-  var minPrice;
-  var maxPrice;
+  checkFilters();
 
-  var priceArr = getActivePrice();
-  minPrice = priceArr[0];
-  maxPrice = priceArr[1];
-  paramDict["minPrice"] = minPrice;
-  paramDict["maxPrice"] = maxPrice;
+  houseNoods = new FormData();
+  houseNoods.append("address", address);
+  houseNoods.append("startingPrice", minPrice);
+  houseNoods.append("endingPrice", maxPrice);
 
-  var minBath = getActiveBath();
-  var minBed = getActiveBed();
-  paramDict["minBath"] = minBath;
-  paramDict["maxBed"] = minBed;
+  if (minBed != null)
+    houseNoods.append("bedrooms", minBed);
+  if (minBath != null)
+    houseNoods.append("bathrooms", minBath);
 
-  var sqFtMin = $("#sqFtMin").find("option:selected").text();
-  if (sqFtMin == "Any"){
-    sqFtMin = 0;
+  if (sqFtMin != null)
+    houseNoods.append("startingSquareFeet", sqFtMin);
+  if (sqFtMax != null)
+    houseNoods.append("endingSquareFeet", sqFtMax);
+
+  if (bedToBath){
+    houseNoods.append("bedToBath", bedToBath);
   }
-  var sqFtMax = $("#sqFtMax").find("option:selected").text();
-  if (sqFtMax == "Any"){
-    sqFtMax = 99999999999;
-  }
-  paramDict["sqFtMin"] = sqFtMin;
-  paramDict["sqFtMax"] = sqFtMax;
 
-  var bedToBath = false;
-  if ($("#bedToBath").is(":checked")){
-    bedToBath = true;
-  }
-  paramDict["bedToBath"] = bedToBath;
-
-  var sDogs = false;
-  if ($("#sDogs").is(":checked")){
-    sDogs = true;
-  }
-  paramDict["smallDogs"] = sDogs;
-
-  var lDogs = false;
-  if ($("#lDogs").is(":checked")){
-    lDogs = true;
-  }
-  paramDict["largeDogs"] = lDogs;
-
-  var cats = false;
-  if ($("#cats").is(":checked")){
-    cats = true;
-  }
-  paramDict["cats"] = cats;
-
-  var parking = false;
-  if ($("#parking").is(":checked")){
-    parking = true;
-  }
-  paramDict["parking"] = parking;
-
-  var washer = false;
-  if ($("#washer").is(":checked")){
-    washer = true;
-  }
-  paramDict["washer"] = washer;
-
-  var dryer = false;
-  if ($("#dryer").is(":checked")){
-    dryer = true;
-  }
-  paramDict["dryer"] = dryer;
-
-  var dishwasher = false;
-  if ($("#dishWasher").is(":checked")){
-    dishwasher = true;
-  }
-  paramDict["dishwasher"] = dishwasher;
-
-  var centralHeating = false;
-  if ($("#centralHeating").is(":checked")){
-    centralHeating = true;
-  }
-  paramDict["centralHeating"] = centralHeating;
-
-  var forcedAirHeating = false;
-  if ($("#forcedAirHeating").is(":checked")){
-    forcedAirHeating = true;
-  }
-  paramDict["forcedAirHeating"] = forcedAirHeating;
-
-  var gasHeating = false;
-  if ($("#gasHeating").is(":checked")){
-    gasHeating = true;
-  }
-  paramDict["gasHeating"] = gasHeating;
-
-  var inUnitCooling = false;
-  if ($("#inUnitCooling").is(":checked")){
-    inUnitCooling = true;
-  }
-  paramDict["inUnitCooling"] = inUnitCooling;
-
-  paramDict["pageNum"] = pagenum;
+  var paramDict = getAmenities();
 
   var params = JSON.stringify(paramDict);
   console.log("paramDict: " + params);
@@ -245,7 +175,7 @@ function setActiveBath(e) {
 
 function getActiveBath(){
   if (document.getElementById("bathany").classList.contains("active")){
-    return 0;
+    return null;
   }
   if (document.getElementById("bath1").classList.contains("active")){
     return 1;
@@ -259,7 +189,7 @@ function getActiveBath(){
   if (document.getElementById("bath4").classList.contains("active")){
     return 4;
   }
-  return 0;
+  return null;
 }
 
 function setActiveBed(e) {
@@ -279,7 +209,7 @@ function setActiveBed(e) {
 
 function getActiveBed(){
   if (document.getElementById("bedany").classList.contains("active")){
-    return 0;
+    return null;
   }
   if (document.getElementById("bed1").classList.contains("active")){
     return 1;
@@ -293,7 +223,94 @@ function getActiveBed(){
   if (document.getElementById("bed4").classList.contains("active")){
     return 4;
   }
-  return 0;
+  return null;
+}
+
+function checkFilters() {
+  address = document.getElementById("search").value;
+
+  var priceArr = getActivePrice();
+  minPrice = priceArr[0];
+  maxPrice = priceArr[1];
+
+  minBath = getActiveBath();
+  minBed = getActiveBed();
+  
+  sqFtMin = $("#sqFtMin").find("option:selected").text();
+  sqFtMax = $("#sqFtMax").find("option:selected").text();
+  if (sqFtMin == "Any" && sqFtMax == "Any"){
+    sqFtMin = null;
+    sqFtMax = null;
+  }
+  else if (sqFtMin == "Any" && sqFtMax != "Any"){
+    sqFtMin = 0;
+  }
+  else if (sqFtMax == "Any" && sqFtMin != "Any"){
+    sqFtMax = 99999999999;
+  }
+
+  bedToBath = false;
+  if ($("#bedToBath").is(":checked")){
+    bedToBath = true;
+  }
+}
+
+function getAmenities() {
+  var paramDict = {};
+  
+  if ($("#sDogs").is(":checked")){
+    paramDict["pets"] = "small dogs";
+  }
+  
+  if ($("#lDogs").is(":checked")){
+    paramDict["Pets"] = "large dogs";
+  }
+
+  if ($("#cats").is(":checked")){
+    paramDict["PETS"] = "cats";
+  }
+
+  if ($("#parkingGarage").is(":checked")){
+    paramDict["parking"] = "garage";
+  }
+
+  if ($("#parkingOffStreet").is(":checked")){
+    paramDict["Parking"] = "off-street";
+  }
+
+  if ($("#parkingCovered").is(":checked")){
+    paramDict["ParkinG"] = "covered";
+  }
+
+  if ($("#washer").is(":checked")){
+    paramDict["appliances"] = 'washer';
+  }
+
+  if ($("#dryer").is(":checked")){
+    paramDict["Appliances"] = 'dryer';
+  }
+
+  if ($("#dishWasher").is(":checked")){
+    paramDict["ApplianceS"] = 'dishwasher';
+  }
+
+  if ($("#centralHeating").is(":checked")){
+    paramDict["heating"] = 'central';
+  }
+
+  if ($("#forcedAirHeating").is(":checked")){
+    paramDict["Heating"] = 'forced air';
+  }
+
+  if ($("#gasHeating").is(":checked")){
+    paramDict["HeatinG"] = 'gas';
+  }
+
+  if ($("#inUnitCooling").is(":checked")){
+    paramDict["cooling"] = 'in unit';
+  }
+
+  return paramDict;
 }
 
 function setActiveSort(e) {

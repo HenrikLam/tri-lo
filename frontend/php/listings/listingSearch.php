@@ -5,6 +5,7 @@
         return $lis->toArray();
     }
 
+    var_dump($_POST);
     $address = $_POST['address'];
     $address = urlencode($address);
     $apiKey = '3b8323bef47e78589a5fa98a2b7ab522'; // PositionStack API key.
@@ -27,7 +28,7 @@
         return;
     }
 
-    $filters = [];//$_POST['amenities']; // explode this if necessary
+    $filters = $_POST['amenities']; // explode this if necessary
 
     if (!strpos($_POST['bedtype'], 'any')) {
         $filters['bedrooms'] = $_POST['bedtype'];
@@ -35,6 +36,8 @@
     if (!strpos($_POST['bathtype'], 'any')) {
         $filters['bathrooms'] = $_POST['bathrooms'];
     }
+
+    var_dump($filters);
 
     $sortBy = $_POST['sorttype'];
 
@@ -61,10 +64,7 @@
                                       $sortBy,
                                       $_POST['radius'] ?? 5,
                                       $filters);
-<<<<<<< HEAD
-    
-    $return = json_encode($listings);
-=======
+
     $count = count($listings);
 
     $pageNum = intval($_POST['pagenum']);
@@ -76,9 +76,8 @@
 
     $listings['pageCount'] = count($listings);
     $listings['fullCount'] = $count;
->>>>>>> origin/master
 
     $return = json_encode($listings);
 
-    echo $return;
+    // echo $return;
 ?>
