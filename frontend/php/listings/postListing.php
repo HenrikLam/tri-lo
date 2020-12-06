@@ -3,7 +3,7 @@
   require dirname(__FILE__) . '\..\..\..\vendor\autoload.php';
 
   $manager = \app\database\DatabaseManager::getInstance();
-  
+    
   $error = false;
   if (!isset($_COOKIE['sessionID'])){
     echo 'Error: no sessionId provided!';
@@ -41,10 +41,10 @@
     echo 'Error: no status provided!';
     $error = true;
   }
-  if (!isset($_FILES['files'])){
-    echo 'Error: no images provided!';
-    $error = true;
-  }
+  // if (!isset($_FILES['files'])){
+  //   echo 'Error: no images provided!';
+  //   $error = true;
+  // }
 
   if (!$error) {
     // get user from username
@@ -60,7 +60,7 @@
     $bathrooms = $_POST['bathrooms'];
     $leaseType = $_POST['leaseType'];
     $status = $_POST['status'];
-    $images = $_FILES['files'];
+    // $images = $_FILES['files'];
 
     // make new Location object
     $location = \app\models\Location::listConstructor($_POST);
