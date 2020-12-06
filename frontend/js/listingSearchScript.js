@@ -176,8 +176,9 @@ function remain(e) {
   searchFunc(memeEvent);
 }
 
-function empac() {
-  window.location.replace("exlistpage.html");
+function empac(e) {
+  if (e.target && e.target.nodeName == "BUTTON")
+  window.location.replace("exlistpage.html?listingid=" + e.target.id.replace("listing", ""));
 }
 
 function getActivePrice(){

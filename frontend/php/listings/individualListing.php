@@ -4,6 +4,7 @@
 
   $manager = \app\database\DatabaseManager::getInstance();
 
+/*
   function bookmarkListing($listing, $collectionId, $user) use ($manager) {
     $manager->saveListingToCollection($listing->getListingId(), $collectionId);
   }
@@ -17,18 +18,19 @@
     $message = new \app\models\Message($user, $listing->getOwner(), 'IDK', $message);
     $message->send();
   }
-
+*/
 
   if (!isset($_POST['listingId'])){
     echo 'Error: no listingId provided!';
     return;
   }
 
-  $userInfo = $manager->getUserInfoFromSessionId($_COOKIE['sessionID']);
-  $user = \app\models\UserAccount::listConstructer($userInfo);
+  //$userInfo = $manager->getUserInfoFromSessionId($_COOKIE['sessionID']);
+  //$user = \app\models\UserAccount::listConstructer($userInfo);
 
   $listing = $manager->getListingFromListingId($_POST['listingId']);
 
+  echo json_encode($listing);
   // Check if we are performing a command
   if (isset($_POST['command']) && isset($_POST['param'])) {
     $command = $_POST['command'];
