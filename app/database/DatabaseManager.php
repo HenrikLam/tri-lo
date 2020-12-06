@@ -194,7 +194,8 @@ class DatabaseManager {
     $return = null;
     $row = $stmt->get_result()->fetch_assoc();
 
-    if (isset($row)) {
+    if ($row) {
+      echo json_encode($row);
       // Append listing
       $return = $this->constructListingFromRow($row);
     }
