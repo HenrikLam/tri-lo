@@ -83,7 +83,7 @@ function searchFunc(e) {
   xhr.onload= function() {
   //200 ok, 403 forbidden, 404 not found
       if (this.status=200) {
-          // console.log(this.responseText);
+          console.log(this.responseText);
 
           var data = JSON.parse(this.responseText);
 
@@ -117,6 +117,7 @@ function checkURL() {
 
 function remain(e) {
   e.stopPropagation();
+  searchFunc(memeEvent);
 }
 
 function empac() {
@@ -314,7 +315,7 @@ function makePages() {
     pageprev = false;
     document.getElementById("pagePrevious").classList.add("isDisabled");
   }
-  if (pagenum == numpages) {
+  if (pagenum == numpages || numpages == 0) {
     pagenext = false;
     document.getElementById("pageNext").classList.add("isDisabled");
   }
@@ -414,5 +415,16 @@ function updateListings() {
   for (var i = 0; i < numlistings; i++) {
     var div = createListing(listings[i]);
     document.getElementById("listings").appendChild(div);
+  }
+
+  if (numlistings == 0) {
+    var page = document.createElement("button");
+    page.classList.add("btn");
+    page.classList.add("bg-light");
+    page.classList.add("border");
+    page.style.width = "100%";
+    page.textContent = "No listings matched";
+
+    document.getElementById("listings").appendChild(page);
   }
 }
