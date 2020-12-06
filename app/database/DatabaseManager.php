@@ -216,7 +216,10 @@ class DatabaseManager {
     //$page_size = 20?
     // get listing ids of listings that are within the radius
     $query = "SELECT * 
-    FROM listings " .
+    FROM listings 
+    INNER JOIN 
+    (SELECT * FROM images GROUP BY listingId) as image 
+    ON listings.listingId = image.listingId " .
     $this->getQueryStringByAmenities($filters)
     . "WHERE (
         3959 * acos (
@@ -249,7 +252,9 @@ class DatabaseManager {
     $return = [];
     foreach ($stmt->get_result() as $row) {
       // Append listing
-      $return[] = $this->constructListingFromRow($row);
+      $listing = $this->constructListingFromRow($row);
+      $listing->setImageLink($row['link']);
+      $return[] = $listing;
     }
 
     return $return;
@@ -319,11 +324,11 @@ class DatabaseManager {
       if ($count > 0 ) {
         $query = $query . " AND ";
       }
-      $query = $query . "lower(amenity) LIKE lower(%" . $key . "%) AND lower(amenityValue) LIKE lower(%" . $value . "%)";
+      $query = $query . "lower(amenity) LIKE lower('%" . $key . "%') AND lower(amenityValue) LIKE lower('%" . $value . "%')";
       $count += 1;
     }
     if ($count > 0) {
-      return $query . ") as filtered ON listings.listingId = filtered.listingId";
+      return $query . ") as filtered ON listings.listingId = filtered.listingId ";
     }
     else {
       return "";

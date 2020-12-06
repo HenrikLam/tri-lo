@@ -5,7 +5,6 @@
         return $lis->toArray();
     }
 
-    var_dump($_POST);
     $address = $_POST['address'];
     $address = urlencode($address);
     $apiKey = '3b8323bef47e78589a5fa98a2b7ab522'; // PositionStack API key.
@@ -28,33 +27,24 @@
         return;
     }
 
-    $filters = $_POST['amenities']; // explode this if necessary
+    $filters = json_decode($_POST['amenities'], true); // explode this if necessary
 
-    if (!strpos($_POST['bedtype'], 'any')) {
-        $filters['bedrooms'] = $_POST['bedtype'];
-    }
-    if (!strpos($_POST['bathtype'], 'any')) {
-        $filters['bathrooms'] = $_POST['bathrooms'];
-    }
-
-    var_dump($filters);
-
-    $sortBy = $_POST['sorttype'];
+    $sortBy = $_POST['sortType'];
 
     if ($sortBy == "sortnew") {
-        $sortBy = "listingId DESC";
+        $sortBy = "listings.listingId DESC";
     }
     elseif ($sortBy == "sortold") {
-        $sortBy = "listingId";
+        $sortBy = "listings.listingId";
     }
     elseif ($sortBy == "sortplh") {
-        $sortBy = "CAST(rent AS INT)";
+        $sortBy = "CAST(listings.rent AS INT)";
     }
     elseif ($sortBy == "sortphl") {
-        $sortBy = "CAST(rent AS INT) DESC";
+        $sortBy = "CAST(listings.rent AS INT) DESC";
     }
     elseif ($sortBy == "sortsqft") {
-        $sortBy = "CAST(squareFeet AS INT) DESC";
+        $sortBy = "CAST(listings.squareFeet AS INT) DESC";
     }
 
     $manager = \app\database\DatabaseManager::getInstance();
@@ -67,7 +57,7 @@
 
     $count = count($listings);
 
-    $pageNum = intval($_POST['pagenum']);
+    $pageNum = intval($_POST['pageNum']);
     $startOffset = ($pageNum - 1) * 10;
     $endOffset = min($startOffset + 10, count($listings));
 
@@ -75,9 +65,9 @@
     $listings = array_map('makeArray', $listings);
 
     $listings['pageCount'] = count($listings);
-    $listings['fullCount'] = $count;
+    $listings['numPages'] = ceil($count / 10.0);
 
     $return = json_encode($listings);
 
-    // echo $return;
+    echo $return;
 ?>
