@@ -221,7 +221,6 @@ class DatabaseManager {
     // get listing ids of listings that are within the radius
     $basicFeatures = $this->getQueryStringByBasicFeatures($filters);
 
-    // echo ('new query');
     $query = "(SELECT *
     FROM listings INNER JOIN " . 
     "(SELECT listingId, link FROM images GROUP BY listingId) AS imgs ON imgs.listingId = listings.listingId " . 
@@ -238,8 +237,6 @@ class DatabaseManager {
       ) < $radius
     AND status = 'ACTIVE'" . $basicFeatures . 
     ") ORDER BY $sortBy;";
-
-    // echo ($query);
 
     // var_dump($query);
     // $filterQuery = $this->getQueryStringByAmenities($filters);
