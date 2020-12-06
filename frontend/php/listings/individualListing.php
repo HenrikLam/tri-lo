@@ -47,8 +47,13 @@
   }
 
   // var_dump($listing);
+  $listing = $listing->toArray();
+  $images = $manager->getImagesFromListingId($_POST['listingId']);
+  $listing['images'] = $images;
+  $listing['numImages'] = count($images);
 
-  $listing = json_encode($listing->toArray());
+  $listing = json_encode($listing);
+
   echo $listing;
 
   // Show the listing after command
