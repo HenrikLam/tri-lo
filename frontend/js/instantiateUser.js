@@ -80,6 +80,7 @@ function login(){
             htmlString+= "<div class=\"dropdown-menu dropdown-menu-right\" aria-labelledby=\"profileNavButton\">";
             htmlString+= "<button class=\"dropdown-item\" type=\"button\" id=\"settingsBtn\">Settings</button>";
             htmlString+= "<button class=\"dropdown-item\" type=\"button\" id=\"groupBtn\">Group</button>";
+            htmlString+= "<button class=\"dropdown-item\" type=\"button\" id=\"inviteBtn\">Invites</button>";
             htmlString+= "<button class=\"dropdown-item\" type=\"button\" id=\"bookmarkedBtn\">Bookmarked Listings</button>";
             htmlString+= "<button class=\"dropdown-item\" type=\"button\" id=\"logoutButton\">Log Out</button>";
             htmlString+= "</div>";
@@ -88,6 +89,7 @@ function login(){
         document.getElementById("rightNavButton").innerHTML = htmlString;
         document.getElementById("settingsBtn").addEventListener("click", redirectToSettings);
         document.getElementById("groupBtn").addEventListener("click", redirectToGroup);
+        document.getElementById("inviteBtn").addEventListener("click", redirectToInvite);
         document.getElementById("bookmarkedBtn").addEventListener("click", redirectToBookmarked);
         document.getElementById("logoutButton").addEventListener("click", logout);
         getUsername(setUsername);
@@ -109,6 +111,9 @@ function redirectToSettings(){
 }
 function redirectToGroup(){
     window.location.replace("group.html");
+}
+function redirectToInvite(){
+    window.location.replace("invites.html");
 }
 function redirectToBookmarked(){
     window.location.replace("bookmarkedListings.html");

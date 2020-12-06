@@ -926,6 +926,8 @@ class DatabaseManager {
     FROM groupMembers
     LEFT JOIN users
     ON users.userId = groupMembers.memberId
+    LEFT JOIN profile
+    ON profile.userId = users.userId
     WHERE groupMembers.groupId=?";
 
     $stmt = $this->databaseConnection->prepare($query);
@@ -936,7 +938,7 @@ class DatabaseManager {
     foreach($stmt->get_result() as $row) {
       $member = ClientAccount::listConstructor($row);
       $member->setUserId($row['memberId']);
-
+      $member->setProfilePicture($row['link']);
       $return[] = $member;
     }
 
@@ -981,6 +983,8 @@ class DatabaseManager {
     FROM groupInvitations
     LEFT JOIN users
     ON users.userId = groupInvitations.invitedId
+    LEFT JOIN profile
+    ON profile.userId = users.userId
     WHERE groupInvitations.groupId=?";
 
     $stmt = $this->databaseConnection->prepare($query);
@@ -991,6 +995,7 @@ class DatabaseManager {
     foreach($stmt->get_result() as $row) {
       $member = ClientAccount::listConstructor($row);
       $member->setUserId($row['invitedId']);
+      $member->setProfilePicture($row['link']);
 
       $return[] = $member;
     }

@@ -9,6 +9,7 @@ abstract class UserAccount {
   protected $password;
   protected $email;
   protected $userId;
+  protected $profilePicture;
 
   public function getFirstName() {
     return $this->firstName;
@@ -38,6 +39,10 @@ abstract class UserAccount {
     return $this->userId;
   }
 
+  public function getProfilePicture() {
+    return $this->profilePicture;
+  }
+
   public function setFirstName($firstName) {
     $this->firstName = $firstName;
   }
@@ -62,6 +67,10 @@ abstract class UserAccount {
     $this->userId = $userId;
   }
 
+  public function setProfilePicture($profilePicture) {
+    $this->profilePicture = $profilePicture;
+  }
+
   public static function listConstructor($data) {
     if ($data['accountType'] == 'Client') {
       return ClientAccount::listConstructor($data);
@@ -72,6 +81,16 @@ abstract class UserAccount {
     else {
       return AgentAccount::listConstructor($data);
     }
+  }
+
+  public function toArray() {
+    return [
+      'firstName' => $this->firstName,
+      'lastName' => $this->lastName,
+      'username' => $this->username,
+      'email' => $this->email,
+      'userId' => $this->userId,
+      'profilePicture' => $this->profilePicture];
   }
 
 }
