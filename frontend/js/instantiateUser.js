@@ -15,6 +15,31 @@ function setUsername(usr){
     username = usr;
 }
 
+function getAccountType(func){
+    var xhr = new XMLHttpRequest();
+    //retrieve sessionId from cookie
+
+    xhr.open('POST', 'php/users/getAccountType.php', true);
+    xhr.onerror = function() {
+        console.log('Request Error...');
+    }
+    xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+    //xhr.onprogress can be used to show loading screen
+    //can also use xhr.onerror for error
+    xhr.onload= function() {
+        //200 ok, 403 forbidden, 404 not found
+        if (this.status=200) {
+            return func(this.responseText);
+        }
+        else {
+            return "Error";
+        }
+    }
+
+    xhr.send("&sessionID=" + sessionID);
+}
+
 function getProfilePicture(func){
     var xhr = new XMLHttpRequest();
     //retrieve sessionId from cookie
@@ -38,6 +63,13 @@ function getProfilePicture(func){
     }
 
     xhr.send("&type=user&id=" + username);
+}
+
+function checkAccountType(accType){
+    if (accType == "Client"){
+        document.getElementById("createListing").innerHTML = "";
+    }
+    return 1;
 }
 
 function getUsername(funct){
@@ -94,6 +126,7 @@ function login(){
         document.getElementById("logoutButton").addEventListener("click", logout);
         getUsername(setUsername);
         getProfilePicture(changeProfileButton);
+        getAccountType(checkAccountType);
     }
 }
 
