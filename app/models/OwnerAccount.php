@@ -31,7 +31,8 @@ abstract class OwnerAccount extends UserAccount {
       'username' => $this->username,
       'email' => $this->email,
       'userId' => $this->userId,
-      'phoneNumber' => $this->phoneNumber];
+      'phoneNumber' => $this->phoneNumber,
+      'profilePicture' => $this->profilePicture];
   }
 }
 

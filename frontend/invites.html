@@ -13,9 +13,9 @@
         <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx" crossorigin="anonymous"></script>
         
-        <script src="js/instantiateUser.js"></script>
         <script src="js/scripts.js"></script>
-        <script src="js/bookmarked.js"></script>
+        <script src="js/invites.js"></script>
+        <script src="js/instantiateUser.js"></script>
 
         <title>Tri-lo</title>
         <style>
@@ -50,68 +50,49 @@
             }
         </style>
     </head>
-    <body onload="setEventListeners(); doOnLoad();">
+
+    <body onload="setEventListeners();tryLogIn();doOnLoad();">
     <nav class="navbar navbar-expand fixed-top lg navbar-dark">
         <a class="navbar-brand" href="#">Tri-lo</a>
         <div class="collapse navbar-collapse" id="navbarText">
-            <ul class="navbar-nav mr-auto" id="home">
+            <ul class="navbar-nav mr-auto">
               <li class="nav-item">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="#" id="home">Home <span class="sr-only">(current)</span></a>
               </li>
             </ul>
         </div>
-        <div id ="rightNavButton">
+        <div id="rightNavButton">
             <div class="navbar-nav mr-auto" id= "login">
                 <a class="nav-link" href="#"><span class="material-icons" style="font-size: 1rem; transform: translate(0,10%);">login</span>Login <span class="sr-only">(current)</span></a>
             </div>
         </div>
     </nav>
+    
+    
         <div class="container-fluid" style="margin-top: 2%;">
             <div class="row">
                 <div class="col-md-2" style="border-right: 1px solid #333;margin-right: 1%; padding:0">
                     <ul class="nav flex-column" id= "profilePageLinks">
                         <li class="nav-item">
-                          <a class="nav-link" href="profilePage.html">Account Settings</a>
+                            <a class="nav-link" href="profilePage.html">Account Settings</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link" href="group.html">Group</a>
+                            <a class="nav-link" href="group.html">Groups</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="invites.html">Invites</a>
+                            <a class="nav-link active" href="#">Invites</a>
                         </li>
                         <li class="nav-item">
-                          <a class="nav-link active" href="#">Bookmarked Listings</a>
+                            <a class="nav-link" href="bookmarkedListings.html">Bookmarked Listings</a>
                         </li>
-                      </ul>
+                        </ul>
                 </div>
-                <div class= "col-md-9" id="texts"> 
-                    <div class = "jumbotron jumbotron-fluid" style="padding-top: 2%;">
-                        <div class="container-fluid">
-                            <div class="input-group mb-3" >
-                                <input type="text" id="search" class="form-control" placeholder="Search all bookmarks" aria-label="Recipient's username" aria-describedby="button-addon2">
-                                <div class="input-group-append">
-                                    <button class="btn btn-outline-secondary btn-dark" type="button" id="searchButton">
-                                        <i class="material-icons" style="font-size: 12pt;"> search </i>
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                        <div class = "container-fluid" style="min-height: 200px;">
-                            <div class="dropdown">
-                                <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                  Bookmarks
-                                </button>
-                                <div class="dropdown-menu" id="collectionOptions" aria-labelledby="dropdownMenuButton" style="margin-top: 0%;">
-                                  
-                                </div>
-                            </div>
 
-                            <div id="collectionName" class="lead" style="float:center;font-size:32pt">
-                            </div>
+                <!-- <div id="allGroups" styple="width:100%">
+                </div> -->
 
-                            <ul class="list-group" id="bookmarkedGroup" style="padding-top: 2%;">
-                            </ul>
-                        </div>
+                <div class="col-sm-9">
+                    <div id = "allGroups">
                     </div>
                 </div>
             </div>

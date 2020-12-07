@@ -50,7 +50,7 @@
             }
         </style>
     </head>
-
+    <body onload="setEventListeners();tryLogIn();doOnLoad();">
     <nav class="navbar navbar-expand fixed-top lg navbar-dark">
         <a class="navbar-brand" href="#">Tri-lo</a>
         <div class="collapse navbar-collapse" id="navbarText">
@@ -67,7 +67,7 @@
         </div>
     </nav>
     
-    <body onload="setEventListeners();tryLogIn();doOnLoad();">
+    
         <div class="container-fluid" style="margin-top: 2%;">
             <div class="row">
                 <div class="col-md-2" style="border-right: 1px solid #333;margin-right: 1%; padding:0">
@@ -76,28 +76,23 @@
                             <a class="nav-link" href="profilePage.html">Account Settings</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link active" href="#">Group</a>
+                            <a class="nav-link active" href="#">Groups</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" href="invites.html">Invites</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="bookmarkedListings.html">Bookmarked Listings</a>
                         </li>
                         </ul>
                 </div>
-                <div class= "col-md-9" id="texts"> 
-                    <div class = "jumbotron jumbotron-fluid" style="padding-top: 2%">
-                        <div class="lead" style="margin-left: 2%;font-size: 32pt;margin-bottom: 2%;">
-                            Group
-                        </div>
-                        <div id ="addMemberDiv" style="min-height: 0; margin-top:0; padding-left: 2%;">
-                        </div>
-                        <div class = "container-fluid" style="min-height: 200px;" id="groupContainer">
-                            <ul class = "list-group" id="groupList">
-                            </ul>
-                        </div>
+
+                <!-- <div id="allGroups" styple="width:100%">
+                </div> -->
+                <div class="col-sm-9">
+                    <button class="btn btn-primary" id="createBtn" style="margin-bottom: 2%;"> Create Group</button>
+                    <div id = "allGroups">
                     </div>
-                    <button type="button" class="btn btn-danger" id="leaveBtn">
-                        Leave Group
-                    </button>
                 </div>
             </div>
         </div>
