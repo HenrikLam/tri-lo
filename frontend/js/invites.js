@@ -1,12 +1,13 @@
- var numInvited;
+var numInvited;
 var invited;
+var userId;
 
 function doOnLoad(){
     getInvites();
     // document.getElementById("leaveBtn").addEventListener("click",leaveGroup);
 }
 
-function getInvites() {
+function getInvites(send="") {
     var xhr = new XMLHttpRequest();
     //retrieve sessionId from cookie
 
@@ -27,6 +28,7 @@ function getInvites() {
 
             numInvited = data.numInvited;
             invited = data.invited;
+            userId = data.userId;
             loadInvited();
             // loadInvited();
         }
@@ -35,12 +37,18 @@ function getInvites() {
         }
     }
 
-    xhr.send("");
+    xhr.send(send);
 }
 
 function loadInvited() {
+    document.getElementById("allGroups").innerHTML = "";
+    
     for (var i = 0; i < numInvited; i++) {
         loadInviteMembers(invited[i]);
+    }
+
+    if (numInvited == 0) {
+        document.getElementById("allGroups").innerHTML = "No Invites to show";
     }
 }
 
@@ -73,7 +81,7 @@ function loadInviteMembers(inviteObj){
     ul.style.marginBottom = "2%";
 
 
-    var groupMembers = getInvitedMembers(inviteObj);
+    var groupMembers = getGroupMembers(inviteObj);
     var htmlString = "";
     for (var i = 0; i < groupMembers.length; i++){
         htmlString += "<li class= \"list-group-item\"> <img src=\""+ groupMembers[i][0] +"\" style= \"float: left; height: 50px; width: 50px; margin-right: 10%;\">"+ groupMembers[i][1];
@@ -87,6 +95,7 @@ function loadInviteMembers(inviteObj){
     leave.id = "leave" + inviteObj.groupId;
     container.style.float = "bottom";
     leave.textContent = "Delete Invite";
+    leave.setAttribute("onclick", "deleteInvite("+inviteObj.groupId +", " + userId+")");
 
     var accept = document.createElement("button");
     accept.type = "button";
@@ -95,6 +104,7 @@ function loadInviteMembers(inviteObj){
     accept.id = "accept" + inviteObj.groupId;
     accept.textContent = "Accept Invite";
     accept.style.marginRight = "1%";
+    accept.setAttribute("onclick", "acceptInvite("+inviteObj.groupId +", " + userId+")");
 
     ul.innerHTML = htmlString;
     container.appendChild(ul);
@@ -108,8 +118,12 @@ function loadInviteMembers(inviteObj){
     document.getElementById("allGroups").appendChild(document.createElement("br"));
 }
 
-function kickMember(memberNumber){
-    console.log(memberNumber + " got kicked! D:\n");
+function acceptInvite(groupId, userId) {
+    getInvites("&command=acceptInvite&groupId=" + groupId + "&userId=" + userId);
+}
+
+function deleteInvite(groupId, userId) {
+    getInvites("&command=deleteInvite&groupId=" + groupId + "&userId=" + userId);
 }
 
 function getInvitedMembers(invite){
@@ -129,6 +143,29 @@ function getInvitedMembers(invite){
     }
 
     return invited;
+}
+
+function getGroupMembers(group){
+    var members = [];
+
+    for (var i = 0; i < group.members.length; i++) {
+        var pfp = group.members[i].profilePicture;
+        if (pfp == null)
+            pfp = "sisman.png"
+
+        var name = group.members[i].firstName + " " + group.members[i].lastName;
+
+        if (userId == group.members[i].userId) {
+            name = "You";
+        }
+
+        if (group.members[i].userId == group.owner.userId)
+            name += " (Owner)"
+
+        members.push([pfp, name]);
+    }
+
+    return members;
 }
 
 function leaveGroup(){
