@@ -45,7 +45,7 @@ class Collection {
     $this->listings = $listings;
   }
 
-  public function setListings($listings) {
+  public function setCollectionId($collectionId) {
     $this->collectionId = $collectionId;
   }
 
@@ -67,6 +67,21 @@ class Collection {
   public function sortListingsByName() {
     // sort listings by name
     usort($this->listings, function($a, $b) {return strcmp($a->name, $b->name);});
+  }
+
+  public function toArray() {
+    
+    $lis = [];
+    foreach ($this->listings as $l) {
+      $lis[] = $l->toArray();
+    }
+
+    return [
+      'name' => $this->name,
+      'ownerId' => $this->ownerId,
+      'collectionId' => $this->collectionId,
+      'listings' => $lis
+    ];
   }
 
 

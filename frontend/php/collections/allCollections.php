@@ -2,6 +2,10 @@
 
   require dirname(__FILE__) . '\..\..\..\vendor\autoload.php';
 
+  function makeArray($c) {
+    return $c->toArray();
+  }
+
   function alphaName($a, $b) {
     return strcmp($a->getName(), $b->getName());
   }
@@ -46,8 +50,14 @@
     }
   }
 
-  $pageSize = 10;
-  $numPages = count($collections) % $pageSize;
+  $collections = array_map('makeArray', $collections);
+
+  $return = [
+    'numCollections' => count($collections),
+    'collections' => $collections,
+  ];
+
+  echo json_encode($return);
       
 ?>
       

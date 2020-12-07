@@ -400,6 +400,9 @@ class DatabaseManager {
     ON collections.collectionId = cl.collectionId
     INNER JOIN listings 
     ON listings.listingId=cl.listingId 
+    INNER JOIN 
+    (SELECT * FROM images GROUP BY listingId) as image 
+    ON listings.listingId = image.listingId
     WHERE collections.collectionId=?";
 
     $stmt = $this->databaseConnection->prepare($query);
@@ -409,7 +412,9 @@ class DatabaseManager {
     $listings = [];
     foreach ($stmt->get_result() as $row) {
       // Append listing
-      $listings[] = $this->constructListingFromRow($row);
+      $listing = $this->constructListingFromRow($row);
+      $listing->setImageLink($row['link']);
+      $listings[] = $listing;
     }
 
     return $listings;
@@ -435,7 +440,7 @@ class DatabaseManager {
       $listings = $this->getListingsFromCollectionId($row['collectionId']);
       $collection = new Collection($row['collectionName'], $userId, $listings);
       $collection->setCollectionId($row['collectionId']);
-      $return[] = $collection;
+      $return[$row['collectionId']] = $collection;
     }
 
     return $return;
@@ -510,7 +515,7 @@ class DatabaseManager {
       $listings = $this->getListingsFromCollectionId($row['collectionId']);
       $collection = new Collection($row['collectionName'], $userId, $listings);
       $collection->setCollectionId($row['collectionId']);
-      $return[] = $collection;
+      $return[$row['collectionId']] = $collection;
     }
 
     return $return;
