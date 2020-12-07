@@ -9,6 +9,7 @@ function doOnLoad(){
 	getCollections();
 	document.getElementById("collectionOptions").addEventListener("click",setActiveCollection);
 	document.getElementById("searchButton").addEventListener("click",getCollections);
+	document.getElementById("bookmarkedGroup").addEventListener("click",showListing);
 }
 
 function getCollections() {
@@ -152,4 +153,9 @@ function deleteListing(e) {
 		e.stopPropagation();
 		getCollections();
 	}
+}
+
+function showListing(e) {
+	if (e.target && e.target.nodeName == "LI")
+  	window.location.replace("exlistpage.html?listingid=" + e.target.id.replace("listing", ""));
 }
