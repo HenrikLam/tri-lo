@@ -9,15 +9,40 @@
     return strcmp($a->getName(), $b->getName());
   }
 
+  $manager = \app\database\DatabaseManager::getInstance();
+
+  // ONLY FOR INVITED MEMBERS
+  function acceptInvite($group, $who) {
+    global $manager;
+    $manager->addUserToGroup($group->getGroupId(), $who);
+  }
+
+  // ONLY FOR INVITED MEMBERS
+  function deleteInvite($group, $who) {
+    global $manager;
+    $manager->removeInviteFromGroup($group->getGroupId(), $who);
+  }
+
   if (!isset($_COOKIE['sessionID'])){
     echo 'Error: no sessionId provided!';
     return;
   }
 
-  $manager = \app\database\DatabaseManager::getInstance();
+  // Check if we are performing a command
+  if (isset($_POST['command'])) {
+    // var_dump($_POST);
+    $command = $_POST['command'];
+
+    $group = $manager->getGroupFromGroupId($_POST['groupId']);
+    $who = $_POST['userId'];
+
+    // call command with proper "who" field
+    $command($group, $who);
+  }
   $userInfo = $manager->getUserInfoFromSessionId($_COOKIE['sessionID']);
 
   $groups = $manager->getInvitedGroupsFromUserId($userInfo['userId']);
+
 
   if (isset($_POST['sort'])) {
     if ($_POST['sort'] == 'alpha') {
@@ -33,7 +58,8 @@
 
   $return = [
     'numInvited' => count($groups),
-    'invited' => $groups
+    'invited' => $groups,
+    'userId' => $userInfo['userId']
   ];
 
   echo json_encode($return);

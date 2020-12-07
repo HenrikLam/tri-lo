@@ -917,6 +917,7 @@ class DatabaseManager {
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("ssd", $name, $description, $ownerId);
     $stmt->execute();
+    $this->addUserToGroup($this->databaseConnection->insert_id, $ownerId);
     $stmt->close();
   }
 
@@ -1026,6 +1027,11 @@ class DatabaseManager {
     $result = $stmt->execute();
 
     $row = $stmt->get_result()->fetch_assoc();
+
+    if ($row == null) {
+      return null;
+    }
+
     $owner = ClientAccount::listConstructor($row);
     $owner->setUserId($row['groupOwnerId']);
 
