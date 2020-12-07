@@ -2,6 +2,10 @@
 
   require dirname(__FILE__) . '\..\..\..\vendor\autoload.php';
 
+  function makeArray($c) {
+    return $c->toArray();
+  }
+
   function alphaName($a, $b) {
     return strcmp($a->getName(), $b->getName());
   }
@@ -18,6 +22,17 @@
 
   $manager = \app\database\DatabaseManager::getInstance();
   $userInfo = $manager->getUserInfoFromSessionId($_COOKIE['sessionID']);
+
+
+  if (isset($_POST['command'])) {    
+    $collectionId = $_POST['collectionId'];
+    $listingId = $_POST['listingId'];
+
+    if ($_POST['command'] == "remove") {
+      $manager->removeListingFromCollection($collectionId, $listingId);
+    }
+  }
+  
 
   $collections = [];
   if (isset($_POST['name'])) {
@@ -46,8 +61,14 @@
     }
   }
 
-  $pageSize = 10;
-  $numPages = count($collections) % $pageSize;
+  $collections = array_map('makeArray', $collections);
+
+  $return = [
+    'numCollections' => count($collections),
+    'collections' => $collections,
+  ];
+
+  echo json_encode($return);
       
 ?>
       
