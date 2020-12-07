@@ -189,7 +189,8 @@ INSERT INTO `groups` VALUES
 (1, 'Group A', 'Looking for a cute apartment', 5),
 (2, 'Group B', 'Delete Me', 5),
 (3, 'Group C', 'User Invited', 10),
-(4, 'Group D', 'Other', 12);
+(4, 'Group D', 'Other', 12),
+(5, 'Group E', 'Other', 6);
 
 INSERT INTO `groupMembers` VALUES 
 (1, 5),
@@ -200,14 +201,24 @@ INSERT INTO `groupMembers` VALUES
 (3, 10),
 (3, 11),
 (3, 12),
+(4, 6),
+(4, 7),
+(4, 8),
+(4, 9),
+(4, 10),
 (4, 11),
-(4, 12);
+(4, 12),
+(5, 6),
+(5, 5),
+(5, 12);
+
 
 INSERT INTO `groupInvitations` VALUES 
 (1, 8, 5),
 (1, 9, 5),
 (2, 9, 12),
-(3, 5, 10);
+(3, 5, 10),
+(3, 5, 12);
 
 INSERT INTO `collections` VALUES
 (1, "Big Bookmark", 5),
@@ -227,21 +238,6 @@ INSERT INTO `collectionListings` VALUES
 (1, 8),
 (1, 9),
 (1, 10),
-(1, 11),
-(1, 12),
-(1, 13),
-(1, 14),
-(1, 15),
-(1, 16),
-(1, 17),
-(1, 18),
-(1, 19),
-(1, 20),
-(1, 21),
-(1, 22),
-(1, 23),
-(1, 24),
-(1, 25),
 (3, 5),
 (3, 11),
 (3, 27),
