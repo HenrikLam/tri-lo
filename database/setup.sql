@@ -218,7 +218,7 @@ INSERT INTO `groupInvitations` VALUES
 (1, 9, 5),
 (2, 9, 12),
 (3, 5, 10),
-(3, 5, 12);
+(4, 5, 12);
 
 INSERT INTO `collections` VALUES
 (1, "Big Bookmark", 5),
