@@ -46,7 +46,7 @@ class DatabaseManager {
   /**
    * Get the groups a user is a part of
    *
-   * @param string $userId The user id of the owner
+   * @param int $userId The user id of the owner
    * @return Group[]
    */
   public function getGroupsFromUserId($userId){
@@ -478,7 +478,7 @@ class DatabaseManager {
    *
    * @param int $collectionId
    */
-  public function deleteColelction($collectionId) {
+  public function deleteCollection($collectionId) {
     $this->removeAllListingsFromCollection();
 
     $query = "DELETE FROM collection 
@@ -737,6 +737,7 @@ class DatabaseManager {
    * Get path for profile picture
    * 
    * @param string $username
+   * @return string // path to profile picture
    */
   public function getImageFromUsername($username) {
     $query = "SELECT * 
@@ -796,6 +797,7 @@ class DatabaseManager {
    * Save an account to the database after sign-up
    *
    * @param UserAccount $account
+   * @return int // userId 
    */
   public function saveAccount($account) {
     $type = '';
@@ -887,6 +889,7 @@ class DatabaseManager {
    * Save a report made on a listing
    *
    * @param Report $report
+   * @return int // reportId
    */
   public function saveReport($report) {
     $userId = $report->getUserId();
@@ -906,7 +909,7 @@ class DatabaseManager {
   /**
    * Save a group object created
    *
-   * @param UserAccount $account
+   * @param Group $group
    */
   public function saveGroup($group) {
     $name = $group->getName();
@@ -924,7 +927,7 @@ class DatabaseManager {
    * Get members of a group
    *
    * @param int $groupId
-   * @return CLientAccount[]
+   * @return ClientAccount[]
    */
   public function getMembersFromGroupId($groupId) {
     $query = "SELECT * 

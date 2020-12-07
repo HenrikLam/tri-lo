@@ -14,7 +14,7 @@
     }
     if (!isset($_POST['password'])){
         echo 'Error: no password provided!\n';
-        $password = true;
+        $error = true;
     }
 
     if (!$error){
