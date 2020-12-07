@@ -23,6 +23,17 @@
   $manager = \app\database\DatabaseManager::getInstance();
   $userInfo = $manager->getUserInfoFromSessionId($_COOKIE['sessionID']);
 
+
+  if (isset($_POST['command'])) {    
+    $collectionId = $_POST['collectionId'];
+    $listingId = $_POST['listingId'];
+
+    if ($_POST['command'] == "remove") {
+      $manager->removeListingFromCollection($collectionId, $listingId);
+    }
+  }
+  
+
   $collections = [];
   if (isset($_POST['name'])) {
     // bookmarks searched

@@ -1,6 +1,9 @@
 var numCollections;
 var collections;
 var currentCollection;
+var command;
+var listingId;
+var collectionId;
 
 function doOnLoad(){
 	getCollections();
@@ -22,13 +25,17 @@ function getCollections() {
     if (send != "") {
     	send = "&name=" + send;
     }
+
+    if (command != null) {
+    	send += "&command=" + command + "&listingId=" + 
+    	        listingId + "&collectionId=" + collectionId;
+    }
     //xhr.onprogress can be used to show loading screen
     //can also use xhr.onerror for error
     xhr.onload= function() {
         //200 ok, 403 forbidden, 404 not found
         if (this.status=200) {
-            console.log(this.responseText);
-
+        	// console.log(this.responseText);
             var data = JSON.parse(this.responseText);
 
             numCollections = data.numCollections;
@@ -57,7 +64,6 @@ function setActiveCollection(e) {
 }
 
 function createListing(listing) {
-	console.log(listing);
     var page = document.createElement("li");
 	page.id = "listing" + listing.listingId;
 	page.classList.add("list-group-item");
@@ -81,13 +87,14 @@ function createListing(listing) {
 						 listing.rent + "/month";
 
 	var button = document.createElement("button");
-	button.id = "remove" + currentCollection + " " + listing.listingId
 	button.type = "button";
 	button.setAttribute('aria-label', 'Close');
 	button.classList.add("close");
+	button.addEventListener("click", deleteListing);
 
 	var span = document.createElement("span");
 	span.setAttribute('aria-hidden', 'true');
+	span.id = "remove" + currentCollection + " " + listing.listingId
 	span.textContent = "x";
 
 	button.appendChild(span);
@@ -134,4 +141,15 @@ function createOptions() {
 	    document.getElementById("collectionOptions").appendChild(option);
 	}
 	changeCollection();
+}
+
+function deleteListing(e) {
+	if (e.target) {
+		var toDelete = e.target.id.replace("remove", "").split(" ");
+		command = "remove";
+		collectionId = toDelete[0];
+		listingId = toDelete[1];
+		e.stopPropagation();
+		getCollections();
+	}
 }

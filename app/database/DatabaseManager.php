@@ -457,7 +457,7 @@ class DatabaseManager {
     WHERE collectionId=? and listingId=?";
 
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("sd", $cname, $userId);
+    $stmt->bind_param("dd", $collectionId, $listingId);
     $result = $stmt->execute();
   }
 
@@ -471,7 +471,7 @@ class DatabaseManager {
     WHERE collectionId=?";
 
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("sd", $cname, $userId);
+    $stmt->bind_param("d", $collectionId);
     $result = $stmt->execute();
   }
 
@@ -487,7 +487,7 @@ class DatabaseManager {
     WHERE collectionId=?";
 
     $stmt = $this->databaseConnection->prepare($query);
-    $stmt->bind_param("sd", $cname, $userId);
+    $stmt->bind_param("d", $collectionId);
     $result = $stmt->execute();
   }
 
