@@ -65,11 +65,6 @@ function display() {
 		div.appendChild(image);
 		document.getElementById("carousel-container").appendChild(div);
 	}
-
-  	// lower buttons
-	//document.getElementById("img1").src = data.images[0];
-	//document.getElementById("img2").src = data.images[1];
-
 }
 
 function setListingEventListeners(){
