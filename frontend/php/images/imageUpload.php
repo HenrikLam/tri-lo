@@ -37,7 +37,7 @@
       $link = '..\images\users\\' . $_POST['userId'] . "\\" . $fileName;
       
       if(move_uploaded_file($_FILES['file']['tmp_name'], $path)){
-        // echo($link);
+        echo($link);
       }
       return $link;
     }

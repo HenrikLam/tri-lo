@@ -43,10 +43,10 @@ function display() {
 	var meme = Object.keys(data['amenities']);
 	meme.forEach(element => document.getElementById("amen").innerHTML += (element + ": " + data['amenities'][element] + "<br>"));
 
-	document.getElementById("im1").src = data['imageLink'];
-	document.getElementById("im2").src = data['imageLink'];
-	document.getElementById("img1").src = data['imageLink'];
-	document.getElementById("img2").src = data['imageLink'];
+	// document.getElementById("im1").src = data['imageLink'];
+	// document.getElementById("im2").src = data['imageLink'];
+	// document.getElementById("img1").src = data['imageLink'];
+	// document.getElementById("img2").src = data['imageLink'];
 
 	for (var i = 0; i < data.numImages; i++) {
 		var div = document.createElement("div");
@@ -65,11 +65,6 @@ function display() {
 		div.appendChild(image);
 		document.getElementById("carousel-container").appendChild(div);
 	}
-
-  	// lower buttons
-	//document.getElementById("img1").src = data.images[0];
-	//document.getElementById("img2").src = data.images[1];
-
 }
 
 function setListingEventListeners(){
