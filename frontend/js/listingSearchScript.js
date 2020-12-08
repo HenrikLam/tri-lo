@@ -477,12 +477,14 @@ function createListing(listing) {
   address.id = "address";
   address.style.float = "left";
   address.style.marginLeft = "10px";
-  address.textContent = "" + listing.address;
+  address.style.whiteSpace = "pre";
+  address.textContent = listing.address + " " + listing.city + ", " + 
+             listing.state + " " + listing.zip;
 
   var rent = document.createElement("div");
   rent.id = "rent";
   rent.style.float = "right";
-  rent.textContent = "$" + listing.rent;
+  rent.textContent = "$" + listing.rent + "/month";
 
   var bedrooms = document.createElement("div");
   bedrooms.id = "bedroomnum";
