@@ -15,6 +15,7 @@
         
         <script src="js/postListingScript.js"></script>
         <script src="js/scripts.js"></script>
+        <script src="js/instantiateUser.js"></script>
 
         <title>Create a Listing</title>
         <style>
@@ -45,8 +46,8 @@
         </div>
     </nav>
 
-    <body onload="setEventListeners(); setCreateListingEventListeners();">
-    <div class="container-fluid" style="background-image: url('https://i.imgur.com/kMbZsfG.png')">
+    <body onload="setEventListeners(); tryLogIn(); setCreateListingEventListeners();">
+    <div class="container-fluid">
         <div class="col-md-6 border" style="margin-left: 25%; margin-right: 25%; margin-top: 15px;background-color: white; padding-bottom: 50px; margin-bottom: 15px;">
             <h1>Create a Listing:
             </h1>

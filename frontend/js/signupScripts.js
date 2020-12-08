@@ -23,6 +23,7 @@ function setSignupEventListeners(){
     document.getElementById("llda").addEventListener("click", kekL);
     document.getElementById("agenta").addEventListener("click", kekA);
     document.getElementById("enterphone").addEventListener("change", checkpn);
+    document.getElementById("createListing").style.display = "none";
 }
 
 // to be implemented later
