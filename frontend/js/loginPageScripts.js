@@ -1,6 +1,7 @@
 function setLoginEventListeners(){
     document.getElementById("signup").addEventListener("click", redirectToSignup);
     document.getElementById("accLogIn").addEventListener("click", accLogIn);
+    document.getElementById("createListing").style.display = "none";
 }
 
 function redirectToSignup(){
