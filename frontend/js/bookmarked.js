@@ -23,6 +23,7 @@ function getCollections() {
     xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
 
     var send = document.getElementById("search").value;
+    //document.getElementById("search").value = "";
     if (send != "") {
     	send = "&name=" + send;
     }
@@ -31,6 +32,8 @@ function getCollections() {
     	send += "&command=" + command + "&listingId=" + 
     	        listingId + "&collectionId=" + collectionId;
     }
+    document.getElementById("search").value = "";
+
     //xhr.onprogress can be used to show loading screen
     //can also use xhr.onerror for error
     xhr.onload= function() {

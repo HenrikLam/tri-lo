@@ -50,9 +50,12 @@ class DatabaseManager {
    * @return Group[]
    */
   public function getGroupsFromUserId($userId){
-     $query = "SELECT * 
+     $query = "SELECT groupName, groupMembers.groupId
     FROM groupMembers
-    WHERE groupMembers.memberId=?";
+    LEFT JOIN groups
+    ON groupMembers.groupId=groups.groupId
+    WHERE groupMembers.memberId=?
+    ORDER BY groupName, groupMembers.groupId";
 
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("d", $userId);
@@ -427,7 +430,8 @@ class DatabaseManager {
   public function getCollectionsFromUserId($userId) {
     $query = "SELECT * 
     FROM collections
-    WHERE collections.ownerID=?";
+    WHERE collections.ownerID=?
+    ORDER BY collectionName";
 
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("d", $userId);
@@ -502,7 +506,8 @@ class DatabaseManager {
     $query = "SELECT * 
     FROM collections  
     WHERE collections.collectionName LIKE ?
-    AND collections.ownerID=?";
+    AND collections.ownerID=?
+    ORDER BY collectionName";
 
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("sd", $cname, $userId);
@@ -937,7 +942,8 @@ class DatabaseManager {
     ON users.userId = groupMembers.memberId
     LEFT JOIN profile
     ON profile.userId = users.userId
-    WHERE groupMembers.groupId=?";
+    WHERE groupMembers.groupId=?
+    ORDER BY firstName, lastName";
 
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("d", $groupId);
@@ -994,7 +1000,8 @@ class DatabaseManager {
     ON users.userId = groupInvitations.invitedId
     LEFT JOIN profile
     ON profile.userId = users.userId
-    WHERE groupInvitations.groupId=?";
+    WHERE groupInvitations.groupId=?
+    ORDER BY firstName, lastName";
 
     $stmt = $this->databaseConnection->prepare($query);
     $stmt->bind_param("d", $groupId);
